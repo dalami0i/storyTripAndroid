@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+<FrameLayout
+    android:id="@+id/frame_main"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"/>
+
+    <com.tripkorea.on.ontripkorea.util.MyTabLayout
+        android:id="@+id/tab_main"
+        android:layout_width="match_parent"
+        app:tabSelectedTextColor="@color/iconTintColor"
+        app:tabTextColor="@color/grey"
+        app:tabTextAppearance="@style/CustomTabText"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/selector_home"
+            android:text="@string/home_tab"
+            />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/selector_home"
+            android:text="@string/intro_tab" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/selector_guide"
+            android:text="@string/guide_tab"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/selector_around"
+            android:text="@string/around_tab" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/selector_info"
+            android:text="@string/info_tab"  />
+    </com.tripkorea.on.ontripkorea.util.MyTabLayout>
+</LinearLayout>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/information_appbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+
+        <!--&gt;-->
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/inform_nested_sc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:id="@+id/info_top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/information_image_vp"
+                android:layout_width="match_parent"
+                android:layout_height="270dp"
+                android:layout_marginTop="10dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:scaleType="fitCenter"/>
+
+            <LinearLayout
+                android:id="@+id/admission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/information_image_vp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/admission_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/admission_title"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/admission_con"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/admission_con"
+                    android:layout_weight="7"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ticket_sales_hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/admission"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ticket_hour_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/ticket_hour_title"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/ticket_hour_con"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ticket_hour_con"
+                    android:layout_weight="7"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ticket_sales"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ticket_sales_hour"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ticket_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/ticket_title"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/ticket_con"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ticket_con"
+                    android:layout_weight="7"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/transportation_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ticket_sales"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/transportation_info_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/transportation_info_title"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/transportation_info_con"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transportation_info_con"
+                    android:layout_weight="7"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/transportation_info"/>
+
+        </RelativeLayout>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

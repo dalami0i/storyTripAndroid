@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <org.androidtown.realchangdeokgung.CustomToolbar
+        android:id="@+id/gpsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="@color/grey"
+        >
+    </org.androidtown.realchangdeokgung.CustomToolbar>
+
+
+    <TextView
+        android:id="@+id/toolbartextmain"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/app_name"
+        android:textSize="40sp"
+        android:textColor="@color/lightblack"
+        />
+
+
+
+    <android.support.v4.widget.DrawerLayout
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/gpsNavLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/gpsToolbar"
+        android:layout_alignParentBottom="true">
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/gps"
+            tools:context="org.realkorea.changdeokgungtest.GPSActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            tools:layout="@layout/fragment_gps" />
+
+        <android.support.design.widget.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_gravity="start"
+            >
+
+            <ListView
+                android:id="@+id/navList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerHeight="1dp"
+                android:divider="@color/grey"
+                >
+            </ListView>
+        </android.support.design.widget.NavigationView>
+    </android.support.v4.widget.DrawerLayout>
+
+
+
+
+</RelativeLayout>

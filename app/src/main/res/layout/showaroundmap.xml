@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="org.androidtown.realchangdeokgung.ShowAroundMapActivity">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/around_detail_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cardview_dark_background"
+        app:mapType="normal"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+
+</RelativeLayout>
