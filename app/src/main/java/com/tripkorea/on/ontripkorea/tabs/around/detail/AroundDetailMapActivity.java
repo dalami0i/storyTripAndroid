@@ -1,4 +1,4 @@
-package com.tripkorea.on.ontripkorea.tabs.around;
+package com.tripkorea.on.ontripkorea.tabs.around.detail;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.tabs.MainActivity;
-import com.tripkorea.on.ontripkorea.util.LogManager;
+import com.tripkorea.on.ontripkorea.tabs.around.AroundGuideGenerator;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
 
 import java.io.InputStream;
@@ -85,7 +85,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         if(intent != null) {
             seletedAttr = intent.getParcelableExtra("attractionMap");
-            Log.e("디테일","savedobj: "+seletedAttr.contentID);
+            Log.e("디테일","thisAttraction: "+seletedAttr.contentID);
         }
 
         AroundGuideGenerator aroundGuideGenerator = new AroundGuideGenerator();
@@ -100,9 +100,6 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
         aroundDetailMap.getMapAsync(this);
 
     }
-
-
-
     private void checkMyLocation(){
         checkLocationPermission();
         LocationManager locationManager = (LocationManager)
@@ -222,7 +219,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
                         try{
                             int tempTest = Integer.parseInt(aroundList.get(i).contentID);
                             Intent intent = new Intent(AroundDetailMapActivity.this, AroundDetailActivity.class);
-                            intent.putExtra("attraction", aroundList.get(i));
+                            intent.putExtra("thisAttraction", aroundList.get(i));
                             startActivity(intent);
                             finish();
                         }catch(NumberFormatException e){
@@ -367,7 +364,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
 //            }
 
 //            String id = String.valueOf(aroundList.get(i).contentID);
-//            new YoutubeActivity().execute(id, new GetYoutubeKey().takeYoutubekey(id));
+//            new YoutubeAsyncTask().execute(id, new GetYoutubeKey().takeYoutubekey(id));
         }
     }
 

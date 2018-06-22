@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    tools:context="org.androidtown.realchangdeokgung.ShowAroundActivity">
+    android:background="@android:color/white">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -50,57 +49,58 @@
 
 
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:id="@+id/item_like_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:paddingBottom="5dp"
+                           android:gravity="center_horizontal"
+                            android:orientation="vertical"
                             android:layout_weight="1">
 
-                            <ImageView
-                                android:id="@+id/item_like"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp" />
-
-                            <TextView
+                              <TextView
                                 android:id="@+id/tv_item_like"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/iconTintColor"
-                                android:layout_centerHorizontal="true"
-                                android:layout_below="@+id/item_like"
-                                android:text="@string/detail_like"/>
+                                android:text="@string/detail_wish"/>
 
-                        </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/img_detail_like"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="10dp"
+                                android:src="@drawable/z_heart_empty_s"
+                                android:layout_marginEnd="10dp" />
 
-                        <RelativeLayout
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:id="@+id/item_footprint_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
                             android:paddingBottom="5dp"
                             android:layout_weight="1">
-
-                            <ImageView
-                                android:id="@+id/item_footprint"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginEnd="2dp"
-                                android:layout_marginTop="2dp" />
-
                             <TextView
                                 android:id="@+id/tv_item_footprint"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/iconTintColor"
-                                android:layout_centerHorizontal="true"
-                                android:layout_below="@+id/item_footprint"
                                 android:text="@string/detail_visit"/>
 
-                        </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/img_detail_footprint"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/z_footprint_empty_s"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginTop="2dp" />
+
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -259,7 +259,7 @@
                     </LinearLayout>
 
                     <com.google.android.gms.maps.MapView
-                        android:id="@+id/around_map"
+                        android:id="@+id/around_detail_map"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:background="@color/cardview_dark_background"

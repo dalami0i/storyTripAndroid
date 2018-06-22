@@ -30,6 +30,7 @@ import com.tripkorea.on.ontripkorea.tabs.guide.GuideFragment;
 import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
 import com.tripkorea.on.ontripkorea.tabs.intro.IntroFragment;
 import com.tripkorea.on.ontripkorea.tabs.list.HomeFragment;
+import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.BaseActivity;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.MyTabLayout;
@@ -38,6 +39,7 @@ import com.tripkorea.on.ontripkorea.util.OkHttpInitSingtonManager;
 import com.tripkorea.on.ontripkorea.util.WifiCheck;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClientList;
+import com.tripkorea.on.ontripkorea.vo.user.Me;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,6 +87,8 @@ public class MainActivity extends BaseActivity  {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        Alert.makeText(Me.getInstance().getName()+"님 환영합니다!");
+
         //////////////////////////////////////////////////////////////////////////sj
         setting = getSharedPreferences("setting",0);
         editor= setting.edit();
@@ -120,7 +124,7 @@ public class MainActivity extends BaseActivity  {
             cc.start();
             try {
                 cc.join();
-                if (WifiCheck.wificheck == 1) {
+                if (WifiCheck.wificheck == WifiCheck.WIFI_ON) {
                     Log.e("인터넷 체크", "연결됨");
 
                     new AsyncTaskAttrClient().execute(usinglanguage);
@@ -132,20 +136,6 @@ public class MainActivity extends BaseActivity  {
 
         editor.apply();
 
-        //like title add
-        if(likeEntities.size() < 1) {
-            AttrClient likeTitle = new AttrClient();
-            likeTitle.title = "I liked";
-            likeEntities.add(likeTitle);
-        }
-
-        //trace title add
-        if(traceEntities.size() < 1) {
-            AttrClient traceTitle = new AttrClient();
-            traceTitle.title = "I visited";
-            traceEntities.add(traceTitle);
-        }
-
         //사운드 초기화
         if(click == null){
             click = MediaPlayer.create(this, R.raw.z_clicksound);
@@ -155,8 +145,6 @@ public class MainActivity extends BaseActivity  {
         nowWeather = findViewById(R.id.weatherText);
         celcius = findViewById(R.id.celcius);
         nowW = findViewById(R.id.nowWeather);
-        /*Typeface nanum = Typeface.createFromAsset(getAssets(), "fonts/NanumGothic.ttf");
-        nowWeather.setTypeface(nanum);*/
 
 
 
@@ -199,7 +187,6 @@ public class MainActivity extends BaseActivity  {
                     break;
                 case MyTabLayout.TAB_INFO:
                     InfoFragment infoFragment = new InfoFragment();
-                    infoFragment.infoFragmentNewInstance(MainActivity.this);
                     fragment = infoFragment;
                     break;
             }
@@ -272,7 +259,7 @@ public class MainActivity extends BaseActivity  {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //AsyncTaskContentTotal check
 
-    public static class AsyncTaskAttrClient extends AsyncTask<String, Void, List<AttrClient>> {
+    public class AsyncTaskAttrClient extends AsyncTask<String, Void, List<AttrClient>> {
 
         @Override
         protected List<AttrClient> doInBackground(String... lang) {

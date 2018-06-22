@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.tripkorea.on.ontripkorea.tabs.around.AroundDetailActivity;
+import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
 import com.tripkorea.on.ontripkorea.vo.youtube.YoutubeItems;
 
@@ -19,20 +19,20 @@ import okhttp3.Response;
  * Created by Edward Won on 2018-06-12.
  */
 
-public class YoutubeActivity  extends AsyncTask<String, Void,String> {
-    Context conte;
+public class YoutubeAsyncTask extends AsyncTask<String, Void,String> {
+    private Context context;
     AttrClient attrClient;
     ProgressDialog loginProgress = null;
 
-    public YoutubeActivity(Context context, AttrClient attrClient){
-        this.conte = context;
+    public YoutubeAsyncTask(Context context, AttrClient attrClient){
+        this.context = context;
         this.attrClient = attrClient;
     }
 
 
     @Override
     protected void onPreExecute() {
-        loginProgress = ProgressDialog.show(conte, "", "Move to "+attrClient.title+" ...", true);
+        loginProgress = ProgressDialog.show(context, "", "Move to "+attrClient.title+" ...", true);
         super.onPreExecute();
     }
 
@@ -41,7 +41,7 @@ public class YoutubeActivity  extends AsyncTask<String, Void,String> {
 
         Response response = null; //Response
         OkHttpClient toServer;  //connection
-        Log.e("YoutubeActivity","item youtube"+strings[0]);
+        Log.e("YoutubeAsyncTask","item youtube"+strings[0]);
         String[] youtubeList = strings[0].split(",");
         Log.e("유투브로그","---------------------------"+attrClient.title);//+strings[0]+"https://www.googleapis.com/youtube/v3/videos?id="+strings[1]+"&key=AIzaSyBj5GoJlQ4XzebaG6H2tp_WVuQ03JEOOss&fields=items(snippet(title,description))&part=snippet"
         for(String youtubekey:youtubeList){
@@ -78,11 +78,11 @@ public class YoutubeActivity  extends AsyncTask<String, Void,String> {
 //                response = toServer.newCall(request).execute();
 //            }
                 String responsedMessage = response.body().string();
-//                Log.e("YoutubeActivity",responsedMessage);
+//                Log.e("YoutubeAsyncTask",responsedMessage);
                 Gson gson = new Gson();
                 if (response.isSuccessful()) {
                     YoutubeItems items = gson.fromJson(responsedMessage, YoutubeItems.class);
-//                    Log.e("YoutubeActivity",items.items.get(0).snippet.title);
+//                    Log.e("YoutubeAsyncTask",items.items.get(0).snippet.title);
                     AroundDetailActivity.youtubeDetails.add(items.items.get(0).snippet);
                     AroundDetailActivity.youtubeDetails.get(AroundDetailActivity.youtubeDetails.size()-1).youtubeKey = strings[0];
 
@@ -117,9 +117,9 @@ public class YoutubeActivity  extends AsyncTask<String, Void,String> {
     protected void onPostExecute(String detail) {
         super.onPostExecute(detail);
 
-        Intent intent = new Intent(conte, AroundDetailActivity.class);
+        Intent intent = new Intent(context, AroundDetailActivity.class);
         intent.putExtra("attraction", attrClient);
-        conte.startActivity(intent);
+        context.startActivity(intent);
         loginProgress.dismiss();
 
     }

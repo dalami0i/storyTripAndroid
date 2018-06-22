@@ -6,11 +6,11 @@ package com.tripkorea.on.ontripkorea.vo.dto;
 
 public class VisitDTO {
     private int userIdx;
-    private int attrIdx;
+    private int attractionIdx;
 
-    public VisitDTO(int userIdx, int attrIdx) {
+    public VisitDTO(int userIdx, int attractionIdx) {
         this.userIdx = userIdx;
-        this.attrIdx = attrIdx;
+        this.attractionIdx = attractionIdx;
     }
 
     public int getUserIdx() {
@@ -21,11 +21,11 @@ public class VisitDTO {
         this.userIdx = userIdx;
     }
 
-    public int getAttrIdx() {
-        return attrIdx;
+    public int getAttractionIdx() {
+        return attractionIdx;
     }
 
-    public void setAttrIdx(int attrIdx) {
-        this.attrIdx = attrIdx;
+    public void setAttractionIdx(int attractionIdx) {
+        this.attractionIdx = attractionIdx;
     }
 }

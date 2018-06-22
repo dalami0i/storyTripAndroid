@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="splash_subtext">Customised my trip</string>
+
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyCKnPvppC9UxzX0pirap6kkOWnBn0LNzDo</string>
 
     <string name="serverip">http://13.124.155.173:</string>
@@ -26,7 +28,8 @@
     <string name="transportation_menu_title">Public Transportation From here</string>
     <string name="food_menu_title">Food\&amp;Cafe Around here</string>
     <string name="attraction_menu_title">Attraction Around here</string>
-    <string name="detail_like">Wish to visit</string>
+    <string name="detail_wish">Wish to visit</string>
+    <string name="detail_like">I liked</string>
     <string name="detail_visit">I visited</string>
     <string name="detail_title">Title</string>
     <string name="detail_address">Address</string>
@@ -62,8 +65,8 @@
                                 September&#8211;October 09:00&#8211;17:00 \n
                                 November&#8211;January 09:00&#8211;16:30</string>
     <string name="ticket_title">Admission fee</string>
-    <string name="ticket_con">Adult(age 19~64) \3,000 \n
-                            Youth(age 7~18) \1,500 \n
+    <string name="ticket_con">Adult(mindAge 19~64) \3,000 \n
+                            Youth(mindAge 7~18) \1,500 \n
                             Children(under 7 years old), Seniors(over 65 years old) Free \n
                             Those wearing a Hanbok(traditional Korean clothes)/Culture day(the last Wednesdays of every month) Free</string>
     <string name="transportation_info_title">To Changdeokgung</string>
@@ -207,26 +210,26 @@
     <string name="secretinfo">SecretGarden tour hours</string>
     <string name="transinfo">Transfortation information</string>
 
-    <string name="changaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_00_intro.wav</string>
-    <string name="donaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_01_donhwa.wav</string>
-    <string name="geumaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_02_geumcheon.wav</string>
-    <string name="jinaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_03_jinseon.wav</string>
-    <string name="inmunyardaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_04_sadarimadang.wav</string>
-    <string name="inmunaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_05_injeongmun.wav</string>
-    <string name="inyardaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_06_injeongmadang.wav</string>
-    <string name="inaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_07_injeongjeon.wav</string>
-    <string name="seonaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_08_seonjeong.wav</string>
-    <string name="heeaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_09_heejeong.wav</string>
-    <string name="heebackaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_09_heejeong_back.wav</string>
-    <string name="daeaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_10_daejo.wav</string>
-    <string name="sooaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_11_soora.wav</string>
-    <string name="gyeongaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_12_gyeonghoon.wav</string>
-    <string name="seongaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_13_seongjeong.wav</string>
+    <string name="changaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_00_intro.wav</string>
+    <string name="donaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_01_donhwa.wav</string>
+    <string name="geumaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_02_geumcheon.wav</string>
+    <string name="jinaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_03_jinseon.wav</string>
+    <string name="inmunyardaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_04_sadarimadang.wav</string>
+    <string name="inmunaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_05_injeongmun.wav</string>
+    <string name="inyardaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_06_injeongmadang.wav</string>
+    <string name="inaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_07_injeongjeon.wav</string>
+    <string name="seonaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_08_seonjeong.wav</string>
+    <string name="heeaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_09_heejeong.wav</string>
+    <string name="heebackaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_09_heejeong_back.wav</string>
+    <string name="daeaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_10_daejo.wav</string>
+    <string name="sooaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_11_soora.wav</string>
+    <string name="gyeongaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_12_gyeonghoon.wav</string>
+    <string name="seongaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_13_seongjeong.wav</string>
     <!--<string name="seongyakaudioaddress">http://hanculture.org/wp-content/uploads/2016/10/kcdg_fv.mp3</string>-->
-    <string name="nakaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_14_nakseon.wav</string>
-    <string name="seokaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_15_seokbok.wav</string>
-    <string name="okaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_16_okdang.wav</string>
-    <string name="gyuaudioaddress">http://13.124.155.173:8512/mylittleseoul/ch/eng/ch_e_17_gyujang.wav</string>
+    <string name="nakaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_14_nakseon.wav</string>
+    <string name="seokaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_15_seokbok.wav</string>
+    <string name="okaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_16_okdang.wav</string>
+    <string name="gyuaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_17_gyujang.wav</string>
     <string name="dialogtomaintitle">Move to main</string>
     <string name="dialogtomain">When you move to main, checked list will be clear. Do you want to move to main?</string>
     <string name="dialogtomainyes">Thank you</string>
@@ -295,25 +298,25 @@
     <string name="gyutitle">Gyujanggak</string>
     <string name="gyusubtitle">As born to Revolutionary </string>
     <string name="gyudialog">One of King, make many revolutionary from here. Which revolutionary?</string>
-    <string name="changUrl1">http://13.124.155.173:8512/mylittleseoul/ch/img/00_intro/000_chang.png</string>
+    <string name="changUrl1">http://13.209.77.103:8080/resources/images/img/00_intro/000_chang.png</string>
     <!--<string name="changUrl2">http://hanculture.org/wp-content/uploads/2017/04/b_old.jpg</string>
     <string name="changUrl3">http://hanculture.org/wp-content/uploads/2017/04/c_suseon.jpg</string>-->
-    <string name ="donUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_0.png</string>
-    <string name ="donUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_1.png</string>
-    <string name ="donUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_2.png</string>
-    <string name ="donUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_flower.png</string>
-    <string name ="donUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_flower2.png</string>
-    <string name ="donUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_flower3.png</string>
-    <string name ="donUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_inside.png</string>
-    <string name ="donUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_left.png</string>
-    <string name ="donUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_night.png</string>
-    <string name ="donUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/01_don_snow.png</string>
-    <string name ="donUrlG11">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/02_5areas.png</string>
-    <string name ="donUrlG12">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/03_3areas.png</string>
-    <string name ="donUrlG13">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/04_thebell.png</string>
-    <string name ="donUrlG14">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/05_time.png</string>
-    <string name ="donUrlG15">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/06_western.png</string>
-    <string name ="donUrlG16">http://13.124.155.173:8512/mylittleseoul/ch/img/01_don/07_emile.png</string>
+    <string name ="donUrlG1">http://13.209.77.103:8080/resources/images/img/01_don/01_don_0.png</string>
+    <string name ="donUrlG2">http://13.209.77.103:8080/resources/images/img/01_don/01_don_1.png</string>
+    <string name ="donUrlG3">http://13.209.77.103:8080/resources/images/img/01_don/01_don_2.png</string>
+    <string name ="donUrlG4">http://13.209.77.103:8080/resources/images/img/01_don/01_don_flower.png</string>
+    <string name ="donUrlG5">http://13.209.77.103:8080/resources/images/img/01_don/01_don_flower2.png</string>
+    <string name ="donUrlG6">http://13.209.77.103:8080/resources/images/img/01_don/01_don_flower3.png</string>
+    <string name ="donUrlG7">http://13.209.77.103:8080/resources/images/img/01_don/01_don_inside.png</string>
+    <string name ="donUrlG8">http://13.209.77.103:8080/resources/images/img/01_don/01_don_left.png</string>
+    <string name ="donUrlG9">http://13.209.77.103:8080/resources/images/img/01_don/01_don_night.png</string>
+    <string name ="donUrlG10">http://13.209.77.103:8080/resources/images/img/01_don/01_don_snow.png</string>
+    <string name ="donUrlG11">http://13.209.77.103:8080/resources/images/img/01_don/02_5areas.png</string>
+    <string name ="donUrlG12">http://13.209.77.103:8080/resources/images/img/01_don/03_3areas.png</string>
+    <string name ="donUrlG13">http://13.209.77.103:8080/resources/images/img/01_don/04_thebell.png</string>
+    <string name ="donUrlG14">http://13.209.77.103:8080/resources/images/img/01_don/05_time.png</string>
+    <string name ="donUrlG15">http://13.209.77.103:8080/resources/images/img/01_don/06_western.png</string>
+    <string name ="donUrlG16">http://13.209.77.103:8080/resources/images/img/01_don/07_emile.png</string>
     <string name ="donUrlG1_">Don-Hwa-Mun, gate for Chang-Deok-Gung</string>
     <string name ="donUrlG2_">Nameplate for Don-Hwa-Mun</string>
     <string name ="donUrlG3_">Detailed Beauty</string>
@@ -336,29 +339,29 @@
     <string name ="donUrlC3">http://hanculture.org/wp-content/uploads/2017/04/Ebcdon.jpg</string>
     <string name ="donUrlC4">http://hanculture.org/wp-content/uploads/2017/04/Ebddon.jpg</string>
 
-    <string name ="geumUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_1_spring1.png</string>
-    <string name ="geumUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_1_spring2.png</string>
-    <string name ="geumUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_1_spring3.png</string>
-    <string name ="geumUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_2_summer1.png</string>
-    <string name ="geumUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_2_summer2.png</string>
-    <string name ="geumUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_3_autumn1.png</string>
-    <string name ="geumUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_3_autumn2.png</string>
-    <string name ="geumUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_4_winter1.png</string>
-    <string name ="geumUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_4_winter2.png</string>
-    <string name ="geumUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_4_winter3.png</string>
-    <string name ="geumUrlG11">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_4_winter4.png</string>
-    <string name ="geumUrlG12">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/00_geum_4_winter5.png</string>
-    <string name ="geumUrlG13">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/01_geum_geun.png</string>
-    <string name ="geumUrlG14">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/01_geum_myung.png</string>
-    <string name ="geumUrlG15">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/02_geum_guimyeon.png</string>
-    <string name ="geumUrlG16">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/03_geum_guimyeon_temple1.png</string>
-    <string name ="geumUrlG17">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/03_geum_guimyeon_temple2.png</string>
-    <string name ="geumUrlG18">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/03_geum_guimyeon_temple3.png</string>
-    <string name ="geumUrlG19">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/04_geum_hyunmoo1.png</string>
-    <string name ="geumUrlG20">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/04_geum_hyunmoo2.png</string>
-    <string name ="geumUrlG21">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/06_geum_hyunmoo.png</string>
-    <string name ="geumUrlG22">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/07_geum_hatch.png</string>
-    <string name ="geumUrlG23">http://13.124.155.173:8512/mylittleseoul/ch/img/02_geum/08_geum_hatchseoul.png</string>
+    <string name ="geumUrlG1">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_1_spring1.png</string>
+    <string name ="geumUrlG2">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_1_spring2.png</string>
+    <string name ="geumUrlG3">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_1_spring3.png</string>
+    <string name ="geumUrlG4">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_2_summer1.png</string>
+    <string name ="geumUrlG5">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_2_summer2.png</string>
+    <string name ="geumUrlG6">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_3_autumn1.png</string>
+    <string name ="geumUrlG7">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_3_autumn2.png</string>
+    <string name ="geumUrlG8">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_4_winter1.png</string>
+    <string name ="geumUrlG9">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_4_winter2.png</string>
+    <string name ="geumUrlG10">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_4_winter3.png</string>
+    <string name ="geumUrlG11">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_4_winter4.png</string>
+    <string name ="geumUrlG12">http://13.209.77.103:8080/resources/images/img/02_geum/00_geum_4_winter5.png</string>
+    <string name ="geumUrlG13">http://13.209.77.103:8080/resources/images/img/02_geum/01_geum_geun.png</string>
+    <string name ="geumUrlG14">http://13.209.77.103:8080/resources/images/img/02_geum/01_geum_myung.png</string>
+    <string name ="geumUrlG15">http://13.209.77.103:8080/resources/images/img/02_geum/02_geum_guimyeon.png</string>
+    <string name ="geumUrlG16">http://13.209.77.103:8080/resources/images/img/02_geum/03_geum_guimyeon_temple1.png</string>
+    <string name ="geumUrlG17">http://13.209.77.103:8080/resources/images/img/02_geum/03_geum_guimyeon_temple2.png</string>
+    <string name ="geumUrlG18">http://13.209.77.103:8080/resources/images/img/02_geum/03_geum_guimyeon_temple3.png</string>
+    <string name ="geumUrlG19">http://13.209.77.103:8080/resources/images/img/02_geum/04_geum_hyunmoo1.png</string>
+    <string name ="geumUrlG20">http://13.209.77.103:8080/resources/images/img/02_geum/04_geum_hyunmoo2.png</string>
+    <string name ="geumUrlG21">http://13.209.77.103:8080/resources/images/img/02_geum/06_geum_hyunmoo.png</string>
+    <string name ="geumUrlG22">http://13.209.77.103:8080/resources/images/img/02_geum/07_geum_hatch.png</string>
+    <string name ="geumUrlG23">http://13.209.77.103:8080/resources/images/img/02_geum/08_geum_hatchseoul.png</string>
     <string name ="geumUrlG1_">Four seasons in Geum-Cheon-Gyo(spring①)</string>
     <string name ="geumUrlG2_">Four seasons in Geum-Cheon-Gyo(spring②)</string>
     <string name ="geumUrlG3_">Four seasons in Geum-Cheon-Gyo(spring③)</string>
@@ -390,16 +393,16 @@
     <string name ="geumUrlC5">http://hanculture.org/wp-content/uploads/2017/04/Ecegeum.jpg</string>
 
 
-    <string name ="jinUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/00_jin_0.png</string>
-    <string name ="jinUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/00_jin_1.png</string>
-    <string name ="jinUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/00_jin_2.png</string>
-    <string name ="jinUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/00_jin_3.png</string>
-    <string name ="jinUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/00_jin_4.png</string>
-    <string name ="jinUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/02_jin_eo1.png</string>
-    <string name ="jinUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/02_jin_eo2.png</string>
-    <string name ="jinUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/02_jin_eo3.png</string>
-    <string name ="jinUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/02_jin_eo4.png</string>
-    <string name ="jinUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/03_jin/03_jin_seo.png</string>
+    <string name ="jinUrlG1">http://13.209.77.103:8080/resources/images/img/03_jin/00_jin_0.png</string>
+    <string name ="jinUrlG2">http://13.209.77.103:8080/resources/images/img/03_jin/00_jin_1.png</string>
+    <string name ="jinUrlG3">http://13.209.77.103:8080/resources/images/img/03_jin/00_jin_2.png</string>
+    <string name ="jinUrlG4">http://13.209.77.103:8080/resources/images/img/03_jin/00_jin_3.png</string>
+    <string name ="jinUrlG5">http://13.209.77.103:8080/resources/images/img/03_jin/00_jin_4.png</string>
+    <string name ="jinUrlG6">http://13.209.77.103:8080/resources/images/img/03_jin/02_jin_eo1.png</string>
+    <string name ="jinUrlG7">http://13.209.77.103:8080/resources/images/img/03_jin/02_jin_eo2.png</string>
+    <string name ="jinUrlG8">http://13.209.77.103:8080/resources/images/img/03_jin/02_jin_eo3.png</string>
+    <string name ="jinUrlG9">http://13.209.77.103:8080/resources/images/img/03_jin/02_jin_eo4.png</string>
+    <string name ="jinUrlG10">http://13.209.77.103:8080/resources/images/img/03_jin/03_jin_seo.png</string>
     <string name ="jinUrlG1_">Jin-Seon-Mun, over a bridge</string>
     <string name ="jinUrlG2_">Jin-Seon-Mun, Divider King\&apos;Liege</string>
     <string name ="jinUrlG3_">Snow with Jin-Seon-Mun①</string>
@@ -416,13 +419,13 @@
 
 
 
-    <string name="inmunyardUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/04_jinma/00_jinma_1.png</string>
-    <string name="inmunyardUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/04_jinma/00_jinma_2.png</string>
-    <string name="inmunyardUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/04_jinma/01_jinma_1.png</string>
-    <string name="inmunyardUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/04_jinma/01_jinma_2.png</string>
-    <string name="inmunyardUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/04_jinma/02_jinma.png</string>
-    <string name="inmunyardUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/04_jinma/03_jinma.png</string>
-    <string name="inmunyardUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/04_jinma/04_jinma.png</string>
+    <string name="inmunyardUrlG1">http://13.209.77.103:8080/resources/images/img/04_jinma/00_jinma_1.png</string>
+    <string name="inmunyardUrlG2">http://13.209.77.103:8080/resources/images/img/04_jinma/00_jinma_2.png</string>
+    <string name="inmunyardUrlG3">http://13.209.77.103:8080/resources/images/img/04_jinma/01_jinma_1.png</string>
+    <string name="inmunyardUrlG4">http://13.209.77.103:8080/resources/images/img/04_jinma/01_jinma_2.png</string>
+    <string name="inmunyardUrlG5">http://13.209.77.103:8080/resources/images/img/04_jinma/02_jinma.png</string>
+    <string name="inmunyardUrlG6">http://13.209.77.103:8080/resources/images/img/04_jinma/03_jinma.png</string>
+    <string name="inmunyardUrlG7">http://13.209.77.103:8080/resources/images/img/04_jinma/04_jinma.png</string>
     <string name="inmunyardUrlG1_">Yard inside of Jin-Seon-Mun</string>
     <string name="inmunyardUrlG2_">Snow with yard</string>
     <string name="inmunyardUrlG3_">Unbalence of yard①</string>
@@ -431,11 +434,11 @@
     <string name="inmunyardUrlG6_">Structure of Chang-Deok-Gung</string>
     <string name="inmunyardUrlG7_">UNESCO memorial</string>
 
-    <string name ="inmunUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/05_inmun/00_inmun_0.png</string>
-    <string name ="inmunUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/05_inmun/00_inmun_1.png</string>
-    <string name ="inmunUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/05_inmun/00_inmun_2.png</string>
-    <string name ="inmunUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/05_inmun/01_inmun_1.png</string>
-    <string name ="inmunUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/05_inmun/03_inmun_1.png</string>
+    <string name ="inmunUrlG1">http://13.209.77.103:8080/resources/images/img/05_inmun/00_inmun_0.png</string>
+    <string name ="inmunUrlG2">http://13.209.77.103:8080/resources/images/img/05_inmun/00_inmun_1.png</string>
+    <string name ="inmunUrlG3">http://13.209.77.103:8080/resources/images/img/05_inmun/00_inmun_2.png</string>
+    <string name ="inmunUrlG4">http://13.209.77.103:8080/resources/images/img/05_inmun/01_inmun_1.png</string>
+    <string name ="inmunUrlG5">http://13.209.77.103:8080/resources/images/img/05_inmun/03_inmun_1.png</string>
     <string name ="inmunUrlG1_">In-Jeong-Mun①</string>
     <string name ="inmunUrlG2_">In-Jeong-Mun②</string>
     <string name ="inmunUrlG3_">In-Jeong-Mun③</string>
@@ -443,18 +446,18 @@
     <string name ="inmunUrlG5_">King\&apos;s coronation in Drama</string>
 
 
-    <string name ="inyardUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/00_inma_0.png</string>
-    <string name ="inyardUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/00_inma_1.png</string>
-    <string name ="inyardUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/00_inma_2.png</string>
-    <string name ="inyardUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/00_inma_3.png</string>
-    <string name ="inyardUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/01_inma_1.png</string>
-    <string name ="inyardUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/01_inma_2.png</string>
-    <string name ="inyardUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/01_inma_3.png</string>
-    <string name ="inyardUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/02_inma_1.png</string>
-    <string name ="inyardUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/03_inma_1.png</string>
-    <string name ="inyardUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/04_inma_1.png</string>
-    <string name ="inyardUrlG11">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/05_inma_1.png</string>
-    <string name ="inyardUrlG12">http://13.124.155.173:8512/mylittleseoul/ch/img/06_inma/05_inma_2.png</string>
+    <string name ="inyardUrlG1">http://13.209.77.103:8080/resources/images/img/06_inma/00_inma_0.png</string>
+    <string name ="inyardUrlG2">http://13.209.77.103:8080/resources/images/img/06_inma/00_inma_1.png</string>
+    <string name ="inyardUrlG3">http://13.209.77.103:8080/resources/images/img/06_inma/00_inma_2.png</string>
+    <string name ="inyardUrlG4">http://13.209.77.103:8080/resources/images/img/06_inma/00_inma_3.png</string>
+    <string name ="inyardUrlG5">http://13.209.77.103:8080/resources/images/img/06_inma/01_inma_1.png</string>
+    <string name ="inyardUrlG6">http://13.209.77.103:8080/resources/images/img/06_inma/01_inma_2.png</string>
+    <string name ="inyardUrlG7">http://13.209.77.103:8080/resources/images/img/06_inma/01_inma_3.png</string>
+    <string name ="inyardUrlG8">http://13.209.77.103:8080/resources/images/img/06_inma/02_inma_1.png</string>
+    <string name ="inyardUrlG9">http://13.209.77.103:8080/resources/images/img/06_inma/03_inma_1.png</string>
+    <string name ="inyardUrlG10">http://13.209.77.103:8080/resources/images/img/06_inma/04_inma_1.png</string>
+    <string name ="inyardUrlG11">http://13.209.77.103:8080/resources/images/img/06_inma/05_inma_1.png</string>
+    <string name ="inyardUrlG12">http://13.209.77.103:8080/resources/images/img/06_inma/05_inma_2.png</string>
     <string name ="inyardUrlG1_">Main building, Center of Chang-Deok-Gung</string>
     <string name ="inyardUrlG2_">Yard inside of In-Jeong-Jeon</string>
     <string name ="inyardUrlG3_">Snow with In-Jeong-Jeon</string>
@@ -471,15 +474,15 @@
     <string name ="inyardUrlC1">http://hanculture.org/wp-content/uploads/2017/04/Edzdin.jpg</string>
 
 
-    <string name ="inUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/00_in_1.png</string>
-    <string name ="inUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/00_in_2.png</string>
-    <string name ="inUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/00_in_3.png</string>
-    <string name ="inUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/00_in_4.png</string>
-    <string name ="inUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/02_in_1.png</string>
-    <string name ="inUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/03_in_1.png</string>
-    <string name ="inUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/04_in_1.png</string>
-    <string name ="inUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/05_in_1.png</string>
-    <string name ="inUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/07_in/05_in_2.png</string>
+    <string name ="inUrlG1">http://13.209.77.103:8080/resources/images/img/07_in/00_in_1.png</string>
+    <string name ="inUrlG2">http://13.209.77.103:8080/resources/images/img/07_in/00_in_2.png</string>
+    <string name ="inUrlG3">http://13.209.77.103:8080/resources/images/img/07_in/00_in_3.png</string>
+    <string name ="inUrlG4">http://13.209.77.103:8080/resources/images/img/07_in/00_in_4.png</string>
+    <string name ="inUrlG5">http://13.209.77.103:8080/resources/images/img/07_in/02_in_1.png</string>
+    <string name ="inUrlG6">http://13.209.77.103:8080/resources/images/img/07_in/03_in_1.png</string>
+    <string name ="inUrlG7">http://13.209.77.103:8080/resources/images/img/07_in/04_in_1.png</string>
+    <string name ="inUrlG8">http://13.209.77.103:8080/resources/images/img/07_in/05_in_1.png</string>
+    <string name ="inUrlG9">http://13.209.77.103:8080/resources/images/img/07_in/05_in_2.png</string>
     <string name ="inUrlG1_">Spring In-Jeong-Jeon</string>
     <string name ="inUrlG2_">Summer In-Jeong-Jeon</string>
     <string name ="inUrlG3_">Autumn In-Jeong-Jeon</string>
@@ -495,19 +498,19 @@
     <string name ="inUrlC3">http://hanculture.org/wp-content/uploads/2017/04/Eecin.jpg</string>
 
 
-    <string name ="seonUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/00_seon_00.png</string>
-    <string name ="seonUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/00_seon_01.png</string>
-    <string name ="seonUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/00_seon_02.png</string>
-    <string name ="seonUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/00_seon_03.png</string>
-    <string name ="seonUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/01_seon_01.png</string>
-    <string name ="seonUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/02_seon_01.png</string>
-    <string name ="seonUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/02_seon_02.png</string>
-    <string name ="seonUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/02_seon_03.png</string>
-    <string name ="seonUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/03_seon_01.png</string>
-    <string name ="seonUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/04_seon_01.png</string>
-    <string name ="seonUrlG11">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/04_seon_02.png</string>
-    <string name ="seonUrlG12">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/04_seon_03.png</string>
-    <string name ="seonUrlG13">http://13.124.155.173:8512/mylittleseoul/ch/img/08_seon/05_seon_01.png</string>
+    <string name ="seonUrlG1">http://13.209.77.103:8080/resources/images/img/08_seon/00_seon_00.png</string>
+    <string name ="seonUrlG2">http://13.209.77.103:8080/resources/images/img/08_seon/00_seon_01.png</string>
+    <string name ="seonUrlG3">http://13.209.77.103:8080/resources/images/img/08_seon/00_seon_02.png</string>
+    <string name ="seonUrlG4">http://13.209.77.103:8080/resources/images/img/08_seon/00_seon_03.png</string>
+    <string name ="seonUrlG5">http://13.209.77.103:8080/resources/images/img/08_seon/01_seon_01.png</string>
+    <string name ="seonUrlG6">http://13.209.77.103:8080/resources/images/img/08_seon/02_seon_01.png</string>
+    <string name ="seonUrlG7">http://13.209.77.103:8080/resources/images/img/08_seon/02_seon_02.png</string>
+    <string name ="seonUrlG8">http://13.209.77.103:8080/resources/images/img/08_seon/02_seon_03.png</string>
+    <string name ="seonUrlG9">http://13.209.77.103:8080/resources/images/img/08_seon/03_seon_01.png</string>
+    <string name ="seonUrlG10">http://13.209.77.103:8080/resources/images/img/08_seon/04_seon_01.png</string>
+    <string name ="seonUrlG11">http://13.209.77.103:8080/resources/images/img/08_seon/04_seon_02.png</string>
+    <string name ="seonUrlG12">http://13.209.77.103:8080/resources/images/img/08_seon/04_seon_03.png</string>
+    <string name ="seonUrlG13">http://13.209.77.103:8080/resources/images/img/08_seon/05_seon_01.png</string>
     <string name ="seonUrlG1_">Overview Seon-Jeong-Jeon</string>
     <string name ="seonUrlG2_">Inside Seon-Jeong-Jeon</string>
     <string name ="seonUrlG3_">Spring Seon-Jeong-Jeon</string>
@@ -528,21 +531,21 @@
     <string name ="seonUrlC4">http://hanculture.org/wp-content/uploads/2017/04/Effseon.jpg</string>
 
 
-    <string name ="heeUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/00_hee_00.png</string>
-    <string name ="heeUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/00_hee_01.png</string>
-    <string name ="heeUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/00_hee_02.png</string>
-    <string name ="heeUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/00_hee_03.png</string>
-    <string name ="heeUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/00_hee_04.png</string>
-    <string name ="heeUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/00_hee_05.png</string>
-    <string name ="heeUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/01_hee_00.png</string>
-    <string name ="heeUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/01_hee_01.png</string>
-    <string name ="heeUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/02_hee_00.png</string>
-    <string name ="heeUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/02_hee_01.png</string>
-    <string name ="heeUrlG11">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/03_hee_00.png</string>
-    <string name ="heeUrlG12">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/03_hee_01.png</string>
-    <string name ="heeUrlG13">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/04_hee_01.png</string>
-    <string name ="heeUrlG14">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/04_hee_02.png</string>
-    <string name ="heeUrlG15">http://13.124.155.173:8512/mylittleseoul/ch/img/09_hee/04_hee_03.png</string>
+    <string name ="heeUrlG1">http://13.209.77.103:8080/resources/images/img/09_hee/00_hee_00.png</string>
+    <string name ="heeUrlG2">http://13.209.77.103:8080/resources/images/img/09_hee/00_hee_01.png</string>
+    <string name ="heeUrlG3">http://13.209.77.103:8080/resources/images/img/09_hee/00_hee_02.png</string>
+    <string name ="heeUrlG4">http://13.209.77.103:8080/resources/images/img/09_hee/00_hee_03.png</string>
+    <string name ="heeUrlG5">http://13.209.77.103:8080/resources/images/img/09_hee/00_hee_04.png</string>
+    <string name ="heeUrlG6">http://13.209.77.103:8080/resources/images/img/09_hee/00_hee_05.png</string>
+    <string name ="heeUrlG7">http://13.209.77.103:8080/resources/images/img/09_hee/01_hee_00.png</string>
+    <string name ="heeUrlG8">http://13.209.77.103:8080/resources/images/img/09_hee/01_hee_01.png</string>
+    <string name ="heeUrlG9">http://13.209.77.103:8080/resources/images/img/09_hee/02_hee_00.png</string>
+    <string name ="heeUrlG10">http://13.209.77.103:8080/resources/images/img/09_hee/02_hee_01.png</string>
+    <string name ="heeUrlG11">http://13.209.77.103:8080/resources/images/img/09_hee/03_hee_00.png</string>
+    <string name ="heeUrlG12">http://13.209.77.103:8080/resources/images/img/09_hee/03_hee_01.png</string>
+    <string name ="heeUrlG13">http://13.209.77.103:8080/resources/images/img/09_hee/04_hee_01.png</string>
+    <string name ="heeUrlG14">http://13.209.77.103:8080/resources/images/img/09_hee/04_hee_02.png</string>
+    <string name ="heeUrlG15">http://13.209.77.103:8080/resources/images/img/09_hee/04_hee_03.png</string>
     <string name ="heeUrlG1_">Modern building, Hee-Jeong-Dang</string>
     <string name ="heeUrlG2_">Hee-Jeong-Dang with sunset</string>
     <string name ="heeUrlG3_">Photo attraction, Hee-Jeong-Dang</string>
@@ -563,13 +566,13 @@
     <string name ="heeUrlC2">http://hanculture.org/wp-content/uploads/2017/04/Efzchee.jpg</string>
 
 
-    <string name ="heebackUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/09_heeback/00_heeback_00.png</string>
-    <string name ="heebackUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/09_heeback/00_heeback_01.png</string>
-    <string name ="heebackUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/09_heeback/00_heeback_02.png</string>
-    <string name ="heebackUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/09_heeback/01_heeback_00.png</string>
-    <string name ="heebackUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/09_heeback/01_heeback_01.png</string>
-    <string name ="heebackUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/09_heeback/02_heeback_00.png</string>
-    <string name ="heebackUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/09_heeback/02_heeback_01.png</string>
+    <string name ="heebackUrlG1">http://13.209.77.103:8080/resources/images/img/09_heeback/00_heeback_00.png</string>
+    <string name ="heebackUrlG2">http://13.209.77.103:8080/resources/images/img/09_heeback/00_heeback_01.png</string>
+    <string name ="heebackUrlG3">http://13.209.77.103:8080/resources/images/img/09_heeback/00_heeback_02.png</string>
+    <string name ="heebackUrlG4">http://13.209.77.103:8080/resources/images/img/09_heeback/01_heeback_00.png</string>
+    <string name ="heebackUrlG5">http://13.209.77.103:8080/resources/images/img/09_heeback/01_heeback_01.png</string>
+    <string name ="heebackUrlG6">http://13.209.77.103:8080/resources/images/img/09_heeback/02_heeback_00.png</string>
+    <string name ="heebackUrlG7">http://13.209.77.103:8080/resources/images/img/09_heeback/02_heeback_01.png</string>
     <string name ="heebackUrlG1_">Standing culture inside of Hee-Jeong-dang①</string>
     <string name ="heebackUrlG2_">Standing culture inside of Hee-Jeong-dang②</string>
     <string name ="heebackUrlG3_">Standing culture inside of Hee-Jeong-dang③</string>
@@ -579,17 +582,17 @@
     <string name ="heebackUrlG7_">A draw in Hee-Jeong-Dang②</string>
 
 
-    <string name ="daeUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/02_dae_00.png</string>
-    <string name ="daeUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/03_dae_00.png</string>
-    <string name ="daeUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/03_dae_01.png</string>
-    <string name ="daeUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/04_dae_00.png</string>
-    <string name ="daeUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/04_dae_01.png</string>
-    <string name ="daeUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/04_dae_02.png</string>
-    <string name ="daeUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/00_dae_00.png</string>
-    <string name ="daeUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/00_dae_01.png</string>
-    <string name ="daeUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/00_dae_02.png</string>
-    <string name ="daeUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/00_dae_03.png</string>
-    <string name ="daeUrlG11">http://13.124.155.173:8512/mylittleseoul/ch/img/10_dae/00_dae_04.png</string>
+    <string name ="daeUrlG1">http://13.209.77.103:8080/resources/images/img/10_dae/02_dae_00.png</string>
+    <string name ="daeUrlG2">http://13.209.77.103:8080/resources/images/img/10_dae/03_dae_00.png</string>
+    <string name ="daeUrlG3">http://13.209.77.103:8080/resources/images/img/10_dae/03_dae_01.png</string>
+    <string name ="daeUrlG4">http://13.209.77.103:8080/resources/images/img/10_dae/04_dae_00.png</string>
+    <string name ="daeUrlG5">http://13.209.77.103:8080/resources/images/img/10_dae/04_dae_01.png</string>
+    <string name ="daeUrlG6">http://13.209.77.103:8080/resources/images/img/10_dae/04_dae_02.png</string>
+    <string name ="daeUrlG7">http://13.209.77.103:8080/resources/images/img/10_dae/00_dae_00.png</string>
+    <string name ="daeUrlG8">http://13.209.77.103:8080/resources/images/img/10_dae/00_dae_01.png</string>
+    <string name ="daeUrlG9">http://13.209.77.103:8080/resources/images/img/10_dae/00_dae_02.png</string>
+    <string name ="daeUrlG10">http://13.209.77.103:8080/resources/images/img/10_dae/00_dae_03.png</string>
+    <string name ="daeUrlG11">http://13.209.77.103:8080/resources/images/img/10_dae/00_dae_04.png</string>
     <string name ="daeUrlG1_"> Nameplate for Dae-Jo-Jeon</string>
     <string name ="daeUrlG2_">Inside of livingroom①</string>
     <string name ="daeUrlG3_">Inside of livingroom②</string>
@@ -607,13 +610,13 @@
     <string name ="daeUrlC2">http://hanculture.org/wp-content/uploads/2017/04/Egacdae.jpg</string>
 
 
-    <string name ="sooUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/11_soo/00_soo_00.png</string>
-    <string name ="sooUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/11_soo/01_soo_01.png</string>
-    <string name ="sooUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/11_soo/01_soo_02.png</string>
-    <string name ="sooUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/11_soo/02_soo_00.png</string>
-    <string name ="sooUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/11_soo/02_soo_01.png</string>
-    <string name ="sooUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/11_soo/03_soo_00.png</string>
-    <string name ="sooUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/11_soo/03_soo_01.png</string>
+    <string name ="sooUrlG1">http://13.209.77.103:8080/resources/images/img/11_soo/00_soo_00.png</string>
+    <string name ="sooUrlG2">http://13.209.77.103:8080/resources/images/img/11_soo/01_soo_01.png</string>
+    <string name ="sooUrlG3">http://13.209.77.103:8080/resources/images/img/11_soo/01_soo_02.png</string>
+    <string name ="sooUrlG4">http://13.209.77.103:8080/resources/images/img/11_soo/02_soo_00.png</string>
+    <string name ="sooUrlG5">http://13.209.77.103:8080/resources/images/img/11_soo/02_soo_01.png</string>
+    <string name ="sooUrlG6">http://13.209.77.103:8080/resources/images/img/11_soo/03_soo_00.png</string>
+    <string name ="sooUrlG7">http://13.209.77.103:8080/resources/images/img/11_soo/03_soo_01.png</string>
     <string name ="sooUrlG1_">Overview of Soo-Ra-Khan</string>
     <string name ="sooUrlG2_">Modern type of Kitchen①</string>
     <string name ="sooUrlG3_">Modern type of Kitchen②</string>
@@ -626,16 +629,16 @@
     <string name ="sooUrlC1">http://hanculture.org/wp-content/uploads/2017/04/Egcasoo.jpg</string>
 
 
-    <string name ="gyeongUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/00_gyeong_00.png</string>
-    <string name ="gyeongUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/01_gyeong_00.png</string>
-    <string name ="gyeongUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/02_gyeong_00.png</string>
-    <string name ="gyeongUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/03_gyeong_00.png</string>
-    <string name ="gyeongUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/03_gyeong_01.png</string>
-    <string name ="gyeongUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/03_gyeong_02.png</string>
-    <string name ="gyeongUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/03_gyeong_03.png</string>
-    <string name ="gyeongUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/03_gyeong_04.png</string>
-    <string name ="gyeongUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/03_gyeong_05.png</string>
-    <string name ="gyeongUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/12_gyeong/03_gyeong_06.png</string>
+    <string name ="gyeongUrlG1">http://13.209.77.103:8080/resources/images/img/12_gyeong/00_gyeong_00.png</string>
+    <string name ="gyeongUrlG2">http://13.209.77.103:8080/resources/images/img/12_gyeong/01_gyeong_00.png</string>
+    <string name ="gyeongUrlG3">http://13.209.77.103:8080/resources/images/img/12_gyeong/02_gyeong_00.png</string>
+    <string name ="gyeongUrlG4">http://13.209.77.103:8080/resources/images/img/12_gyeong/03_gyeong_00.png</string>
+    <string name ="gyeongUrlG5">http://13.209.77.103:8080/resources/images/img/12_gyeong/03_gyeong_01.png</string>
+    <string name ="gyeongUrlG6">http://13.209.77.103:8080/resources/images/img/12_gyeong/03_gyeong_02.png</string>
+    <string name ="gyeongUrlG7">http://13.209.77.103:8080/resources/images/img/12_gyeong/03_gyeong_03.png</string>
+    <string name ="gyeongUrlG8">http://13.209.77.103:8080/resources/images/img/12_gyeong/03_gyeong_04.png</string>
+    <string name ="gyeongUrlG9">http://13.209.77.103:8080/resources/images/img/12_gyeong/03_gyeong_05.png</string>
+    <string name ="gyeongUrlG10">http://13.209.77.103:8080/resources/images/img/12_gyeong/03_gyeong_06.png</string>
     <string name ="gyeongUrlG1_">Gyeong-Hun-Gak\&apos;s face</string>
     <string name ="gyeongUrlG2_">This building in old map</string>
     <string name ="gyeongUrlG3_">19 century in Seoul</string>
@@ -652,20 +655,20 @@
     <string name ="gyeongUrlC2">http://hanculture.org/wp-content/uploads/2017/04/Egdcgyeong.jpg</string>
 
 
-    <string name ="seongUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/00_seong_00.png</string>
-    <string name ="seongUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/01_seong_00.png</string>
-    <string name ="seongUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/01_seong_01.png</string>
-    <string name ="seongUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/01_seong_02.png</string>
-    <string name ="seongUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/01_seong_03.png</string>
-    <string name ="seongUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/02_seong_00.png</string>
-    <string name ="seongUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/03_seong_00.png</string>
-    <string name ="seongUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/04_seong_00.png</string>
-    <string name ="seongUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/04_seong_01.png</string>
-    <string name ="seongUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/05_seong_01.png</string>
-    <string name ="seongUrlG11">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/05_seong_02.png</string>
-    <string name ="seongUrlG12">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/06_seong_00.png</string>
-    <string name ="seongUrlG13">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/06_seong_01.png</string>
-    <string name ="seongUrlG14">http://13.124.155.173:8512/mylittleseoul/ch/img/13_seong/06_seong_02.png</string>
+    <string name ="seongUrlG1">http://13.209.77.103:8080/resources/images/img/13_seong/00_seong_00.png</string>
+    <string name ="seongUrlG2">http://13.209.77.103:8080/resources/images/img/13_seong/01_seong_00.png</string>
+    <string name ="seongUrlG3">http://13.209.77.103:8080/resources/images/img/13_seong/01_seong_01.png</string>
+    <string name ="seongUrlG4">http://13.209.77.103:8080/resources/images/img/13_seong/01_seong_02.png</string>
+    <string name ="seongUrlG5">http://13.209.77.103:8080/resources/images/img/13_seong/01_seong_03.png</string>
+    <string name ="seongUrlG6">http://13.209.77.103:8080/resources/images/img/13_seong/02_seong_00.png</string>
+    <string name ="seongUrlG7">http://13.209.77.103:8080/resources/images/img/13_seong/03_seong_00.png</string>
+    <string name ="seongUrlG8">http://13.209.77.103:8080/resources/images/img/13_seong/04_seong_00.png</string>
+    <string name ="seongUrlG9">http://13.209.77.103:8080/resources/images/img/13_seong/04_seong_01.png</string>
+    <string name ="seongUrlG10">http://13.209.77.103:8080/resources/images/img/13_seong/05_seong_01.png</string>
+    <string name ="seongUrlG11">http://13.209.77.103:8080/resources/images/img/13_seong/05_seong_02.png</string>
+    <string name ="seongUrlG12">http://13.209.77.103:8080/resources/images/img/13_seong/06_seong_00.png</string>
+    <string name ="seongUrlG13">http://13.209.77.103:8080/resources/images/img/13_seong/06_seong_01.png</string>
+    <string name ="seongUrlG14">http://13.209.77.103:8080/resources/images/img/13_seong/06_seong_02.png</string>
     <string name ="seongUrlG1_">Small gate for Seong-Jeong-Gak</string>
     <string name ="seongUrlG2_">Prince study room</string>
     <string name ="seongUrlG3_">Overview Seong-Jeong-Gak</string>
@@ -687,27 +690,27 @@
     <string name ="seongUrlC3">http://hanculture.org/wp-content/uploads/2017/04/Egzfseong.jpg</string>
 
 
-    <string name ="nakUrlG1"> http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/00_nak_00.png</string>
-    <string name ="nakUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/00_nak_01.png</string>
-    <string name ="nakUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/00_nak_02.png</string>
-    <string name ="nakUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/00_nak_03.png</string>
-    <string name ="nakUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/00_nak_04.png</string>
-    <string name ="nakUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/00_nak_05.png</string>
-    <string name ="nakUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/01_nak_00.png</string>
-    <string name ="nakUrlG8">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/02_nak_00.png</string>
-    <string name ="nakUrlG9">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/03_nak_00.png</string>
-    <string name ="nakUrlG10">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/04_nak_00.png</string>
-    <string name ="nakUrlG11">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/05_nak_00.png</string>
-    <string name ="nakUrlG12">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/06_nak_00.png</string>
-    <string name ="nakUrlG13">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/06_nak_01.png</string>
-    <string name ="nakUrlG14">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/07_nak_00.png</string>
-    <string name ="nakUrlG15">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/07_nak_01.png</string>
-    <string name ="nakUrlG16">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/07_nak_02.png</string>
-    <string name ="nakUrlG17">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/07_nak_03.png</string>
-    <string name ="nakUrlG18">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/07_nak_04.png</string>
-    <string name ="nakUrlG19">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/07_nak_05.png</string>
-    <string name ="nakUrlG20">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/07_nak_06.png</string>
-    <string name ="nakUrlG21">http://13.124.155.173:8512/mylittleseoul/ch/img/14_nak/07_nak_07.png</string>
+    <string name ="nakUrlG1"> http://13.209.77.103:8080/resources/images/img/14_nak/00_nak_00.png</string>
+    <string name ="nakUrlG2">http://13.209.77.103:8080/resources/images/img/14_nak/00_nak_01.png</string>
+    <string name ="nakUrlG3">http://13.209.77.103:8080/resources/images/img/14_nak/00_nak_02.png</string>
+    <string name ="nakUrlG4">http://13.209.77.103:8080/resources/images/img/14_nak/00_nak_03.png</string>
+    <string name ="nakUrlG5">http://13.209.77.103:8080/resources/images/img/14_nak/00_nak_04.png</string>
+    <string name ="nakUrlG6">http://13.209.77.103:8080/resources/images/img/14_nak/00_nak_05.png</string>
+    <string name ="nakUrlG7">http://13.209.77.103:8080/resources/images/img/14_nak/01_nak_00.png</string>
+    <string name ="nakUrlG8">http://13.209.77.103:8080/resources/images/img/14_nak/02_nak_00.png</string>
+    <string name ="nakUrlG9">http://13.209.77.103:8080/resources/images/img/14_nak/03_nak_00.png</string>
+    <string name ="nakUrlG10">http://13.209.77.103:8080/resources/images/img/14_nak/04_nak_00.png</string>
+    <string name ="nakUrlG11">http://13.209.77.103:8080/resources/images/img/14_nak/05_nak_00.png</string>
+    <string name ="nakUrlG12">http://13.209.77.103:8080/resources/images/img/14_nak/06_nak_00.png</string>
+    <string name ="nakUrlG13">http://13.209.77.103:8080/resources/images/img/14_nak/06_nak_01.png</string>
+    <string name ="nakUrlG14">http://13.209.77.103:8080/resources/images/img/14_nak/07_nak_00.png</string>
+    <string name ="nakUrlG15">http://13.209.77.103:8080/resources/images/img/14_nak/07_nak_01.png</string>
+    <string name ="nakUrlG16">http://13.209.77.103:8080/resources/images/img/14_nak/07_nak_02.png</string>
+    <string name ="nakUrlG17">http://13.209.77.103:8080/resources/images/img/14_nak/07_nak_03.png</string>
+    <string name ="nakUrlG18">http://13.209.77.103:8080/resources/images/img/14_nak/07_nak_04.png</string>
+    <string name ="nakUrlG19">http://13.209.77.103:8080/resources/images/img/14_nak/07_nak_05.png</string>
+    <string name ="nakUrlG20">http://13.209.77.103:8080/resources/images/img/14_nak/07_nak_06.png</string>
+    <string name ="nakUrlG21">http://13.209.77.103:8080/resources/images/img/14_nak/07_nak_07.png</string>
     <string name ="nakUrlG1_">Overview of Nak-Seon-Jae①</string>
     <string name ="nakUrlG2_">Overview of Nak-Seon-Jae②</string>
     <string name ="nakUrlG3_">Overview of Nak-Seon-Jae③</string>
@@ -737,13 +740,13 @@
     <string name ="nakUrlC4">http://hanculture.org/wp-content/uploads/2017/04/Ehadnak.jpg</string>
 
 
-    <string name ="seokUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/15_seok/00_seok_00.png</string>
-    <string name ="seokUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/15_seok/00_seok_01.png</string>
-    <string name ="seokUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/15_seok/01_seok_00.png</string>
-    <string name ="seokUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/15_seok/01_seok_01.png</string>
-    <string name ="seokUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/15_seok/02_seok_00.png</string>
-    <string name ="seokUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/15_seok/02_seok_01.png</string>
-    <string name ="seokUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/15_seok/02_seok_02.png</string>
+    <string name ="seokUrlG1">http://13.209.77.103:8080/resources/images/img/15_seok/00_seok_00.png</string>
+    <string name ="seokUrlG2">http://13.209.77.103:8080/resources/images/img/15_seok/00_seok_01.png</string>
+    <string name ="seokUrlG3">http://13.209.77.103:8080/resources/images/img/15_seok/01_seok_00.png</string>
+    <string name ="seokUrlG4">http://13.209.77.103:8080/resources/images/img/15_seok/01_seok_01.png</string>
+    <string name ="seokUrlG5">http://13.209.77.103:8080/resources/images/img/15_seok/02_seok_00.png</string>
+    <string name ="seokUrlG6">http://13.209.77.103:8080/resources/images/img/15_seok/02_seok_01.png</string>
+    <string name ="seokUrlG7">http://13.209.77.103:8080/resources/images/img/15_seok/02_seok_02.png</string>
     <string name ="seokUrlG1_">Seok-Bok-Heon through a gate</string>
     <string name ="seokUrlG2_">Overview Seok-Bok-Heon</string>
     <string name ="seokUrlG3_">Special deck, a gourd at handrail</string>
@@ -757,11 +760,11 @@
     <string name ="seokUrlC2">http://hanculture.org/wp-content/uploads/2017/04/Ehbcseok.jpg</string>
 
 
-    <string name ="okUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/16_ok/00_ok_00.png</string>
-    <string name ="okUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/16_ok/01_ok_00.png</string>
-    <string name ="okUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/16_ok/02_ok_00.png</string>
-    <string name ="okUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/16_ok/02_ok_01.png</string>
-    <string name ="okUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/16_ok/02_ok_02.png</string>
+    <string name ="okUrlG1">http://13.209.77.103:8080/resources/images/img/16_ok/00_ok_00.png</string>
+    <string name ="okUrlG2">http://13.209.77.103:8080/resources/images/img/16_ok/01_ok_00.png</string>
+    <string name ="okUrlG3">http://13.209.77.103:8080/resources/images/img/16_ok/02_ok_00.png</string>
+    <string name ="okUrlG4">http://13.209.77.103:8080/resources/images/img/16_ok/02_ok_01.png</string>
+    <string name ="okUrlG5">http://13.209.77.103:8080/resources/images/img/16_ok/02_ok_02.png</string>
     <string name ="okUrlG1_">Ok-Dang at enterance</string>
     <string name ="okUrlG2_">Ok-Dang namaplate</string>
     <string name ="okUrlG3_">Spring in Ok-Dang</string>
@@ -773,13 +776,13 @@
     <string name ="okUrlC2">http://hanculture.org/wp-content/uploads/2017/04/Eibok.jpg</string>
 
 
-    <string name ="gyuUrlG1">http://13.124.155.173:8512/mylittleseoul/ch/img/17_gyu/00_gyu_00.png</string>
-    <string name ="gyuUrlG2">http://13.124.155.173:8512/mylittleseoul/ch/img/17_gyu/00_gyu_01.png</string>
-    <string name ="gyuUrlG3">http://13.124.155.173:8512/mylittleseoul/ch/img/17_gyu/01_gyu_00.png</string>
-    <string name ="gyuUrlG4">http://13.124.155.173:8512/mylittleseoul/ch/img/17_gyu/02_gyu_00.png</string>
-    <string name ="gyuUrlG5">http://13.124.155.173:8512/mylittleseoul/ch/img/17_gyu/02_gyu_01.png</string>
-    <string name ="gyuUrlG6">http://13.124.155.173:8512/mylittleseoul/ch/img/17_gyu/02_gyu_02.png</string>
-    <string name ="gyuUrlG7">http://13.124.155.173:8512/mylittleseoul/ch/img/17_gyu/03_gyu_00.png</string>
+    <string name ="gyuUrlG1">http://13.209.77.103:8080/resources/images/img/17_gyu/00_gyu_00.png</string>
+    <string name ="gyuUrlG2">http://13.209.77.103:8080/resources/images/img/17_gyu/00_gyu_01.png</string>
+    <string name ="gyuUrlG3">http://13.209.77.103:8080/resources/images/img/17_gyu/01_gyu_00.png</string>
+    <string name ="gyuUrlG4">http://13.209.77.103:8080/resources/images/img/17_gyu/02_gyu_00.png</string>
+    <string name ="gyuUrlG5">http://13.209.77.103:8080/resources/images/img/17_gyu/02_gyu_01.png</string>
+    <string name ="gyuUrlG6">http://13.209.77.103:8080/resources/images/img/17_gyu/02_gyu_02.png</string>
+    <string name ="gyuUrlG7">http://13.209.77.103:8080/resources/images/img/17_gyu/03_gyu_00.png</string>
     <string name ="gyuUrlG1_">Gyu-Jang-Gak at enterance</string>
     <string name ="gyuUrlG2_">Name in Chinese, Gyu-Jang-Gak</string>
     <string name ="gyuUrlG3_">Gyu-Jang-Gak building in the Secret garden</string>
@@ -806,8 +809,8 @@
     <string name ="ID264348T01_category">Bus</string>
     <string name ="ID264348T01_summary">91S tour(Seoul tour bus, Gwanghwamun-Cheonggye plaze round trip)</string>
     <string name ="ID264348T01_desc">91S tour(Seoul tour bus, Gwanghwamun-Cheonggye plaze round trip)</string>
-    <string name ="ID264348T01_img1">http://13.124.155.173:8512/mylittleseoul/realkorea/Bus_round_01-789.jpg</string>
-    <string name ="ID264348T01_img2">http://13.124.155.173:8512/mylittleseoul/realkorea/Bus_round_01-789.jpg</string>
+    <string name ="ID264348T01_img1">http://13.209.77.103:8080/resources/images/routes/Bus_round_01-789.jpg</string>
+    <string name ="ID264348T01_img2">http://13.209.77.103:8080/resources/images/routes/Bus_round_01-789.jpg</string>
     <string name ="ID264348T01_mapx">126.990599</string>
     <string name ="ID264348T01_mapy">37.577524</string>
     <string name ="ID264348T01_dist">62.89065967</string>
@@ -819,8 +822,8 @@
     <string name ="ID264348T02_category">Bus</string>
     <string name ="ID264348T02_summary">Airport bus 6011(Airport bus, From Inndeok Univ. To Incheong airport)</string>
     <string name ="ID264348T02_desc">Airport bus 6011(Airport bus, From Inndeok Univ. To Incheong airport)</string>
-    <string name ="ID264348T02_img1">http://13.124.155.173:8512/mylittleseoul/realkorea/Airport_01-781.jpg</string>
-    <string name ="ID264348T02_img2">http://13.124.155.173:8512/mylittleseoul/realkorea/Airport_01-781.jpg</string>
+    <string name ="ID264348T02_img1">http://13.209.77.103:8080/resources/images/routes/Airport_01-781.jpg</string>
+    <string name ="ID264348T02_img2">http://13.209.77.103:8080/resources/images/routes/Airport_01-781.jpg</string>
     <string name ="ID264348T02_mapx">126.989064</string>
     <string name ="ID264348T02_mapy">37.577396</string>
     <string name ="ID264348T02_dist">84.43628224</string>
@@ -831,8 +834,8 @@
     <string name ="ID264348T03_category">Bus</string>
     <string name ="ID264348T03_summary">Blue Bus 109, 151, 162, 171, 172, 272, 710/ Green Bus 7025(From Seoul National Univ. Hospital To Insadong)</string>
     <string name ="ID264348T03_desc">Blue Bus 109, 151, 162, 171, 172, 272, 710/ Green Bus 7025(From Seoul National Univ. Hospital To Insadong)</string>
-    <string name ="ID264348T03_img1">http://13.124.155.173:8512/mylittleseoul/realkorea/Bus_01-172.jpg</string>
-    <string name ="ID264348T03_img2">http://13.124.155.173:8512/mylittleseoul/realkorea/Bus_01-172.jpg</string>
+    <string name ="ID264348T03_img1">http://13.209.77.103:8080/resources/images/routes/Bus_01-172.jpg</string>
+    <string name ="ID264348T03_img2">http://13.209.77.103:8080/resources/images/routes/Bus_01-172.jpg</string>
     <string name ="ID264348T03_mapx">126.989064</string>
     <string name ="ID264348T03_mapy">37.577387</string>
     <string name ="ID264348T03_dist">84.86940043</string>
@@ -844,8 +847,8 @@
     <string name ="ID264348T04_category">Bus</string>
     <string name ="ID264348T04_summary">Airport bus 6011(Airport bus, From Incheong airport To Inndeok Univ.)</string>
     <string name ="ID264348T04_desc">Airport bus 6011(Airport bus, From Incheong airport To Inndeok Univ.)</string>
-    <string name ="ID264348T04_img1">http://13.124.155.173:8512/mylittleseoul/realkorea/Airport_01-296.jpg</string>
-    <string name ="ID264348T04_img2">http://13.124.155.173:8512/mylittleseoul/realkorea/Airport_01-296.jpg</string>
+    <string name ="ID264348T04_img1">http://13.209.77.103:8080/resources/images/routes/Airport_01-296.jpg</string>
+    <string name ="ID264348T04_img2">http://13.209.77.103:8080/resources/images/routes/Airport_01-296.jpg</string>
     <string name ="ID264348T04_mapx">126.988621</string>
     <string name ="ID264348T04_mapy">37.577267</string>
     <string name ="ID264348T04_dist">125.9124723</string>
@@ -857,8 +860,8 @@
     <string name ="ID264348T05_category">Bus</string>
     <string name ="ID264348T05_summary">Blue Bus 109, 151, 162, 171, 172, 272, 601, 710 / Green Bus 7025(From Insadong To Seoul National Univ.)</string>
     <string name ="ID264348T05_desc">Blue Bus 109, 151, 162, 171, 172, 272, 601, 710 / Green Bus 7025(From Insadong To Seoul National Univ.)</string>
-    <string name ="ID264348T05_img1">http://13.124.155.173:8512/mylittleseoul/realkorea/Bus_01-199.jpg</string>
-    <string name ="ID264348T05_img2">http://13.124.155.173:8512/mylittleseoul/realkorea/Bus_01-199.jpg</string>
+    <string name ="ID264348T05_img1">http://13.209.77.103:8080/resources/images/routes/Bus_01-199.jpg</string>
+    <string name ="ID264348T05_img2">http://13.209.77.103:8080/resources/images/routes/Bus_01-199.jpg</string>
     <string name ="ID264348T05_mapx">126.988522</string>
     <string name ="ID264348T05_mapy">37.577272</string>
     <string name ="ID264348T05_dist">133.7417675</string>
@@ -870,8 +873,8 @@
     <string name ="ID264348T06_category">Bus</string>
     <string name ="ID264348T06_summary">Local Bus Jongno 12 (From Jongno 3(sam)-ga To Changdeokgung)</string>
     <string name ="ID264348T06_desc">Local Bus Jongno 12 (From Jongno 3(sam)-ga To Changdeokgung)</string>
-    <string name ="ID264348T06_img1">http://13.124.155.173:8512/mylittleseoul/realkorea/Bus_maeul_01-558.jpg</string>
-    <string name ="ID264348T06_img2">http://13.124.155.173:8512/mylittleseoul/realkorea/Bus_maeul_01-558.jpg</string>
+    <string name ="ID264348T06_img1">http://13.209.77.103:8080/resources/images/routes/Bus_maeul_01-558.jpg</string>
+    <string name ="ID264348T06_img2">http://13.209.77.103:8080/resources/images/routes/Bus_maeul_01-558.jpg</string>
     <string name ="ID264348T06_mapx">126.990357</string>
     <string name ="ID264348T06_mapy">37.576693</string>
     <string name ="ID264348T06_dist">120.3370488</string>
@@ -883,8 +886,8 @@
     <string name ="ID264348T07_category">Subway</string>
     <string name ="ID264348T07_summary">Subway Anguk Station(3rd line) Exit.3</string>
     <string name ="ID264348T07_desc">Subway Anguk Station(3rd line) Exit.3</string>
-    <string name ="ID264348T07_img1">http://13.124.155.173:8512/mylittleseoul/realkorea/subway_anguk_exit3.jpg</string>
-    <string name ="ID264348T07_img2">http://13.124.155.173:8512/mylittleseoul/realkorea/subway_anguk_exit3.jpg</string>
+    <string name ="ID264348T07_img1">http://13.209.77.103:8080/resources/images/routes/subway_anguk_exit3.jpg</string>
+    <string name ="ID264348T07_img2">http://13.209.77.103:8080/resources/images/routes/subway_anguk_exit3.jpg</string>
     <string name ="ID264348T07_mapx">126.986351</string>
     <string name ="ID264348T07_mapy">37.577028</string>
     <string name ="ID264348T07_dist">324.6619882</string>
@@ -896,8 +899,8 @@
     <string name ="ID264348T08_category">Subway</string>
     <string name ="ID264348T08_summary">[Subway] Jongno 3(sam)ga Station(Seoul Subway Line 1 or 3 or 5), Exit 6, 7.</string>
     <string name ="ID264348T08_desc">[Subway] Jongno 3(sam)ga Station(Seoul Subway Line 1 or 3 or 5), Exit 6, 7.</string>
-    <string name ="ID264348T08_img1">http://13.124.155.173:8512/mylittleseoul/realkorea/subway_jongno3ga_exit7.jpg</string>
-    <string name ="ID264348T08_img2">http://13.124.155.173:8512/mylittleseoul/realkorea/subway_jongno3ga_exit7.jpg</string>
+    <string name ="ID264348T08_img1">http://13.209.77.103:8080/resources/images/routes/subway_jongno3ga_exit7.jpg</string>
+    <string name ="ID264348T08_img2">http://13.209.77.103:8080/resources/images/routes/subway_jongno3ga_exit7.jpg</string>
     <string name ="ID264348T08_mapx">126.991421</string>
     <string name ="ID264348T08_mapy">37.572632</string>
     <string name ="ID264348T08_dist">580.8985702</string>
@@ -969,7 +972,7 @@
                                 [International Visitors]  \n
                                 Adults (ages 19 and more): Individual 1,000 won / Group (over 10): 800 won \n
                                 * Children and Teenagers (ages 7-18): 500 won \n
-                                * Children under age 6: Free  \n
+                                * Children under mindAge 6: Free  \n
                                 * Integrated Admission is also available and can be purchased separately.</string>
     <string name ="ID264350_result">342.4708568</string>
     <string name ="ID264350_youtube">LWNHCWNZWp4,p6NYoSDFaMc,La3e2hqhKOk,zfdgzOWhpHA,fZTXLCaaZYI</string>

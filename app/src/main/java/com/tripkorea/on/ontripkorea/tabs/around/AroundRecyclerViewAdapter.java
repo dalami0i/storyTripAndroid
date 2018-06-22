@@ -19,56 +19,62 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tripkorea.on.ontripkorea.R;
-import com.tripkorea.on.ontripkorea.util.Alert;
-import com.tripkorea.on.ontripkorea.util.YoutubeActivity;
+import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
+import com.tripkorea.on.ontripkorea.util.Coordinate;
+import com.tripkorea.on.ontripkorea.util.LocationDistance;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
+import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by YangHC on 2018-06-11.
  */
 
 public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecyclerViewAdapter.ViewHolder> {
-    private ArrayList<AttrClient> findingList = new ArrayList<>();
+    private List<Attraction> findingList = new ArrayList<>();
     private Context context;
+    private Coordinate coordinate;
     GoogleMap aroundMap;
     ArrayList<Integer> viewItemNum = new ArrayList<>();
 
 
     public AroundRecyclerViewAdapter(
-            ArrayList<AttrClient> resources, Context context, int tabPosition, GoogleMap aroundMap) {
+            List<Attraction> resources, Context context, int tabPosition, Coordinate coordinate, GoogleMap aroundMap) {
+        this.findingList = resources;
         this.aroundMap = aroundMap;
         this.context = context;
+        this.coordinate = coordinate;
 
-        switch (tabPosition){
+        switch (tabPosition) {
             case 0:
-                for(int i=0; i<resources.size(); i++){
-                    try{
-                        int tmpInt = Integer.parseInt(resources.get(i).categoryNum);
-                    }catch (NumberFormatException e){
+                for (int i = 0; i < resources.size(); i++) {
+                    try {
+//                        int tmpInt = Integer.parseInt(resources.get(i).categoryNum);
+                    } catch (NumberFormatException e) {
                         findingList.add(resources.get(i));
                     }
                 }
                 break;
             case 1:
-                for(int i=0; i<resources.size(); i++){
-                    try{
-                        int tmpInt = Integer.parseInt(resources.get(i).categoryNum);
-                        if(tmpInt == 3) findingList.add(resources.get(i));
-                    }catch (NumberFormatException e){
+                for (int i = 0; i < resources.size(); i++) {
+                    try {
+//                        int tmpInt = Integer.parseInt(resources.get(i).categoryNum);
+//                        if(tmpInt == 3) findingList.add(resources.get(i));
+                    } catch (NumberFormatException e) {
 
                     }
                 }
                 break;
             default:
-                for(int i=0; i<resources.size(); i++){
-                    try{
-                        int tmpInt = Integer.parseInt(resources.get(i).categoryNum);
-                        if(tmpInt != 3) findingList.add(resources.get(i));
-                    }catch (NumberFormatException e){
+                for (int i = 0; i < resources.size(); i++) {
+                    try {
+//                        int tmpInt = Integer.parseInt(resources.get(i).categoryNum);
+//                        if(tmpInt != 3) findingList.add(resources.get(i));
+                    } catch (NumberFormatException e) {
 
                     }
                 }
@@ -111,7 +117,6 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
 //        }
 
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -130,11 +135,9 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
     }
 
 
-
-
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final AttrClient findingResult = findingList.get(position);
+        final Attraction thisAttraction = findingList.get(position);
 //            )Log.e("어라운드 onBindViewHolder","firstShowPosition: "+firstShowPosition);
 
         //보여주기
@@ -151,32 +154,34 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
 //                                new LatLng(Double.parseDouble(firstShowItem.mapy), Double.parseDouble(firstShowItem.mapx))));
 //            }
 
-        Glide.with(context).load(findingResult.firstimage).into( holder.thumnailImg);
+        Glide.with(context).load(thisAttraction.getThumnailAddr()).into(holder.thumnailImg);
         holder.thumnailImg.setCornerRadius(20);
-        holder.titleTxt.setText(findingResult.title);
-        holder.introTxt.setText(findingResult.summary);
-        holder.detailTxt.setText(findingResult.description);
-        String distance = (int)findingResult.distance + " m ("+context.getString(R.string.from_changdeokgung)+")";
+        holder.titleTxt.setText(thisAttraction.getName());
+        holder.introTxt.setText(thisAttraction.getSummary());
+        holder.detailTxt.setText(thisAttraction.getDetail());
+        String distance = ((int)LocationDistance.distance(thisAttraction.getLat(), thisAttraction.getLon()
+                , coordinate.getLat(), coordinate.getLon(), LocationDistance.DISTANCE_UNIT_METER))+ " m (" + context.getString(R.string.from_changdeokgung) + ")";
         holder.distanceTxt.setText(distance);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                try{
-                    int temp = Integer.parseInt(findingResult.contentID);
+                try {
+                    int temp = thisAttraction.getIdx();
                     AroundDetailActivity.youtubeDetails.clear();
-                    Log.e("showaround","show detail 직전");
-                    if(findingResult.youtubekey != null){
-                        String[] youtubeList = findingResult.youtubekey.split(",");
-                        Log.e("showaround","item youtube"+youtubeList[0]);
-                        new YoutubeActivity(context, findingResult).execute(findingResult.youtubekey);
-                    }else {
-                        Intent intent = new Intent(context, AroundDetailActivity.class);
-                        intent.putExtra("attraction", findingResult);
-                        context.startActivity(intent);
-                    }
-                }catch (NumberFormatException e){
-                    AlertDialog dialog = createDialogBoxHome(findingResult);
+                    Log.e("showaround", "show detail 직전");
+//                    if(findingResult.youtubekey != null){
+//                        String[] youtubeList = findingResult.youtubekey.split(",");
+//                        Log.e("showaround","item youtube"+youtubeList[0]);
+//                        new YoutubeAsyncTask(context, findingResult).execute(findingResult.youtubekey);
+//                    }else {
+                    Intent intent = new Intent(context, AroundDetailActivity.class);
+                    intent.putExtra("attraction", thisAttraction);
+                    intent.putExtra("attractionIdx", thisAttraction.getIdx());
+                    context.startActivity(intent);
+//                    }
+                } catch (NumberFormatException e) {
+                    AlertDialog dialog = createDialogBoxHome(thisAttraction);
                     dialog.show();
 //                                Toast.makeText(owner,owner.getString(R.string.transportation_clicked),Toast.LENGTH_LONG).show();
                 }
@@ -191,8 +196,9 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
                 if (aroundMap != null) {
                     aroundMap.moveCamera(
                             CameraUpdateFactory.newLatLng(
-                                    new LatLng(Double.parseDouble(findingResult.mapy), Double.parseDouble(findingResult.mapx))));
+                                    new LatLng(thisAttraction.getLat(), thisAttraction.getLon())));
                 }
+
                 return false;
             }
         });
@@ -236,28 +242,25 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
 //            }
 
 
-
-
     }
 
-    private Drawable LoadImageFromWebOperations(String url){
-        try
-        {
+    private Drawable LoadImageFromWebOperations(String url) {
+        try {
             InputStream is = (InputStream) new URL(url).getContent();
             return Drawable.createFromStream(is, "src name");
-        }catch (Exception e) {
-            System.out.println("dialog drawable Exc="+e);
+        } catch (Exception e) {
+            System.out.println("dialog drawable Exc=" + e);
             return null;
         }
     }
 
-    private AlertDialog createDialogBoxHome(AttrClient attrClient) {
+    private AlertDialog createDialogBoxHome(Attraction attrClient) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(attrClient.title);
-        builder.setMessage(attrClient.description);
-        builder.setIcon(LoadImageFromWebOperations(attrClient.firstimage));
+        builder.setTitle(attrClient.getName());
+        builder.setMessage(attrClient.getDetail());
+        builder.setIcon(LoadImageFromWebOperations(attrClient.getThumnailAddr()));
 //            builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setPositiveButton(R.string.dialogyestitle, new DialogInterface.OnClickListener(){
+        builder.setPositiveButton(R.string.dialogyestitle, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

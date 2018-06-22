@@ -169,8 +169,9 @@ public class GuideFragment extends Fragment  implements
         guideTabs.addOnTabSelectedListener(tabSelectedListener);
 
 
-//        guideMap.onCreate(savedInstanceState);
-//        guideMap.getMapAsync(this);
+        guideMap.onCreate(savedInstanceState);
+        guideMap.getMapAsync(this);
+
         initViews(view);
 
 
@@ -320,7 +321,7 @@ public class GuideFragment extends Fragment  implements
         currentLocation = location;
         longitude = location.getLongitude(); //경도
         latitude = location.getLatitude(); //위도
-        Log.e("현재 위치: onLocationChanged",longitude+" | "+latitude);
+        Log.e("onLocationChanged","현재 위치: " + longitude+" | "+latitude);
     }
 
     @Override
@@ -441,7 +442,7 @@ public class GuideFragment extends Fragment  implements
             WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(CONNECTION_CONFIRM_CLIENT_URL);
             try {
                 cc.start();
-                if (WifiCheck.wificheck == 1) {
+                if (WifiCheck.wificheck == WifiCheck.WIFI_ON) {
                     mp = new MediaPlayer();
                     try {
                         mp.setDataSource(voiceAddress);
@@ -527,7 +528,7 @@ public class GuideFragment extends Fragment  implements
                 WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(CONNECTION_CONFIRM_CLIENT_URL);
                 try {
                     cc.start();
-                    if (WifiCheck.wificheck == 1) {
+                    if (WifiCheck.wificheck == WifiCheck.WIFI_ON) {
                         try {
                             settingVoiceGuide = true;
                             thisTime.post(mUpdateTime);
@@ -664,89 +665,16 @@ public class GuideFragment extends Fragment  implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        guideMap.onResume();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
+        guideMap.onPause();
         tempStop();
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //voice guide 이미지를 위한 RecyclerView
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public class VoiceImageRecyclerViewAdapter extends RecyclerView.Adapter<VoiceImageRecyclerViewAdapter.ViewHolder>{
-        ArrayList<VoiceGuideImage> voiceIMGlist = new ArrayList<>();
-        int diviceSizeW;
-
-        private void addVoiceImgList(VoiceGuideImage obj){//, String link_content
-            voiceIMGlist.add(obj);
-        }
-
-        private VoiceImageRecyclerViewAdapter(){}
-
-        public class ViewHolder extends RecyclerView.ViewHolder{
-            private final RoundedImageView voiceguide_img_item;
-            private final TextView  voiceguide_img_text;
-            private final TextView right_arrow;
-            private final TextView left_arrow;
-            private final View mView;
-
-            private ViewHolder(View itemView) {
-                super(itemView);
-                mView = itemView;
-                voiceguide_img_item = mView.findViewById(R.id.voiceguide_iv);
-                voiceguide_img_text = mView.findViewById(R.id.voiceguide_tv);
-                right_arrow = mView.findViewById(R.id.right_arrow);
-                left_arrow = mView.findViewById(R.id.left_arrow);
-            }
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Log.e("맵onCreateViewHolder",viewType+" | ");
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.voiceguideimage,parent,false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            final VoiceGuideImage voiceIMGEntity = voiceIMGlist.get(position);
-            Log.e("맵onBindViewHolder",position+" | "+voiceIMGEntity.voiceimgtext);
-            Log.e("보이스가이드이미지",voiceIMGEntity.voiceguideid+" | "+voiceIMGEntity.imgAddr);
-            holder.voiceguide_img_text.setText(voiceIMGEntity.voiceimgtext);
-            holder.voiceguide_img_item.setCornerRadius((float) 10);
-
-            RequestOptions myOptions = new RequestOptions().fitCenter().override(diviceSizeW, 900);
-
-            Glide.with(MyApplication.getContext())
-                    .load(voiceIMGEntity.imgAddr)
-                    .apply(myOptions)
-                    .into(holder.voiceguide_img_item);
-//            Glide.get(VoiceGuideMapActivity.this).clearMemory();
-//            new AsyncTaskGlideCacheManager().doInBackground();
-//            holder.voiceguide_img_item.setImageURI(Uri.parse(voiceIMGEntity.imgAddr));
-            if( voiceIMGlist.size() == 1){
-                holder.right_arrow.setVisibility(View.GONE);
-                holder.left_arrow.setVisibility(View.GONE);
-            }else if(position == 0){
-                holder.right_arrow.setVisibility(View.GONE);
-                holder.left_arrow.setVisibility(View.VISIBLE);
-            }else if(position == voiceIMGlist.size()-1){
-                holder.right_arrow.setVisibility(View.VISIBLE);
-                holder.left_arrow.setVisibility(View.GONE);
-            }else{
-                holder.right_arrow.setVisibility(View.VISIBLE);
-                holder.left_arrow.setVisibility(View.VISIBLE);
-            }
-
-
-        }
-        @Override
-        public int getItemCount() {
-            return voiceIMGlist.size();
-        }
-
-
-    }
-
 
 }

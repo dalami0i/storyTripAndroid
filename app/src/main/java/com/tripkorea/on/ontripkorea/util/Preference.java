@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
  */
 
 public class Preference {
-    private static String SHARED_PREFERNECE_NAME = "beongae";
+    private static String PREFERNECE_NAME = "beongae";
     public static String SIGN_IN_ID = "signinID";
 
     private static Preference instance;
@@ -21,7 +21,7 @@ public class Preference {
     }
 
     public void build(){
-        sharedPreferences = MyApplication.getContext().getSharedPreferences(SHARED_PREFERNECE_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = MyApplication.getContext().getSharedPreferences(PREFERNECE_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
@@ -52,30 +52,5 @@ public class Preference {
 
     public SharedPreferences getSharedPreferences() {
         return sharedPreferences;
-    }
-
-    /**
-     * Created by YangHC on 2018-06-11.
-     */
-
-    public static class Coord {
-        private double lat;
-        private double lon;
-
-        public double getLat() {
-            return lat;
-        }
-
-        public void setLat(double lat) {
-            this.lat = lat;
-        }
-
-        public double getLon() {
-            return lon;
-        }
-
-        public void setLon(double lon) {
-            this.lon = lon;
-        }
     }
 }

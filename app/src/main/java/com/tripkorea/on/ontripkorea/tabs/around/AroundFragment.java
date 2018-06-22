@@ -36,12 +36,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
 import com.tripkorea.on.ontripkorea.tabs.MainActivity;
+import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
 import com.tripkorea.on.ontripkorea.util.Alert;
+import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
 import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
-import com.tripkorea.on.ontripkorea.vo.attraction.Restaurant;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -62,12 +64,15 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     private final static int TAB_TOUR = 2;
 
 
-    private List<Attraction> attractionList;
-    private AroundSpotListAdapter aroundSpotListAdapter;
+    private List<Attraction> aroundRouteList = new ArrayList<>();
+    private List<Attraction> restaurantList = new ArrayList<>();
+    private List<Attraction> tourList = new ArrayList<>();
 
     //locale
     String usinglanguage;
     Locale locale;
+    //중심 여행지 위치 (현재는 창덕궁)
+    Coordinate coordinate = new Coordinate(37.579108, 126.990957);
 
     //map
     MapView aroundMap;
@@ -81,6 +86,10 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     TabLayout aroundTabs;
     //rv
     RecyclerView aroundRV;
+
+    private AroundRecyclerViewAdapter aroundRouteRecyclerViewAdapter;
+    private AroundRecyclerViewAdapter aroundRestaurantsRecyclerViewAdapter;
+    private AroundRecyclerViewAdapter aroundToursRecyclerViewAdapter;
     LinearLayoutManager lm;
 
     public ArrayList<AttrClient> aroundList = new ArrayList<>();
@@ -99,11 +108,32 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
         initViews(view);
 
+        if (aroundMap != null) {
+            aroundMap.onCreate(savedInstanceState);
+        }
         return view;
     }
 
-    private void initViews(View view) {
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        aroundMap.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        aroundMap.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        aroundMap.onPause();
+    }
+
+    private void initViews(View view) {
         aroundMap = view.findViewById(R.id.around_map);
         aroundTabs = view.findViewById(R.id.around_tabs);
         aroundRV = view.findViewById(R.id.around_rv);
@@ -123,8 +153,6 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
         aroundTabs.addTab(aroundTabs.newTab().setText(getString(R.string.around_tab_attraction)));
 
         AroundGuideGenerator aroundGuideGenerator = new AroundGuideGenerator();
-        aroundList = aroundGuideGenerator.aroundGuideGenerator();
-        Log.e("aroundList", aroundList.size() + "| aroundList.get(0).title" + aroundList.get(0).title);
 
         lm = new LinearLayoutManager(MyApplication.getContext());
         DividerItemDecoration dividerItemDecorationLinkTransportation
@@ -134,9 +162,8 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
         Log.e("showaround", "tab 위치: " + aroundTabs.getSelectedTabPosition());
 
-
-
-        aroundRV.setAdapter(new AroundRecyclerViewAdapter(aroundList, main, aroundTabs.getSelectedTabPosition(), mMap));
+        aroundRouteRecyclerViewAdapter = new AroundRecyclerViewAdapter(aroundRouteList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
+        aroundRV.setAdapter(aroundRouteRecyclerViewAdapter);
 
         aroundTabs.addOnTabSelectedListener(tabSelectedListener);
     }
@@ -145,24 +172,71 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     private void setRestaurants(double lat, double lon, int page) {
         ApiClient.getInstance().getApiService()
                 .getAroundRestaurants(MyApplication.APP_VERSION, lat, lon, page)
-                .enqueue(new Callback<List<Restaurant>>() {
+                .enqueue(new Callback<List<Attraction>>() {
                     @Override
-                    public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
-                        List<Restaurant> restaurants = response.body();
+                    public void onResponse(Call<List<Attraction>> call, Response<List<Attraction>> response) {
+                        List<Attraction> restaurants = response.body();
                         if (response.body() != null) {
-//                            aroundList = response.body();
-                            for(Restaurant restaurant : restaurants){
-                                Log.e("RESTAURANTS",restaurant.getName());
+                            restaurantList.addAll(response.body());
+                            Log.e("RESTAURANTS", "size : " + restaurantList.size());
+
+                            for (Attraction restaurant : restaurants) {
+                                Log.e("RESTAURANTS", restaurant.getName());
                             }
+                            aroundRestaurantsRecyclerViewAdapter.notifyDataSetChanged();
                         } else {
-                            Log.e("RESTAURANTS","실패");
+                            Log.e("RESTAURANTS", "실패");
+                            if (response.errorBody() != null) {
+                                try {
+                                    Log.e("RESTAURANTS", "error : " + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<Restaurant>> call, Throwable t) {
+                    public void onFailure(Call<List<Attraction>> call, Throwable t) {
                         Alert.makeText(getString(R.string.network_error));
-                        Log.e("NETWORK",t.getMessage());
+                        Log.e("NETWORK", t.getMessage());
+                        t.printStackTrace();
+                    }
+                });
+    }
+
+    // TODO : 서버에서 주변 관광지 정보 가져오기
+    private void setTours(double lat, double lon, int page) {
+        ApiClient.getInstance().getApiService()
+                .getAroundTours(MyApplication.APP_VERSION, lat, lon, page)
+                .enqueue(new Callback<List<Attraction>>() {
+                    @Override
+                    public void onResponse(Call<List<Attraction>> call, Response<List<Attraction>> response) {
+                        List<Attraction> restaurants = response.body();
+                        if (response.body() != null) {
+                            tourList.addAll(response.body());
+                            Log.e("TOURS", "size : " + tourList.size());
+
+                            for (Attraction restaurant : restaurants) {
+                                Log.e("TOURS", restaurant.getName());
+                            }
+                            aroundToursRecyclerViewAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.e("TOURS", "실패");
+                            if (response.errorBody() != null) {
+                                try {
+                                    Log.e("TOURS", "error : " + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Attraction>> call, Throwable t) {
+                        Alert.makeText(getString(R.string.network_error));
+                        Log.e("NETWORK", t.getMessage());
                         t.printStackTrace();
                     }
                 });
@@ -172,17 +246,34 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             Log.e("showaround", "tab 위치: " + aroundTabs.getSelectedTabPosition());
-            aroundRV.setAdapter(new AroundRecyclerViewAdapter(aroundList, main, aroundTabs.getSelectedTabPosition(), mMap));
 
-            switch (aroundTabs.getSelectedTabPosition()){
+            switch (aroundTabs.getSelectedTabPosition()) {
                 case TAB_ROUTE:
-
+                    if (aroundRouteRecyclerViewAdapter == null) {
+                        aroundRouteRecyclerViewAdapter = new AroundRecyclerViewAdapter(aroundRouteList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
+                    }
+                    aroundRV.setAdapter(aroundRouteRecyclerViewAdapter);
+                    if (aroundRouteList.size() == 0) {
+//                        setRestaurants(coordinate.getLat(), coordinate.getLon(), 1);
+                    }
                     break;
                 case TAB_RESTAURANT:
+                    if (aroundRestaurantsRecyclerViewAdapter == null) {
+                        aroundRestaurantsRecyclerViewAdapter = new AroundRecyclerViewAdapter(restaurantList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
+                    }
+                    aroundRV.setAdapter(aroundRestaurantsRecyclerViewAdapter);
+                    if (restaurantList.size() == 0) {
+                        setRestaurants(coordinate.getLat(), coordinate.getLon(), 1);
+                    }
                     break;
-
                 case TAB_TOUR:
-
+                    if (aroundToursRecyclerViewAdapter == null) {
+                        aroundToursRecyclerViewAdapter = new AroundRecyclerViewAdapter(tourList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
+                    }
+                    aroundRV.setAdapter(aroundToursRecyclerViewAdapter);
+                    if (tourList.size() == 0) {
+                        setTours(coordinate.getLat(), coordinate.getLon(), 1);
+                    }
                     break;
             }
         }
@@ -223,7 +314,6 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
     @Override
     public void onLocationChanged(Location location) {
-
         currentLocation = location;
         currentLong = location.getLongitude(); //경도
         currentLat = location.getLatitude(); //위도
@@ -388,7 +478,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 //            }
 
 //            String id = String.valueOf(aroundList.get(i).contentID);
-//            new YoutubeActivity().execute(id, new GetYoutubeKey().takeYoutubekey(id));
+//            new YoutubeAsyncTask().execute(id, new GetYoutubeKey().takeYoutubekey(id));
         }
     }
 }

@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
     private ApiService apiService;
     private static ApiClient instance;
-    private static final String PROD_IP = "18.220.56.129";
+    private static final String PROD_IP = "13.209.77.103";
     public static final int PORT_NUMBER= 8080;
 
     public void create(){
