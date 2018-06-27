@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
+import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.LocationDistance;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
@@ -37,6 +39,8 @@ import java.util.List;
 public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecyclerViewAdapter.ViewHolder> {
     private List<Attraction> findingList = new ArrayList<>();
     private Context context;
+    //2018 06 25 17:18 kiryun 수정
+    private int tabPosition;
     private Coordinate coordinate;
     GoogleMap aroundMap;
     ArrayList<Integer> viewItemNum = new ArrayList<>();
@@ -47,7 +51,10 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
         this.findingList = resources;
         this.aroundMap = aroundMap;
         this.context = context;
+        //2018 06 25 17:18 kiryun 수정
+        this.tabPosition = tabPosition;
         this.coordinate = coordinate;
+
 
         switch (tabPosition) {
             case 0:
@@ -103,6 +110,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
             menuTitleTxt = view.findViewById(R.id.around_menu_title);
             detailTxt = view.findViewById(R.id.txt_view_show_around_detail);
             distanceTxt = view.findViewById(R.id.txt_view_show_around_distance);
+
         }
     }
 
@@ -155,6 +163,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
 //            }
 
         Glide.with(context).load(thisAttraction.getThumnailAddr()).into(holder.thumnailImg);
+        //Log.e("now thumnailaddr: ",thisAttraction.getThumnailAddr());
         holder.thumnailImg.setCornerRadius(20);
         holder.titleTxt.setText(thisAttraction.getName());
         holder.introTxt.setText(thisAttraction.getSummary());
@@ -175,10 +184,32 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
 //                        Log.e("showaround","item youtube"+youtubeList[0]);
 //                        new YoutubeAsyncTask(context, findingResult).execute(findingResult.youtubekey);
 //                    }else {
-                    Intent intent = new Intent(context, AroundDetailActivity.class);
-                    intent.putExtra("attraction", thisAttraction);
-                    intent.putExtra("attractionIdx", thisAttraction.getIdx());
-                    context.startActivity(intent);
+
+                    //2018 06 25 16:59 kiryun 수정
+                    //여기서 route와 나머지 분류 해서 intent를 띄울지 아니면 dialog를 띄울지 분류를 해야함.
+                    switch(tabPosition)
+                    {
+                        case 0:
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
+                            dialog.setTitle(holder.titleTxt.getText().toString())
+                                    .setMessage(holder.detailTxt.getText().toString())
+                                    .setNeutralButton("Exit", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                            //Alert.makeText("dialog");
+                            break;
+                        default:
+                            Intent intent = new Intent(context, AroundDetailActivity.class);
+                            intent.putExtra("attraction", thisAttraction);
+                            intent.putExtra("attractionIdx", thisAttraction.getIdx());
+                            context.startActivity(intent);
+                            break;
+                    }
 //                    }
                 } catch (NumberFormatException e) {
                     AlertDialog dialog = createDialogBoxHome(thisAttraction);

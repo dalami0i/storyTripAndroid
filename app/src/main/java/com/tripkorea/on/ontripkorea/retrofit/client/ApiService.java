@@ -41,8 +41,10 @@ public interface ApiService {
 
 
     // 주변 교통정보 리스트
-    @GET("/storytour/api/{version}/user/attr/route/list/{lat}/{lon}/{page}")
-    Call<List<Attraction>> getAroundRoutes(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("page") int page);
+    //@GET("/storytour/api/{version}/user/attr/route/list/{lat}/{lon}/{page}")
+    //Call<List<Attraction>> getAroundRoutes(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("page") int page);
+    @GET("/storytour/api/{version}/user/attr/route/list/{index}")
+    Call<List<Attraction>> getAroundRoutes(@Path("version") int version, @Path("index") int idx);
     // 주변 식당 리스트
     @GET("/storytour/api/{version}/user/attr/restaurant/list/{lat}/{lon}/{page}")
     Call<List<Attraction>> getAroundRestaurants(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("page") int page);

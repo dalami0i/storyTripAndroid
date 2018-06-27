@@ -95,6 +95,7 @@ public class GuideFragment extends Fragment  implements
     private static VoiceGuideLocation locEntity;
 
     public GuideFragment (){}
+
     public Fragment guideFragmentNewInstance(GoogleMap mMap){
         this.mMap = mMap;
         return new GuideFragment();
@@ -217,9 +218,11 @@ public class GuideFragment extends Fragment  implements
 //                setVoiceGuide();
                 LinearLayoutManager linkLayoutManager
                         = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.HORIZONTAL, false);
+
                 guide_img_rv.setLayoutManager(linkLayoutManager);
                 VoiceImageRecyclerViewAdapter voiceImageRecyclerViewAdapter
                         = new VoiceImageRecyclerViewAdapter();
+
                 for (int i = 0; i < locEntity.voiceGuideImg.size(); i++) {
                     voiceImageRecyclerViewAdapter.addVoiceImgList(locEntity.voiceGuideImg.get(i));
                 }

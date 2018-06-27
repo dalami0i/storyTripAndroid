@@ -82,8 +82,10 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     double currentLat, currentLong;
     //authority
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
     //tab
     TabLayout aroundTabs;
+
     //rv
     RecyclerView aroundRV;
 
@@ -134,6 +136,8 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     }
 
     private void initViews(View view) {
+        Log.d("initViews","start");
+
         aroundMap = view.findViewById(R.id.around_map);
         aroundTabs = view.findViewById(R.id.around_tabs);
         aroundRV = view.findViewById(R.id.around_rv);
@@ -162,10 +166,55 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
         Log.e("showaround", "tab 위치: " + aroundTabs.getSelectedTabPosition());
 
+        //2018 06 24 20:10 kiryun 추가
+        setRoute(coordinate.getLat(), coordinate.getLon(), 1);
+        Log.e("showaround", "aroundRouteList 갯수 :"+ aroundRouteList.size());
+
         aroundRouteRecyclerViewAdapter = new AroundRecyclerViewAdapter(aroundRouteList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
         aroundRV.setAdapter(aroundRouteRecyclerViewAdapter);
 
         aroundTabs.addOnTabSelectedListener(tabSelectedListener);
+    }
+
+    // 2018 06 24 20:06 kiryun 추가
+    // TODO : 서버에서 루트 정보 가져오기
+    private void setRoute(double lat, double lon, int page)
+    {
+        ApiClient.getInstance().getApiService()
+                .getAroundRoutes(MyApplication.APP_VERSION, 1024)
+                .enqueue(new Callback<List<Attraction>>() {
+                    @Override
+                    public void onResponse(Call<List<Attraction>> call, Response<List<Attraction>> response) {
+                        List<Attraction> aroundRoutes = response.body();
+                        if(response.body() != null)
+                        {
+                            aroundRouteList.addAll(response.body());
+                            Log.e("ROUTES", "size : "+aroundRouteList.size());
+
+                            for(Attraction aroundRoute : aroundRoutes)
+                            {
+                                Log.e("ROUTES", aroundRoute.getName());
+                            }
+                            aroundRouteRecyclerViewAdapter.notifyDataSetChanged();
+                        }
+                        else
+                        {
+                            Log.e("ROUTES", "실패");
+                            if (response.errorBody() != null) {
+                                try {
+                                    Log.e("ROUTES", "error : " + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Attraction>> call, Throwable t) {
+
+                    }
+                });
     }
 
     // TODO : 서버에서 주변 관광지 정보 가져오기
@@ -255,6 +304,8 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                     aroundRV.setAdapter(aroundRouteRecyclerViewAdapter);
                     if (aroundRouteList.size() == 0) {
 //                        setRestaurants(coordinate.getLat(), coordinate.getLon(), 1);
+                        setRoute(coordinate.getLat(), coordinate.getLon(), 1);
+
                     }
                     break;
                 case TAB_RESTAURANT:

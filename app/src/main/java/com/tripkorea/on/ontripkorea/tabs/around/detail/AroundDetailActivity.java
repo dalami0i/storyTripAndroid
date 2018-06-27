@@ -449,6 +449,8 @@ public class AroundDetailActivity extends AppCompatActivity implements
                             .enqueue(new Callback<ApiMessasge>() {
                                 @Override
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
+                                    //response != null
+                                    //response.body() == null
                                     if (response.body() != null) {
                                         Alert.makeText("좋아요!");
                                     } else {
