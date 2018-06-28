@@ -7,6 +7,6 @@ import java.util.List;
  */
 
 public class Course {
-    private List<Attraction> courseList;
+    private List<AttractionSimple> courseList;
     private int totalFee;
 }

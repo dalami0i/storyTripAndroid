@@ -16,7 +16,7 @@ import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.LocationDistance;
-import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 
 import java.util.List;
 
@@ -25,17 +25,17 @@ import java.util.List;
  */
 
 public class InfoRecyclerViewAdapter extends RecyclerView.Adapter<InfoRecyclerViewAdapter.ViewHolder> {
-    private List<Attraction> attractionList;
+    private List<AttractionSimple> attractionList;
     private Context context;
     private Coordinate coordinate;
 
-    public InfoRecyclerViewAdapter(List<Attraction> attractionList, Context context, Coordinate coordinate) {
+    public InfoRecyclerViewAdapter(List<AttractionSimple> attractionList, Context context, Coordinate coordinate) {
         this.attractionList = attractionList;
         this.context = context;
         this.coordinate = coordinate;
     }
 
-    public void setAttractionList(List<Attraction> attractionList) {
+    public void setAttractionList(List<AttractionSimple> attractionList) {
         this.attractionList = attractionList;
     }
 
@@ -55,7 +55,7 @@ public class InfoRecyclerViewAdapter extends RecyclerView.Adapter<InfoRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Attraction thisAttraction = attractionList.get(position);
+        final AttractionSimple thisAttraction = attractionList.get(position);
 //            Log.e("InformMy like onBindViewHolder",position+" | "+findingResult.title);
 
         Glide.with(context).load(thisAttraction.getThumnailAddr()).into(holder.aroundThumnailImg);
@@ -69,12 +69,11 @@ public class InfoRecyclerViewAdapter extends RecyclerView.Adapter<InfoRecyclerVi
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 try {
-                    int temp = thisAttraction.getIdx();
+                    int attractionIdx = thisAttraction.getIdx();
                     Intent intent = new Intent(context, AroundDetailActivity.class);
                     intent.putExtra("attraction", thisAttraction);
-//                            intent.putExtra("attractionIdx", findingResult);
+                    intent.putExtra("attractionIdx", attractionIdx);
                     context.startActivity(intent);
                 } catch (NumberFormatException e) {
                     Toast.makeText(context, context.getString(R.string.transportation_clicked), Toast.LENGTH_LONG).show();

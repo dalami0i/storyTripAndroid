@@ -45,7 +45,7 @@ dependencies {
     implementation 'com.google.gms:google-services:3.1.1'
     implementation 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
-    compile 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 
@@ -56,6 +56,6 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.5'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
 
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.github.katoro:typekit:1.0.1'
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.github.katoro:typekit:1.0.1'
 }

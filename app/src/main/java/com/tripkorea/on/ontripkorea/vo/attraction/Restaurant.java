@@ -6,7 +6,7 @@ import java.util.List;
  * Created by YangHC on 2018-06-11.
  */
 
-public class Restaurant extends Attraction {
+public class Restaurant extends AttractionSimple {
 
     private List<Food> menuList;
 

@@ -21,11 +21,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
-import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.LocationDistance;
-import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
-import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -37,7 +35,7 @@ import java.util.List;
  */
 
 public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecyclerViewAdapter.ViewHolder> {
-    private List<Attraction> findingList = new ArrayList<>();
+    private List<AttractionSimple> findingList = new ArrayList<>();
     private Context context;
     //2018 06 25 17:18 kiryun 수정
     private int tabPosition;
@@ -47,7 +45,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
 
 
     public AroundRecyclerViewAdapter(
-            List<Attraction> resources, Context context, int tabPosition, Coordinate coordinate, GoogleMap aroundMap) {
+            List<AttractionSimple> resources, Context context, int tabPosition, Coordinate coordinate, GoogleMap aroundMap) {
         this.findingList = resources;
         this.aroundMap = aroundMap;
         this.context = context;
@@ -145,7 +143,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Attraction thisAttraction = findingList.get(position);
+        final AttractionSimple thisAttraction = findingList.get(position);
 //            )Log.e("어라운드 onBindViewHolder","firstShowPosition: "+firstShowPosition);
 
         //보여주기
@@ -285,7 +283,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
         }
     }
 
-    private AlertDialog createDialogBoxHome(Attraction attrClient) {
+    private AlertDialog createDialogBoxHome(AttractionSimple attrClient) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(attrClient.getName());
         builder.setMessage(attrClient.getDetail());

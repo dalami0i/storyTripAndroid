@@ -41,7 +41,7 @@ import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
-import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,9 +64,9 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     private final static int TAB_TOUR = 2;
 
 
-    private List<Attraction> aroundRouteList = new ArrayList<>();
-    private List<Attraction> restaurantList = new ArrayList<>();
-    private List<Attraction> tourList = new ArrayList<>();
+    private List<AttractionSimple> aroundRouteList = new ArrayList<>();
+    private List<AttractionSimple> restaurantList = new ArrayList<>();
+    private List<AttractionSimple> tourList = new ArrayList<>();
 
     //locale
     String usinglanguage;
@@ -182,16 +182,16 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     {
         ApiClient.getInstance().getApiService()
                 .getAroundRoutes(MyApplication.APP_VERSION, 1024)
-                .enqueue(new Callback<List<Attraction>>() {
+                .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
-                    public void onResponse(Call<List<Attraction>> call, Response<List<Attraction>> response) {
-                        List<Attraction> aroundRoutes = response.body();
+                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                        List<AttractionSimple> aroundRoutes = response.body();
                         if(response.body() != null)
                         {
                             aroundRouteList.addAll(response.body());
                             Log.e("ROUTES", "size : "+aroundRouteList.size());
 
-                            for(Attraction aroundRoute : aroundRoutes)
+                            for(AttractionSimple aroundRoute : aroundRoutes)
                             {
                                 Log.e("ROUTES", aroundRoute.getName());
                             }
@@ -211,7 +211,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                     }
 
                     @Override
-                    public void onFailure(Call<List<Attraction>> call, Throwable t) {
+                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
 
                     }
                 });
@@ -221,15 +221,15 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     private void setRestaurants(double lat, double lon, int page) {
         ApiClient.getInstance().getApiService()
                 .getAroundRestaurants(MyApplication.APP_VERSION, lat, lon, page)
-                .enqueue(new Callback<List<Attraction>>() {
+                .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
-                    public void onResponse(Call<List<Attraction>> call, Response<List<Attraction>> response) {
-                        List<Attraction> restaurants = response.body();
+                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                        List<AttractionSimple> restaurants = response.body();
                         if (response.body() != null) {
                             restaurantList.addAll(response.body());
                             Log.e("RESTAURANTS", "size : " + restaurantList.size());
 
-                            for (Attraction restaurant : restaurants) {
+                            for (AttractionSimple restaurant : restaurants) {
                                 Log.e("RESTAURANTS", restaurant.getName());
                             }
                             aroundRestaurantsRecyclerViewAdapter.notifyDataSetChanged();
@@ -246,7 +246,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                     }
 
                     @Override
-                    public void onFailure(Call<List<Attraction>> call, Throwable t) {
+                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
                         Alert.makeText(getString(R.string.network_error));
                         Log.e("NETWORK", t.getMessage());
                         t.printStackTrace();
@@ -258,15 +258,15 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     private void setTours(double lat, double lon, int page) {
         ApiClient.getInstance().getApiService()
                 .getAroundTours(MyApplication.APP_VERSION, lat, lon, page)
-                .enqueue(new Callback<List<Attraction>>() {
+                .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
-                    public void onResponse(Call<List<Attraction>> call, Response<List<Attraction>> response) {
-                        List<Attraction> restaurants = response.body();
+                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                        List<AttractionSimple> restaurants = response.body();
                         if (response.body() != null) {
                             tourList.addAll(response.body());
                             Log.e("TOURS", "size : " + tourList.size());
 
-                            for (Attraction restaurant : restaurants) {
+                            for (AttractionSimple restaurant : restaurants) {
                                 Log.e("TOURS", restaurant.getName());
                             }
                             aroundToursRecyclerViewAdapter.notifyDataSetChanged();
@@ -283,7 +283,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                     }
 
                     @Override
-                    public void onFailure(Call<List<Attraction>> call, Throwable t) {
+                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
                         Alert.makeText(getString(R.string.network_error));
                         Log.e("NETWORK", t.getMessage());
                         t.printStackTrace();

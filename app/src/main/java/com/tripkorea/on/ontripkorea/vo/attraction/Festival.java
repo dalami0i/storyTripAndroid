@@ -7,7 +7,7 @@ import java.util.List;
  * Created by YangHC on 2018-06-11.
  */
 
-public class Festival extends Attraction {
+public class Festival extends AttractionSimple {
     private List<Date> dates;
 
     public List<Date> getDates() {

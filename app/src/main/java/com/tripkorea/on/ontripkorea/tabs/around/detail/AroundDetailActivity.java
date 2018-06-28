@@ -39,6 +39,7 @@ import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessasge;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
 import com.tripkorea.on.ontripkorea.vo.user.Me;
@@ -59,9 +60,7 @@ import retrofit2.Response;
  */
 
 public class AroundDetailActivity extends AppCompatActivity implements
-        OnMapReadyCallback,
-        LocationListener
-        , View.OnClickListener {
+        OnMapReadyCallback, LocationListener, View.OnClickListener {
     @BindView(R.id.detail_image_vp)
     ViewPager detailImageVp;
     @BindView(R.id.detail_title1)
@@ -112,7 +111,6 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
     Attraction thisAttraction;//선택된 item의 공용 객체
 
-
     SharedPreferences setting;
     SharedPreferences.Editor editor;
 
@@ -142,60 +140,94 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
         guideMap.getMapAsync(this);
 
+        ApiClient.getInstance().getApiService()
+                .getAttractionDetail(MyApplication.APP_VERSION, attractionIdx)
+                .enqueue(new Callback<Attraction>() {
+                    @Override
+                    public void onResponse(Call<Attraction> call, Response<Attraction> response) {
+                        if (response.body() != null) {
+                            thisAttraction = response.body();
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            thisAttraction = (Attraction) intent.getSerializableExtra("attraction");
-            Log.e("디테일", "thisAttraction: " + thisAttraction.getIdx());
-        }
-
-        if (thisAttraction != null) {
-            if (thisAttraction.getThumnailAddr() != null && thisAttraction.getThumnailAddr().length() > 5) {
+                            if (thisAttraction.getThumnailAddr() != null && thisAttraction.getThumnailAddr().length() > 5) {
 //                final MainImageRecyclerViewAdapter imgRvAdapter = new MainImageRecyclerViewAdapter();
 //                for (int i = 0; i < MainActivity.attrImgURLArrayList.size(); i++) {
 //                    if (thisAttraction.contentID.equals(MainActivity.attrImgURLArrayList.get(i).getContentID())) {
 //                        imgRvAdapter.addImgList(MainActivity.attrImgURLArrayList.get(i));
 //                    }
 //                }
-                DetailedImageFragmentPagerAdapter detailedImageFragmentPagerAdapter
-                        = new DetailedImageFragmentPagerAdapter(getSupportFragmentManager(), 3);
+                                DetailedImageFragmentPagerAdapter detailedImageFragmentPagerAdapter
+                                        = new DetailedImageFragmentPagerAdapter(getSupportFragmentManager(), 3);
 //                String[] images = thisAttraction.firstimage2.split(",");
-                String thumnailAddr = thisAttraction.getThumnailAddr();
-                detailedImageFragmentPagerAdapter.addDetailedImage(thumnailAddr);
-                try {
-                    int size = Integer.parseInt(thumnailAddr.split("_")[1]);
-                    String path = thumnailAddr.split("_")[0];
-                    //최대 10장이라고 가정  (만약 '1228_3_0.png'와 같은 형식이 아닐 때
-                    //                      이상한 숫자(ex. 135172486)가 와서 for문을
-                    //                      너무 오래 도는 것을 방지)
-                    //근데 그렇게되면 밑에 catch가 잡아줄 것 같긴한데 일단 넣어놓자. 후에 필요없으면 빼는걸로.
-                    if (size < 11) {
-                        for (int i = 1; i < size; i++) {
-                            detailedImageFragmentPagerAdapter.addDetailedImage(path + "_" + size + "_" + i + ".png");
-                        }
-                    }
-                } catch (NumberFormatException e) {
-                    Log.e("DETAIL_IMAGE", "NumberFormatException!! : " + e.getMessage());
-                } catch (ArrayIndexOutOfBoundsException e){
-                    Log.e("DETAIL_IMAGE", "ArrayIndexOutOfBoundsException!! : " + e.getMessage());
-                }
+                                String thumnailAddr = thisAttraction.getThumnailAddr();
+                                detailedImageFragmentPagerAdapter.addDetailedImage(thumnailAddr);
+                                try {
+                                    int size = Integer.parseInt(thumnailAddr.split("_")[1]);
+                                    String path = thumnailAddr.split("_")[0];
+                                    //최대 10장이라고 가정  (만약 '1228_3_0.png'와 같은 형식이 아닐 때
+                                    //                      이상한 숫자(ex. 135172486)가 와서 for문을
+                                    //                      너무 오래 도는 것을 방지)
+                                    //근데 그렇게되면 밑에 catch가 잡아줄 것 같긴한데 일단 넣어놓자. 후에 필요없으면 빼는걸로.
+                                    if (size < 11) {
+                                        for (int i = 1; i < size; i++) {
+                                            detailedImageFragmentPagerAdapter.addDetailedImage(path + "_" + size + "_" + i + ".png");
+                                        }
+                                    }
+                                } catch (NumberFormatException e) {
+                                    Log.e("DETAIL_IMAGE", "NumberFormatException!! : " + e.getMessage());
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                    Log.e("DETAIL_IMAGE", "ArrayIndexOutOfBoundsException!! : " + e.getMessage());
+                                }
 //                        fee_content.setText(thisAttraction.fee);
 
-                detailImageVp.setAdapter(detailedImageFragmentPagerAdapter);
+                                detailImageVp.setAdapter(detailedImageFragmentPagerAdapter);
 
-                titleTv.setText(thisAttraction.getName());
-                contentTv.setText(thisAttraction.getDetail());
-                detailDirectionTv.setText(thisAttraction.getRoute());
-                addressTv.setText(thisAttraction.getAddr());
+                                titleTv.setText(thisAttraction.getName());
+                                contentTv.setText(thisAttraction.getDetail());
+                                detailDirectionTv.setText(thisAttraction.getRoute());
+                                addressTv.setText(thisAttraction.getAddr());
 //                dayoffContentTv.setText(thisAttraction.dayOff);
 //                operatinghours_content.setText(thisAttraction.operatingHours);
-            } else {
-                detailImageVp.setVisibility(View.GONE);
-            }
-        } else {
-            Toast.makeText(AroundDetailActivity.this, R.string.wrong_access, Toast.LENGTH_LONG).show();
-            finish();
-        }
+                            } else {
+                                detailImageVp.setVisibility(View.GONE);
+                            }
+
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(thisAttraction.getLat(), thisAttraction.getLon()))
+                                    .title(thisAttraction.getName())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_s)))
+                                    .setTag(thisAttraction.getIdx());
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(thisAttraction.getLat(), thisAttraction.getLon())));
+
+                            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                                @Override
+                                public void onMapClick(LatLng latLng) {
+                                    Log.e("showdetailactivity", thisAttraction.getName() + "맵클릭됨");
+                                    Intent intent = new Intent(AroundDetailActivity.this, AroundDetailMapActivity.class);
+                                    intent.putExtra("attractionMap", thisAttraction);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                                    startActivity(intent);
+                                }
+                            });
+                        } else {
+                            Alert.makeText("상세 정보 받아오던 중 에러 발생");
+                            try {
+                                Log.e("API_FAIL", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Attraction> call, Throwable t) {
+                        Alert.makeText(getResources().getString(R.string.network_error));
+                    }
+                });
+//        Intent intent = getIntent();
+//        if (intent != null) {
+//            thisAttraction = (Attraction) intent.getSerializableExtra("attraction");
+//            Log.e("디테일", "thisAttraction: " + thisAttraction.getIdx());
+//        }
 
         setting = getSharedPreferences("setting", 0);
         editor = setting.edit();
@@ -293,12 +325,11 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
         mMap = googleMap;
 
-        LatLng attraction = new LatLng(thisAttraction.getLat(), thisAttraction.getLon());
-        mMap.addMarker(new MarkerOptions()
-                .position(attraction)
-                .title(this.thisAttraction.getName())
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_s)))
-                .setTag(this.thisAttraction.getIdx());
+//        mMap.addMarker(new MarkerOptions()
+//                .position(new LatLng(thisAttraction.getLat(), thisAttraction.getLon()))
+//                .title(this.thisAttraction.getName())
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_s)))
+//                .setTag(this.thisAttraction.getIdx());
 
         checkLocationPermission();
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
@@ -338,18 +369,18 @@ public class AroundDetailActivity extends AppCompatActivity implements
         });
 
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(attraction));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(thisAttraction.getLat(), thisAttraction.getLon())));
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                Log.e("showdetailactivity", AroundDetailActivity.this.thisAttraction.getName() + "맵클릭됨");
-                Intent intent = new Intent(AroundDetailActivity.this, AroundDetailMapActivity.class);
-                intent.putExtra("attractionMap", AroundDetailActivity.this.thisAttraction);
-                intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                startActivity(intent);
-            }
-        });
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                Log.e("showdetailactivity", AroundDetailActivity.this.thisAttraction.getName() + "맵클릭됨");
+//                Intent intent = new Intent(AroundDetailActivity.this, AroundDetailMapActivity.class);
+//                intent.putExtra("attractionMap", AroundDetailActivity.this.thisAttraction);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 
@@ -441,7 +472,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
                 if (likeImg.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.z_heart_empty_s).getConstantState()) {
                     likeImg.setImageResource(R.drawable.z_heart_image_s);
 //                    Glide.with(AroundDetailActivity.this).load(R.drawable.z_heart_image_s).into(likeImg);
-                    Log.e("LIKE", "userIdx : " + Me.getInstance().getIdx());
+                    Log.e("LIKE", "userIdx : " + Me.getInstance().getIdx() + ", " + attractionIdx);
 
                     ApiClient.getInstance().getApiService()
                             .like(MyApplication.APP_VERSION
@@ -471,6 +502,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
                 } else {
                     likeImg.setImageResource(R.drawable.z_heart_empty_s);
 //                    Glide.with(AroundDetailActivity.this).load(R.drawable.z_heart_empty_s).into(likeImg);
+                    Log.e("LIKE", "userIdx : " + Me.getInstance().getIdx() + ", " + attractionIdx);
                     ApiClient.getInstance().getApiService()
                             .cancelLike(MyApplication.APP_VERSION
                                     , new LikeDTO(Me.getInstance().getIdx(), attractionIdx))
@@ -481,6 +513,11 @@ public class AroundDetailActivity extends AppCompatActivity implements
                                         Alert.makeText("좋아요 취소!");
                                     } else {
                                         Alert.makeText("좋아요 취소 에러 발생" + response.errorBody().toString());
+                                        try {
+                                            Log.e("LIKE", "error : " + response.errorBody().string());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }
 

@@ -18,7 +18,7 @@ import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.CustomLinearLayoutManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
-import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.user.Me;
 
 import java.io.IOException;
@@ -53,8 +53,8 @@ public class InfoFragment extends Fragment {
 
     private InfoRecyclerViewAdapter likeRecyclerViewAdapter;
     private InfoRecyclerViewAdapter visitRecyclerViewAdapter;
-    private List<Attraction> likeList = new ArrayList<>();
-    private List<Attraction> visitList = new ArrayList<>();
+    private List<AttractionSimple> likeList = new ArrayList<>();
+    private List<AttractionSimple> visitList = new ArrayList<>();
 
 
     @Override
@@ -100,9 +100,9 @@ public class InfoFragment extends Fragment {
     private void initViews(View view) {
         ApiClient.getInstance().getApiService()
                 .getMyLikeList(MyApplication.APP_VERSION, Me.getInstance().getIdx())
-                .enqueue(new Callback<List<Attraction>>() {
+                .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
-                    public void onResponse(Call<List<Attraction>> call, Response<List<Attraction>> response) {
+                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
                         if(response.body()!=null){
                             likeList = response.body();
                             likeRecyclerViewAdapter.setAttractionList(response.body());
@@ -118,15 +118,15 @@ public class InfoFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Attraction>> call, Throwable t) {
+                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
 
                     }
                 });
         ApiClient.getInstance().getApiService()
                 .getMyVisitList(MyApplication.APP_VERSION, Me.getInstance().getIdx())
-                .enqueue(new Callback<List<Attraction>>() {
+                .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
-                    public void onResponse(Call<List<Attraction>> call, Response<List<Attraction>> response) {
+                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
                         if(response.body()!=null){
                             visitList = response.body();
                             visitRecyclerViewAdapter.setAttractionList(response.body());
@@ -142,7 +142,7 @@ public class InfoFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Attraction>> call, Throwable t) {
+                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
 
                     }
                 });

@@ -1,9 +1,6 @@
 package com.tripkorea.on.ontripkorea.vo.attraction;
 
-import com.tripkorea.on.ontripkorea.util.Coordinate;
-
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
