@@ -37,11 +37,13 @@ import retrofit2.Response;
  */
 
 public class InfoFragment extends Fragment {
+    public static boolean LIKE_LIST_CHANGED;
+    public static boolean VISITED_LIST_CHANGED;
     //locale
-    String usinglanguage;
-    Locale locale;
+    private String usinglanguage;
+    private Locale locale;
     //중심 여행지 위치 (현재는 창덕궁)
-    Coordinate coordinate = new Coordinate(37.579108, 126.990957);
+    private Coordinate coordinate = new Coordinate(37.579108, 126.990957);
 
 
     @BindView(R.id.information_image_vp)
@@ -60,7 +62,9 @@ public class InfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
+        LIKE_LIST_CHANGED = true;
+        VISITED_LIST_CHANGED = true;
 
         //사용자 언어 확인
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
@@ -87,8 +91,8 @@ public class InfoFragment extends Fragment {
         visitRV.addItemDecoration(dividerItemDecorationLinkVisit);
         visitRV.setLayoutManager(linearLayoutManagerMy2);
 
-        likeRecyclerViewAdapter = new InfoRecyclerViewAdapter(likeList, getContext(),coordinate);
-        visitRecyclerViewAdapter = new InfoRecyclerViewAdapter(visitList, getContext(),coordinate);
+        likeRecyclerViewAdapter = new InfoRecyclerViewAdapter(likeList, getContext(), coordinate);
+        visitRecyclerViewAdapter = new InfoRecyclerViewAdapter(visitList, getContext(), coordinate);
         likeRV.setAdapter(likeRecyclerViewAdapter);
         visitRV.setAdapter(visitRecyclerViewAdapter);
 
@@ -98,53 +102,71 @@ public class InfoFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        ApiClient.getInstance().getApiService()
-                .getMyLikeList(MyApplication.APP_VERSION, Me.getInstance().getIdx())
-                .enqueue(new Callback<List<AttractionSimple>>() {
-                    @Override
-                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
-                        if(response.body()!=null){
-                            likeList = response.body();
-                            likeRecyclerViewAdapter.setAttractionList(response.body());
-                            likeRecyclerViewAdapter.notifyDataSetChanged();
-                        }else{
-                            Alert.makeText("likelist 에러! : ");
-                            try {
-                                Log.e("INFO_FRAGMENT","에러! : " + response.errorBody().string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (LIKE_LIST_CHANGED) {
+            //TODO: likeLIST 업데이트해주기
+            ApiClient.getInstance().getApiService()
+                    .getMyLikeList(MyApplication.APP_VERSION, Me.getInstance().getIdx())
+                    .enqueue(new Callback<List<AttractionSimple>>() {
+                        @Override
+                        public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                            if (response.body() != null) {
+                                likeList = response.body();
+                                likeRecyclerViewAdapter.setAttractionList(response.body());
+                                likeRecyclerViewAdapter.notifyDataSetChanged();
+                            } else {
+                                Alert.makeText("likelist 에러! : ");
+                                try {
+                                    Log.e("INFO_FRAGMENT", "에러! : " + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
 
-                    }
-                });
-        ApiClient.getInstance().getApiService()
-                .getMyVisitList(MyApplication.APP_VERSION, Me.getInstance().getIdx())
-                .enqueue(new Callback<List<AttractionSimple>>() {
-                    @Override
-                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
-                        if(response.body()!=null){
-                            visitList = response.body();
-                            visitRecyclerViewAdapter.setAttractionList(response.body());
-                            visitRecyclerViewAdapter.notifyDataSetChanged();
-                        }else{
-                            Alert.makeText("visitlist 에러! : ");
-                            try {
-                                Log.e("INFO_FRAGMENT","에러! : " + response.errorBody().string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                        }
+                    });
+
+            LIKE_LIST_CHANGED = false;
+        }
+        if (VISITED_LIST_CHANGED) {
+            //TODO: visitLIST 업데이트해주기
+            ApiClient.getInstance().getApiService()
+                    .getMyVisitList(MyApplication.APP_VERSION, Me.getInstance().getIdx())
+                    .enqueue(new Callback<List<AttractionSimple>>() {
+                        @Override
+                        public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                            if (response.body() != null) {
+                                visitList = response.body();
+                                visitRecyclerViewAdapter.setAttractionList(response.body());
+                                visitRecyclerViewAdapter.notifyDataSetChanged();
+                            } else {
+                                Alert.makeText("visitlist 에러! : ");
+                                try {
+                                    Log.e("INFO_FRAGMENT", "에러! : " + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
+
+            VISITED_LIST_CHANGED = false;
+        }
+
     }
 }

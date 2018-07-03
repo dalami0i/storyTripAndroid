@@ -3,6 +3,7 @@ package com.tripkorea.on.ontripkorea.retrofit.client;
 
 import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessasge;
 import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionDetail;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
@@ -27,9 +28,8 @@ public interface ApiService {
     @GET("/storytour/api/{version}/user/like/list/{userIdx}")
     Call<List<AttractionSimple>> getMyLikeList(@Path("version") int version, @Path("userIdx") int userIdx);
 
-    // 방문
-    @POST("/storytour/api/{version}/user/visit" +
-            "")
+     // 방문
+    @POST("/storytour/api/{version}/user/visit")
     Call<ApiMessasge> visit(@Path("version") int version,@Body VisitDTO likeDTO);
     // 방문 해제
     @HTTP(method = "POST", path = "/storytour/api/{version}/user/visit/cancel", hasBody = true)
@@ -52,7 +52,7 @@ public interface ApiService {
     Call<List<AttractionSimple>> getAroundTours(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("page") int page);
 
     //어트랙션 상세 정보
-    @GET("/storytour/api/{version}/user/attr/detail/{attractionIdx}")
-    Call<Attraction> getAttractionDetail(@Path("version") int version, @Path("attractionIdx") double attractionIdx);
+    @GET("/storytour/api/{version}/user/attr/detail/{attractionIdx}/{userIdx}")
+    Call<AttractionDetail> getAttractionDetail(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("userIdx") int userIdx);
 
 }

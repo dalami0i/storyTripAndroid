@@ -1,5 +1,7 @@
 package com.tripkorea.on.ontripkorea.vo.voiceguide;
 
+import android.util.Log;
+
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 
@@ -178,7 +180,15 @@ public class VoiceGuideGenerator {
                 break;
         }
 
-
+        Log.e("GUIDE_GENERATOR", "location_title : " + VoiceGuideLocation.location_title);
+        Log.e("GUIDE_GENERATOR", "title : " + VoiceGuideLocation.voice_title);
+        Log.e("GUIDE_GENERATOR", "lat : " + ((Double.parseDouble(VoiceGuideLocation.voice_loc_south) + Double.parseDouble(VoiceGuideLocation.voice_loc_north)) / 2));
+        Log.e("GUIDE_GENERATOR", "lon : " + ((Double.parseDouble(VoiceGuideLocation.voice_loc_west) + Double.parseDouble(VoiceGuideLocation.voice_loc_east)) / 2));
+        Log.e("GUIDE_GENERATOR", "voice address : " + VoiceGuideLocation.voice_addr);
+        for(int i=0;i<VoiceGuideLocation.location_img_size;i++){
+            Log.e("GUIDE_GENERATOR", "img "+i + " : " + VoiceGuideLocation.voiceGuideImg.get(i).voiceimgtext);
+            Log.e("GUIDE_GENERATOR", "img "+i + " : " + VoiceGuideLocation.voiceGuideImg.get(i).imgAddr);
+        }
         return VoiceGuideLocation;
     }
 
