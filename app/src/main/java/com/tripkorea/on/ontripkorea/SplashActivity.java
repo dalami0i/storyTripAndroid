@@ -12,9 +12,9 @@ import com.tripkorea.on.ontripkorea.tabs.MainActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by YangHC on 2018-06-18.
- */
+///**
+// * Created by YangHC on 2018-06-18.
+// */
 
 public class SplashActivity extends AppCompatActivity {
     private final int SPLASH_DISPLAY_LENGTH = 2500;

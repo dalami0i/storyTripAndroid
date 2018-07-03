@@ -2,6 +2,11 @@
 <resources>
     <string name="splash_subtext">나만의 맞춤 여행</string>
 
+    <string name="welcome_text">반갑습니다, </string>
+    <string name="exit_text">앱을 종료하시겠습니까?</string>
+    <string name="exit_quit_text">나가기</string>
+    <string name="exit_cancel_text">취소</string>
+
     <string name="serverip">http://13.124.155.173:</string>
     <string name="SERVER_CONTENT_TOTAL">/mylittleseoul/changFoodSelect?</string>
 

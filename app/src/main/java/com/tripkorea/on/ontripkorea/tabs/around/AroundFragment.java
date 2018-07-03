@@ -156,7 +156,9 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
         aroundTabs.addTab(aroundTabs.newTab().setText(getString(R.string.around_tab_food)));
         aroundTabs.addTab(aroundTabs.newTab().setText(getString(R.string.around_tab_attraction)));
 
-        AroundGuideGenerator aroundGuideGenerator = new AroundGuideGenerator();
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
+//        AroundGuideGenerator aroundGuideGenerator = new AroundGuideGenerator();
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
         lm = new LinearLayoutManager(MyApplication.getContext());
         DividerItemDecoration dividerItemDecorationLinkTransportation

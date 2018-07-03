@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.around;
 
 import android.util.Log;
@@ -10,9 +11,11 @@ import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
 
 import java.util.ArrayList;
 
+*/
 /**
  * Created by Edward Won on 2018-06-12.
- */
+ *//*
+
 
 public class AroundGuideGenerator{
 
@@ -1957,3 +1960,4 @@ public class AroundGuideGenerator{
     }
 
 }
+*/

@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -18,7 +17,6 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -34,23 +32,12 @@ import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.BaseActivity;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.MyTabLayout;
-import com.tripkorea.on.ontripkorea.util.NetworkDefineConstant;
-import com.tripkorea.on.ontripkorea.util.OkHttpInitSingtonManager;
-import com.tripkorea.on.ontripkorea.util.WifiCheck;
-import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
-import com.tripkorea.on.ontripkorea.vo.attraction.AttrClientList;
 import com.tripkorea.on.ontripkorea.vo.user.Me;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 public class MainActivity extends BaseActivity  {
@@ -68,10 +55,12 @@ public class MainActivity extends BaseActivity  {
     String usinglanguage;
     Locale locale;
 
-    public List<AttrClient> aroundList = new ArrayList<>();
-    static public List<AttrClient> foodEntities = new ArrayList<>();
-    static public List<AttrClient> traceEntities = new ArrayList<>();
-    static public List<AttrClient> likeEntities = new ArrayList<>();
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
+//    public List<AttrClient> aroundList = new ArrayList<>();
+//    static public List<AttrClient> foodEntities = new ArrayList<>();
+//    static public List<AttrClient> traceEntities = new ArrayList<>();
+//    static public List<AttrClient> likeEntities = new ArrayList<>();
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
     static String weatherImg;
     static String weatherCel;
@@ -89,29 +78,33 @@ public class MainActivity extends BaseActivity  {
 
         Log.e("GIT","VERSION_A");
 
-        Alert.makeText(Me.getInstance().getName()+"님 환영합니다!");
+        String welcomeMessage =getResources().getString(R.string.welcome_text)+Me.getInstance().getName();
+        Alert.makeText(welcomeMessage);
 
         //////////////////////////////////////////////////////////////////////////sj
         setting = getSharedPreferences("setting",0);
         editor= setting.edit();
         Gson gsonTotal = new Gson();
         String totalListString = setting.getString("totalList", null);
-        AttrClientList totalList = gsonTotal.fromJson(totalListString, AttrClientList.class);
-        if(totalListString != null) {
-            aroundList = totalList.getItems();
-        }
 
-        String likeListString = setting.getString("likeList", null);
-        AttrClientList likeList = gsonTotal.fromJson(likeListString, AttrClientList.class);
-        if(likeListString != null) {
-            likeEntities = likeList.getItems();
-        }
-
-        String traceListString = setting.getString("traceList", null);
-        AttrClientList traceList = gsonTotal.fromJson(traceListString, AttrClientList.class);
-        if(traceListString != null) {
-            traceEntities = traceList.getItems();
-        }
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
+//        AttrClientList totalList = gsonTotal.fromJson(totalListString, AttrClientList.class);
+//        if(totalListString != null) {
+//            aroundList = totalList.getItems();
+//        }
+//
+//        String likeListString = setting.getString("likeList", null);
+//        AttrClientList likeList = gsonTotal.fromJson(likeListString, AttrClientList.class);
+//        if(likeListString != null) {
+//            likeEntities = likeList.getItems();
+//        }
+//
+//        String traceListString = setting.getString("traceList", null);
+//        AttrClientList traceList = gsonTotal.fromJson(traceListString, AttrClientList.class);
+//        if(traceListString != null) {
+//            traceEntities = traceList.getItems();
+//        }
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
         if(Build.VERSION.SDK_INT >Build.VERSION_CODES.N) {
             locale = getResources().getConfiguration().getLocales().get(0);
@@ -120,28 +113,30 @@ public class MainActivity extends BaseActivity  {
         }
         usinglanguage = locale.getDisplayLanguage();
 
-
-        if(com.tripkorea.on.ontripkorea.util.NetworkUtil.isNetworkConnected(this)){
-            com.tripkorea.on.ontripkorea.util.WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(WifiCheck.CONNECTION_CONFIRM_CLIENT_URL);
-            cc.start();
-            try {
-                cc.join();
-                if (WifiCheck.wificheck == WifiCheck.WIFI_ON) {
-                    Log.e("인터넷 체크", "연결됨");
-
-                    new AsyncTaskAttrClient().execute(usinglanguage);
-
-                } else {  Toast.makeText(this, R.string.securedWifi, Toast.LENGTH_LONG).show(); finish();}
-            }catch (Exception e){  Toast.makeText(this, R.string.waitWifi, Toast.LENGTH_LONG).show();    e.printStackTrace(); finish();    }
-        }else { Toast.makeText(this,R.string.requireInternet, Toast.LENGTH_LONG).show(); finish();}
-
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
+//        if(com.tripkorea.on.ontripkorea.util.NetworkUtil.isNetworkConnected(this)){
+//            com.tripkorea.on.ontripkorea.util.WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(WifiCheck.CONNECTION_CONFIRM_CLIENT_URL);
+//            cc.start();
+//            try {
+//                cc.join();
+//                if (WifiCheck.wificheck == WifiCheck.WIFI_ON) {
+//                    Log.e("인터넷 체크", "연결됨");
+//
+//                    new AsyncTaskAttrClient().execute(usinglanguage);
+//
+//                } else {  Toast.makeText(this, R.string.securedWifi, Toast.LENGTH_LONG).show(); finish();}
+//            }catch (Exception e){  Toast.makeText(this, R.string.waitWifi, Toast.LENGTH_LONG).show();    e.printStackTrace(); finish();    }
+//        }else { Toast.makeText(this,R.string.requireInternet, Toast.LENGTH_LONG).show(); finish();}
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
         editor.apply();
 
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
         //사운드 초기화
-        if(click == null){
-            click = MediaPlayer.create(this, R.raw.z_clicksound);
-        }
+//        if(click == null){
+//            click = MediaPlayer.create(this, R.raw.z_clicksound);
+//        }
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
         //weather
         nowWeather = findViewById(R.id.weatherText);
@@ -242,15 +237,15 @@ public class MainActivity extends BaseActivity  {
 
     private void showUpExitDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to quit?")
+        builder.setMessage(R.string.exit_text)
                 .setCancelable(true)
-                .setPositiveButton("Quit", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.exit_quit_text, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
                 })
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.exit_cancel_text, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -258,59 +253,60 @@ public class MainActivity extends BaseActivity  {
                 }).create().show();
     }
 
+    ////////////////////////////////////////////////////////////////////////////YC 수정으로 불필요
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //AsyncTaskContentTotal check
-
-    public class AsyncTaskAttrClient extends AsyncTask<String, Void, List<AttrClient>> {
-
-        @Override
-        protected List<AttrClient> doInBackground(String... lang) {
-            Response response = null; //Response
-            OkHttpClient toServer;  //connection
-            try {
-                toServer = OkHttpInitSingtonManager.getOkHttpClient();
-                Request request = new Request.Builder()
-                        .url(NetworkDefineConstant.SERVER_CONTENT_TOTAL+"language="+lang[0])
-                        .build();
-                response = toServer.newCall(request).execute();
-                String responsedMessage = response.body().string();
-
-                editor.putString("attr",responsedMessage);
-                editor.putBoolean("attrBoolean",true);
-                editor.commit();
-
-                Gson gson = new Gson();
-                if (response.isSuccessful()) {
-                    Log.e("AsyncTaskAttrClient:", responsedMessage);
-                    AttrClientList contents = gson.fromJson(responsedMessage, AttrClientList.class);
-                    foodEntities = contents.getItems();
-                    Log.e("AsyncTaskAttrClient:",
-                            "MainPage.foodEntities size"+foodEntities.size()+" | ");
-
-                } else {
-                    Log.e("AsyncTaskAttrCl Req:", response.message());
-                }
-            } catch (IOException e) {
-                Log.e("AsyncTaskAttrCl Parse",  e.toString());
-            } finally {
-                if (response != null) {
-                    response.close();
-                }
-            }
-            return foodEntities;
-        }
-
-        @Override
-        protected void onPostExecute(List<AttrClient> tourEntities) {
-            super.onPostExecute(tourEntities);
-
-            AttrClient attrClient  = new AttrClient();
-            attrClient.mapx = "126.976818";
-            attrClient.mapy = "37.575844";
-
-
-        }
-    }
+//    public class AsyncTaskAttrClient extends AsyncTask<String, Void, List<AttrClient>> {
+//
+//        @Override
+//        protected List<AttrClient> doInBackground(String... lang) {
+//            Response response = null; //Response
+//            OkHttpClient toServer;  //connection
+//            try {
+//                toServer = OkHttpInitSingtonManager.getOkHttpClient();
+//                Request request = new Request.Builder()
+//                        .url(NetworkDefineConstant.SERVER_CONTENT_TOTAL+"language="+lang[0])
+//                        .build();
+//                response = toServer.newCall(request).execute();
+//                String responsedMessage = response.body().string();
+//
+//                editor.putString("attr",responsedMessage);
+//                editor.putBoolean("attrBoolean",true);
+//                editor.commit();
+//
+//                Gson gson = new Gson();
+//                if (response.isSuccessful()) {
+//                    Log.e("AsyncTaskAttrClient:", responsedMessage);
+//                    AttrClientList contents = gson.fromJson(responsedMessage, AttrClientList.class);
+//                    foodEntities = contents.getItems();
+//                    Log.e("AsyncTaskAttrClient:",
+//                            "MainPage.foodEntities size"+foodEntities.size()+" | ");
+//
+//                } else {
+//                    Log.e("AsyncTaskAttrCl Req:", response.message());
+//                }
+//            } catch (IOException e) {
+//                Log.e("AsyncTaskAttrCl Parse",  e.toString());
+//            } finally {
+//                if (response != null) {
+//                    response.close();
+//                }
+//            }
+//            return foodEntities;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<AttrClient> tourEntities) {
+//            super.onPostExecute(tourEntities);
+//
+//            AttrClient attrClient  = new AttrClient();
+//            attrClient.mapx = "126.976818";
+//            attrClient.mapy = "37.575844";
+//
+//
+//        }
+//    }
+////////////////////////////////////////////////////////////////////////////YC 수정으로 불필요
 
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;

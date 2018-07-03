@@ -29,8 +29,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripkorea.on.ontripkorea.R;
-import com.tripkorea.on.ontripkorea.tabs.MainActivity;
-import com.tripkorea.on.ontripkorea.tabs.around.AroundGuideGenerator;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
 
 import java.io.InputStream;
@@ -88,13 +86,15 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
             Log.e("디테일","thisAttraction: "+seletedAttr.contentID);
         }
 
-        AroundGuideGenerator aroundGuideGenerator = new AroundGuideGenerator();
-        aroundList =aroundGuideGenerator.aroundGuideGenerator();
-        for(int i=0; i<aroundList.size(); i++){
-            if(aroundList.get(i).contentID.equals(seletedAttr.contentID)){
-                aroundList.remove(aroundList.get(i));
-            }
-        }
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
+//        AroundGuideGenerator aroundGuideGenerator = new AroundGuideGenerator();
+//        aroundList =aroundGuideGenerator.aroundGuideGenerator();
+//        for(int i=0; i<aroundList.size(); i++){
+//            if(aroundList.get(i).contentID.equals(seletedAttr.contentID)){
+//                aroundList.remove(aroundList.get(i));
+//            }
+//        }
+////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
         aroundDetailMap.onCreate(savedInstanceState);
         aroundDetailMap.getMapAsync(this);
@@ -401,8 +401,8 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("likeList", (ArrayList<AttrClient>)MainActivity.likeEntities);
-        outState.putParcelableArrayList("traceList",(ArrayList<AttrClient>)MainActivity.traceEntities);
+//        outState.putParcelableArrayList("likeList", (ArrayList<AttrClient>)MainActivity.likeEntities);
+//        outState.putParcelableArrayList("traceList",(ArrayList<AttrClient>)MainActivity.traceEntities);
         outState.putParcelableArrayList("aroundList",aroundList);
         outState.putParcelable("Attr",seletedAttr);
     }
@@ -410,8 +410,8 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        MainActivity.likeEntities = savedInstanceState.getParcelableArrayList("likeList");
-        MainActivity.traceEntities = savedInstanceState.getParcelableArrayList("traceList");
+//        MainActivity.likeEntities = savedInstanceState.getParcelableArrayList("likeList");
+//        MainActivity.traceEntities = savedInstanceState.getParcelableArrayList("traceList");
         aroundList = savedInstanceState.getParcelableArrayList("aroundList");
         seletedAttr = savedInstanceState.getParcelable("Attr");
 

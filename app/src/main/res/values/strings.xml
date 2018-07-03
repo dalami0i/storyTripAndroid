@@ -2,6 +2,11 @@
 <resources>
     <string name="splash_subtext">Customised my trip</string>
 
+    <string name="welcome_text">Welcome, </string>
+    <string name="exit_text">Are you sure you want to quit?</string>
+    <string name="exit_quit_text">Quit</string>
+    <string name="exit_cancel_text">Cancel</string>
+
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyCKnPvppC9UxzX0pirap6kkOWnBn0LNzDo</string>
 
     <string name="serverip">http://13.124.155.173:</string>
