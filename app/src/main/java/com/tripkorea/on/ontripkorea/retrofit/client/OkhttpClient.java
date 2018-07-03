@@ -12,7 +12,6 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 public class OkhttpClient {
-
     private OkHttpClient okclient;
     private volatile static OkhttpClient instance;
     //public ClearableCookieJar cookieJar;

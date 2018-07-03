@@ -36,9 +36,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
 import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessasge;
+import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionDetail;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
@@ -141,10 +143,11 @@ public class AroundDetailActivity extends AppCompatActivity implements
         guideMap.getMapAsync(this);
 
         ApiClient.getInstance().getApiService()
-                .getAttractionDetail(MyApplication.APP_VERSION, attractionIdx)
-                .enqueue(new Callback<Attraction>() {
+                .getAttractionDetail(MyApplication.APP_VERSION, attractionIdx, Me.getInstance().getIdx())
+                .enqueue(new Callback<AttractionDetail>() {
                     @Override
-                    public void onResponse(Call<Attraction> call, Response<Attraction> response) {
+                    public void onResponse(Call<AttractionDetail> call, Response<AttractionDetail> response) {
+
                         if (response.body() != null) {
                             thisAttraction = response.body();
 
@@ -219,7 +222,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
                     }
 
                     @Override
-                    public void onFailure(Call<Attraction> call, Throwable t) {
+                    public void onFailure(Call<AttractionDetail> call, Throwable t) {
                         Alert.makeText(getResources().getString(R.string.network_error));
                     }
                 });
@@ -349,17 +352,13 @@ public class AroundDetailActivity extends AppCompatActivity implements
                     final double longitude;
                     if (currentLocation == null) {
                         currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    }
+
+                    if (currentLocation != null) {
                         latitude = currentLocation.getLatitude();
                         currentLat = latitude;
                         longitude = currentLocation.getLongitude();
                         currentLong = longitude;
-                    } else {
-                        latitude = currentLocation.getLatitude();
-                        currentLat = latitude;
-                        longitude = currentLocation.getLongitude();
-                        currentLong = longitude;
-
-
                     }
                 }
 
@@ -467,16 +466,18 @@ public class AroundDetailActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_detail_like:
+                //likeList에 변동이 생김을 알림 -> InfoFragment에선 이 변수를 기준으로 likeList를 업데이트 할지 결정함
+                InfoFragment.LIKE_LIST_CHANGED = true;
                 //Glide.with(AroundDetailActivity.this).asDrawable().into(likeImg) == getResources().getDrawable(z_heart_empty_s)
                 //TODO: 토글버튼으로 대체 -> 이미지 일일이 변경할 필요 없음
+                //TODO: 현재 이미지가 무엇인지를 조건으로 주고있는데 이것보단 liked, visited같은 boolean 변수들을 두고 그것들을 조건으로 주는 것이 좋음
                 if (likeImg.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.z_heart_empty_s).getConstantState()) {
                     likeImg.setImageResource(R.drawable.z_heart_image_s);
 //                    Glide.with(AroundDetailActivity.this).load(R.drawable.z_heart_image_s).into(likeImg);
                     Log.e("LIKE", "userIdx : " + Me.getInstance().getIdx() + ", " + attractionIdx);
 
                     ApiClient.getInstance().getApiService()
-                            .like(MyApplication.APP_VERSION
-                                    , new LikeDTO(Me.getInstance().getIdx(), attractionIdx))
+                            .like(MyApplication.APP_VERSION, new LikeDTO(Me.getInstance().getIdx(), attractionIdx))
                             .enqueue(new Callback<ApiMessasge>() {
                                 @Override
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
@@ -529,6 +530,9 @@ public class AroundDetailActivity extends AppCompatActivity implements
                 }
                 break;
             case R.id.img_detail_footprint:
+                //visitList에 변동이 생김을 알림 -> InfoFragment에선 이 변수를 기준으로 visitList를 업데이트 할지 결정함
+                InfoFragment.VISITED_LIST_CHANGED = true;
+
                 if (visitImg.getDrawable().getConstantState()
                         == getResources().getDrawable(R.drawable.z_footprint_empty_s).getConstantState()) {
                     visitImg.setImageResource(R.drawable.z_footprint_s);
