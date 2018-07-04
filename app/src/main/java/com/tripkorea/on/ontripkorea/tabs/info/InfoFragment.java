@@ -18,6 +18,7 @@ import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.CustomLinearLayoutManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
+import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.user.Me;
 
@@ -39,6 +40,9 @@ import retrofit2.Response;
 public class InfoFragment extends Fragment {
     public static boolean LIKE_LIST_CHANGED;
     public static boolean VISITED_LIST_CHANGED;
+
+    int lastTab;
+
     //locale
     private String usinglanguage;
     private Locale locale;
@@ -57,6 +61,17 @@ public class InfoFragment extends Fragment {
     private InfoRecyclerViewAdapter visitRecyclerViewAdapter;
     private List<AttractionSimple> likeList = new ArrayList<>();
     private List<AttractionSimple> visitList = new ArrayList<>();
+
+    public Fragment infoFragment(int lastTab){
+        this.lastTab = lastTab;
+        return new InfoFragment();
+    }
+
+    public OnNetworkErrorListener onNetworkErrorListener;
+
+    public void setOnNetworkErrorListener(OnNetworkErrorListener onNetworkErrorListener) {
+        this.onNetworkErrorListener = onNetworkErrorListener;
+    }
 
 
     @Override

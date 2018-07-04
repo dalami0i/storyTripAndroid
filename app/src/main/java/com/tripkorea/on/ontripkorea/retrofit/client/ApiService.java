@@ -2,11 +2,11 @@ package com.tripkorea.on.ontripkorea.retrofit.client;
 
 
 import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessasge;
-import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionDetail;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
+import com.tripkorea.on.ontripkorea.vo.voiceguide.Guide;
 
 import java.util.List;
 
@@ -54,5 +54,10 @@ public interface ApiService {
     //어트랙션 상세 정보
     @GET("/storytour/api/{version}/user/attr/detail/{attractionIdx}/{userIdx}")
     Call<AttractionDetail> getAttractionDetail(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("userIdx") int userIdx);
+
+
+    //어트랙션 보이스 가이드
+    @GET("/storytour/api/{version}/user/attr/guide/list/{attractionIdx}/{language}")
+    Call<List<Guide>> getGuide(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);
 
 }

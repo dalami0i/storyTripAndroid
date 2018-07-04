@@ -40,6 +40,7 @@ import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
+import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 
@@ -68,9 +69,12 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     private List<AttractionSimple> restaurantList = new ArrayList<>();
     private List<AttractionSimple> tourList = new ArrayList<>();
 
+    int lastTab;
+
     //locale
     String usinglanguage;
     Locale locale;
+
     //중심 여행지 위치 (현재는 창덕궁)
     Coordinate coordinate = new Coordinate(37.579108, 126.990957);
 
@@ -98,10 +102,17 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
     MainActivity main;
 
-    public AroundFragment aroundFragmentNewInstance(MainActivity main, GoogleMap mMap) {
+    public AroundFragment aroundFragmentNewInstance(MainActivity main, GoogleMap mMap, int lastTab) {
+        this.lastTab = lastTab;
         this.main = main;
         this.mMap = mMap;
         return new AroundFragment();
+    }
+
+    public OnNetworkErrorListener onNetworkErrorListener;
+
+    public void setOnNetworkErrorListener(OnNetworkErrorListener onNetworkErrorListener) {
+        this.onNetworkErrorListener = onNetworkErrorListener;
     }
 
     @Override
@@ -152,13 +163,27 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
         usinglanguage = locale.getDisplayLanguage();
 
+        int language = 0;
+        switch (usinglanguage){
+            case "한국어":
+                language = 1;
+                break;
+            case "中文":
+                language = 2;
+                break;
+            case "日本言":
+                language = 3;
+                break;
+            default:
+                language = 0;
+                break;
+
+        }
+
         aroundTabs.addTab(aroundTabs.newTab().setText(getString(R.string.around_tab_transportaion)));
         aroundTabs.addTab(aroundTabs.newTab().setText(getString(R.string.around_tab_food)));
         aroundTabs.addTab(aroundTabs.newTab().setText(getString(R.string.around_tab_attraction)));
 
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
-//        AroundGuideGenerator aroundGuideGenerator = new AroundGuideGenerator();
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
         lm = new LinearLayoutManager(MyApplication.getContext());
         DividerItemDecoration dividerItemDecorationLinkTransportation

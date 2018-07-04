@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
-import com.tripkorea.on.ontripkorea.vo.voiceguide.VoiceGuideImage;
+import com.tripkorea.on.ontripkorea.vo.voiceguide.GuideImage;
 
 import java.util.ArrayList;
 
@@ -25,10 +25,10 @@ import java.util.ArrayList;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class VoiceImageRecyclerViewAdapter extends RecyclerView.Adapter<VoiceImageRecyclerViewAdapter.ViewHolder> {
-    ArrayList<VoiceGuideImage> voiceIMGlist = new ArrayList<>();
+    ArrayList<GuideImage> voiceIMGlist = new ArrayList<>();
     int diviceSizeW;
 
-    public void addVoiceImgList(VoiceGuideImage obj) {//, String link_content
+    public void addVoiceImgList(GuideImage obj) {//, String link_content
         voiceIMGlist.add(obj);
     }
 
@@ -54,23 +54,25 @@ public class VoiceImageRecyclerViewAdapter extends RecyclerView.Adapter<VoiceIma
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("맵onCreateViewHolder", viewType + " | ");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.voiceguideimage, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final VoiceGuideImage voiceIMGEntity = voiceIMGlist.get(position);
-        Log.e("맵onBindViewHolder", position + " | " + voiceIMGEntity.voiceimgtext);
-        Log.e("보이스가이드이미지", voiceIMGEntity.voiceguideid + " | " + voiceIMGEntity.imgAddr);
-        holder.voiceguide_img_text.setText(voiceIMGEntity.voiceimgtext);
+        final GuideImage voiceIMGEntity = voiceIMGlist.get(position);
+        Log.e("맵onBindViewHolder", position + " | " + voiceIMGEntity.getDescription());
+        if(voiceIMGEntity.getImgUrl().length() < 50) {
+            voiceIMGEntity.setImgUrl("http://13.209.61.27:8080/resources/images/img/" + voiceIMGEntity.getImgUrl() + ".jpg");
+        }
+        Log.e("보이스가이드이미지", voiceIMGEntity.getGuideIdx() + " | " + voiceIMGEntity.getImgUrl());
+        holder.voiceguide_img_text.setText(voiceIMGEntity.getDescription());
         holder.voiceguide_img_item.setCornerRadius((float) 10);
 
         RequestOptions myOptions = new RequestOptions().fitCenter().override(diviceSizeW, 900);
 
         Glide.with(MyApplication.getContext())
-                .load(voiceIMGEntity.imgAddr)
+                .load(voiceIMGEntity.getImgUrl())
                 .apply(myOptions)
                 .into(holder.voiceguide_img_item);
 //            Glide.get(VoiceGuideMapActivity.this).clearMemory();

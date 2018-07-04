@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.NetworkUtil;
+import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
 import com.tripkorea.on.ontripkorea.util.WifiCheck;
 
 import java.util.Locale;
@@ -26,7 +26,13 @@ import static com.tripkorea.on.ontripkorea.util.WifiCheck.CONNECTION_CONFIRM_CLI
  */
 
 public class IntroFragment extends Fragment {
+    public OnNetworkErrorListener onNetworkErrorListener;
 
+    public void setOnNetworkErrorListener(OnNetworkErrorListener onNetworkErrorListener) {
+        this.onNetworkErrorListener = onNetworkErrorListener;
+    }
+
+    int lastTab;
 
     String usinglanguage;
     Locale locale;
@@ -36,6 +42,13 @@ public class IntroFragment extends Fragment {
     ImageView nowW;
     TextView celcius;
     TextView nowWeather;
+
+    public IntroFragment(){}
+
+    public Fragment introFragmentNewInstance(int lastTab){
+        this.lastTab = lastTab;
+        return new IntroFragment();
+    }
 
 
     @Override
@@ -53,6 +66,24 @@ public class IntroFragment extends Fragment {
         nowWeather = view.findViewById(R.id.weatherText);
         celcius = view.findViewById(R.id.celcius);
         nowW = view.findViewById(R.id.nowWeather);
+
+        if(NetworkUtil.isNetworkConnected(MyApplication.getContext())){
+            WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(CONNECTION_CONFIRM_CLIENT_URL);
+            cc.start();
+            try {
+                cc.join();
+                if (WifiCheck.wificheck != WifiCheck.WIFI_ON) {
+                    onNetworkErrorListener.onNetWorkError();
+                    Toast.makeText(MyApplication.getContext(), R.string.securedWifi, Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e){
+                onNetworkErrorListener.onNetWorkError();
+                Toast.makeText(MyApplication.getContext(), R.string.waitWifi, Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+        }else {
+            Toast.makeText(MyApplication.getContext(),R.string.requireInternet,Toast.LENGTH_LONG).show();
+        }
 
         ViewPager main_image_vp = view.findViewById(R.id.main_image_vp);
         MainImageFragmentPagerAdapter mainImageFragmentPagerAdapter

@@ -7,7 +7,8 @@
     <string name="exit_quit_text">Quit</string>
     <string name="exit_cancel_text">Cancel</string>
 
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyCKnPvppC9UxzX0pirap6kkOWnBn0LNzDo</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAay6YKMaDsB9KgvlB4HY6-x-x03FsqetY</string>
+    <!--AIzaSyCKnPvppC9UxzX0pirap6kkOWnBn0LNzDo-->
 
     <string name="serverip">http://13.124.155.173:</string>
     <string name="SERVER_CONTENT_TOTAL">/mylittleseoul/changFoodSelect?</string>

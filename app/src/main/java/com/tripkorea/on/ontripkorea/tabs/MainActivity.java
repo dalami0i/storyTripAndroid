@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -27,11 +28,11 @@ import com.tripkorea.on.ontripkorea.tabs.around.AroundFragment;
 import com.tripkorea.on.ontripkorea.tabs.guide.GuideFragment;
 import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
 import com.tripkorea.on.ontripkorea.tabs.intro.IntroFragment;
-import com.tripkorea.on.ontripkorea.tabs.list.HomeFragment;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.BaseActivity;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.MyTabLayout;
+import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
 import com.tripkorea.on.ontripkorea.vo.user.Me;
 
 import java.util.Locale;
@@ -55,19 +56,14 @@ public class MainActivity extends BaseActivity  {
     String usinglanguage;
     Locale locale;
 
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
-//    public List<AttrClient> aroundList = new ArrayList<>();
-//    static public List<AttrClient> foodEntities = new ArrayList<>();
-//    static public List<AttrClient> traceEntities = new ArrayList<>();
-//    static public List<AttrClient> likeEntities = new ArrayList<>();
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
-
     static String weatherImg;
     static String weatherCel;
     ImageView nowW;
     TextView celcius;
     TextView nowWeather;
     private MediaPlayer click;
+
+    static int currentTab;
 
 
     @Override
@@ -78,6 +74,19 @@ public class MainActivity extends BaseActivity  {
 
         Log.e("GIT","VERSION_A");
 
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo("com.tripkorea.on.ontripkorea", PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+
         String welcomeMessage =getResources().getString(R.string.welcome_text)+Me.getInstance().getName();
         Alert.makeText(welcomeMessage);
 
@@ -87,24 +96,6 @@ public class MainActivity extends BaseActivity  {
         Gson gsonTotal = new Gson();
         String totalListString = setting.getString("totalList", null);
 
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
-//        AttrClientList totalList = gsonTotal.fromJson(totalListString, AttrClientList.class);
-//        if(totalListString != null) {
-//            aroundList = totalList.getItems();
-//        }
-//
-//        String likeListString = setting.getString("likeList", null);
-//        AttrClientList likeList = gsonTotal.fromJson(likeListString, AttrClientList.class);
-//        if(likeListString != null) {
-//            likeEntities = likeList.getItems();
-//        }
-//
-//        String traceListString = setting.getString("traceList", null);
-//        AttrClientList traceList = gsonTotal.fromJson(traceListString, AttrClientList.class);
-//        if(traceListString != null) {
-//            traceEntities = traceList.getItems();
-//        }
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
         if(Build.VERSION.SDK_INT >Build.VERSION_CODES.N) {
             locale = getResources().getConfiguration().getLocales().get(0);
@@ -113,30 +104,9 @@ public class MainActivity extends BaseActivity  {
         }
         usinglanguage = locale.getDisplayLanguage();
 
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
-//        if(com.tripkorea.on.ontripkorea.util.NetworkUtil.isNetworkConnected(this)){
-//            com.tripkorea.on.ontripkorea.util.WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(WifiCheck.CONNECTION_CONFIRM_CLIENT_URL);
-//            cc.start();
-//            try {
-//                cc.join();
-//                if (WifiCheck.wificheck == WifiCheck.WIFI_ON) {
-//                    Log.e("인터넷 체크", "연결됨");
-//
-//                    new AsyncTaskAttrClient().execute(usinglanguage);
-//
-//                } else {  Toast.makeText(this, R.string.securedWifi, Toast.LENGTH_LONG).show(); finish();}
-//            }catch (Exception e){  Toast.makeText(this, R.string.waitWifi, Toast.LENGTH_LONG).show();    e.printStackTrace(); finish();    }
-//        }else { Toast.makeText(this,R.string.requireInternet, Toast.LENGTH_LONG).show(); finish();}
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
+        currentTab = -1;
 
         editor.apply();
-
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
-        //사운드 초기화
-//        if(click == null){
-//            click = MediaPlayer.create(this, R.raw.z_clicksound);
-//        }
-////////////////////////////////////////////////////////////////////////////YHC 수정으로 불필요
 
         //weather
         nowWeather = findViewById(R.id.weatherText);
@@ -154,37 +124,91 @@ public class MainActivity extends BaseActivity  {
     }
 
     private void initViews() {
-        replaceFragment(R.id.frame_main, new HomeFragment());
+        replaceFragment(R.id.frame_main, new IntroFragment());
 
         tabLayout.addOnTabSelectedListener(onTabSelectedListener);
     }
 
+    TabLayout.Tab lastTab;
+
     MyTabLayout.OnTabSelectedListener onTabSelectedListener = new MyTabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
-            // Fragment fragment = null;
+             fragment = null;
             switch (tab.getPosition()) {
-                case MyTabLayout.TAB_HOME:
-                    fragment = new HomeFragment();
-                    break;
+
                 case MyTabLayout.TAB_INTRO:
-                    fragment = new IntroFragment();
+                    IntroFragment introfragment = new IntroFragment();
+                    introfragment.introFragmentNewInstance(currentTab);
+                    introfragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+                        @Override
+                        public void onNetWorkError() {
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
+                            if(lastTab == null) {
+                                finish();
+                            }else{
+                                onTabSelected(lastTab);
+                            }
+                        }
+                    });
+                    fragment = introfragment;
+                    currentTab = MyTabLayout.TAB_INTRO;
+                    lastTab = tab;
                     break;
                 case MyTabLayout.TAB_GUIDE:
                     checkLocationPermission();
                     GuideFragment guideFragment = new GuideFragment();
-                    guideFragment.guideFragmentNewInstance(mMap);
+                    guideFragment.guideFragmentNewInstance(mMap, currentTab);
+                    guideFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+                        @Override
+                        public void onNetWorkError() {
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
+                            if(lastTab == null) {
+                                finish();
+                            }else{
+                                onTabSelected(lastTab);
+                            }
+                        }
+                    });
                     fragment = guideFragment;
+                    currentTab = MyTabLayout.TAB_GUIDE;
+                    lastTab = tab;
                     break;
                 case MyTabLayout.TAB_AROUND:
                     checkLocationPermission();
                     AroundFragment aroundFragment = new AroundFragment();
-                    aroundFragment.aroundFragmentNewInstance(MainActivity.this, mMap);
+                    aroundFragment.aroundFragmentNewInstance(MainActivity.this, mMap, currentTab);
                     fragment = aroundFragment;
+                    currentTab = MyTabLayout.TAB_AROUND;
+                    aroundFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+                        @Override
+                        public void onNetWorkError() {
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
+                            if(lastTab == null) {
+                                finish();
+                            }else{
+                                onTabSelected(lastTab);
+                            }
+                        }
+                    });
+                    lastTab = tab;
                     break;
                 case MyTabLayout.TAB_INFO:
                     InfoFragment infoFragment = new InfoFragment();
                     fragment = infoFragment;
+                    currentTab = MyTabLayout.TAB_INFO;
+                    infoFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+                        @Override
+                        public void onNetWorkError() {
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
+                            if(lastTab == null) {
+                                finish();
+                            }else{
+                                onTabSelected(lastTab);
+                            }
+                        }
+                    });
+                    lastTab = tab;
                     break;
             }
 
@@ -237,15 +261,15 @@ public class MainActivity extends BaseActivity  {
 
     private void showUpExitDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.exit_text)
+        builder.setMessage( getResources().getString(R.string.exit_text))
                 .setCancelable(true)
-                .setPositiveButton(R.string.exit_quit_text, new DialogInterface.OnClickListener() {
+                .setPositiveButton( getResources().getString(R.string.exit_quit_text), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
                 })
-                .setNegativeButton(R.string.exit_cancel_text, new DialogInterface.OnClickListener() {
+                .setNegativeButton( getResources().getString(R.string.exit_cancel_text) , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -253,60 +277,7 @@ public class MainActivity extends BaseActivity  {
                 }).create().show();
     }
 
-    ////////////////////////////////////////////////////////////////////////////YC 수정으로 불필요
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //AsyncTaskContentTotal check
-//    public class AsyncTaskAttrClient extends AsyncTask<String, Void, List<AttrClient>> {
-//
-//        @Override
-//        protected List<AttrClient> doInBackground(String... lang) {
-//            Response response = null; //Response
-//            OkHttpClient toServer;  //connection
-//            try {
-//                toServer = OkHttpInitSingtonManager.getOkHttpClient();
-//                Request request = new Request.Builder()
-//                        .url(NetworkDefineConstant.SERVER_CONTENT_TOTAL+"language="+lang[0])
-//                        .build();
-//                response = toServer.newCall(request).execute();
-//                String responsedMessage = response.body().string();
-//
-//                editor.putString("attr",responsedMessage);
-//                editor.putBoolean("attrBoolean",true);
-//                editor.commit();
-//
-//                Gson gson = new Gson();
-//                if (response.isSuccessful()) {
-//                    Log.e("AsyncTaskAttrClient:", responsedMessage);
-//                    AttrClientList contents = gson.fromJson(responsedMessage, AttrClientList.class);
-//                    foodEntities = contents.getItems();
-//                    Log.e("AsyncTaskAttrClient:",
-//                            "MainPage.foodEntities size"+foodEntities.size()+" | ");
-//
-//                } else {
-//                    Log.e("AsyncTaskAttrCl Req:", response.message());
-//                }
-//            } catch (IOException e) {
-//                Log.e("AsyncTaskAttrCl Parse",  e.toString());
-//            } finally {
-//                if (response != null) {
-//                    response.close();
-//                }
-//            }
-//            return foodEntities;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<AttrClient> tourEntities) {
-//            super.onPostExecute(tourEntities);
-//
-//            AttrClient attrClient  = new AttrClient();
-//            attrClient.mapx = "126.976818";
-//            attrClient.mapy = "37.575844";
-//
-//
-//        }
-//    }
-////////////////////////////////////////////////////////////////////////////YC 수정으로 불필요
+
 
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;

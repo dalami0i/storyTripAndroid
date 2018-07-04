@@ -27,8 +27,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,19 +36,22 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.tripkorea.on.ontripkorea.R;
-import com.tripkorea.on.ontripkorea.util.LogManager;
+import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
+import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.NetworkUtil;
+import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
 import com.tripkorea.on.ontripkorea.util.WifiCheck;
-import com.tripkorea.on.ontripkorea.vo.voiceguide.VoiceGuide;
-import com.tripkorea.on.ontripkorea.vo.voiceguide.VoiceGuideGenerator;
-import com.tripkorea.on.ontripkorea.vo.voiceguide.VoiceGuideImage;
-import com.tripkorea.on.ontripkorea.vo.voiceguide.VoiceGuideLocation;
+import com.tripkorea.on.ontripkorea.vo.voiceguide.Guide;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by YangHC on 2018-06-05.
@@ -59,6 +60,8 @@ import java.util.Locale;
 public class GuideFragment extends Fragment  implements
         OnMapReadyCallback,
         LocationListener {
+
+    int lastTab;
 
     MapView guideMap;
     TabLayout guideTabs;
@@ -71,6 +74,7 @@ public class GuideFragment extends Fragment  implements
     NestedScrollView voide_img_nestedscroll;
     RecyclerView guide_img_rv;
 
+
     Context main;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -79,7 +83,10 @@ public class GuideFragment extends Fragment  implements
     Locale locale;
 
     //map
-    private static VoiceGuide guideEntity;
+//    private static VoiceGuide guideEntity;
+    static List<Guide> guideEntities;
+
+
 //    GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
     Location currentLocation;
@@ -92,15 +99,20 @@ public class GuideFragment extends Fragment  implements
     private Runnable mUpdateTime;
     private boolean settingVoiceGuide;
     private static String voiceAddress;
-    private static VoiceGuideLocation locEntity;
+//    private static VoiceGuideLocation locEntity;
+    private Guide buildingEntity;
 
-    public GuideFragment (){}
-
-    public Fragment guideFragmentNewInstance(GoogleMap mMap){
+    public Fragment guideFragmentNewInstance(GoogleMap mMap, int lastTab){
+        this.lastTab = lastTab;
         this.mMap = mMap;
         return new GuideFragment();
     }
 
+    public OnNetworkErrorListener onNetworkErrorListener;
+
+    public void setOnNetworkErrorListener(OnNetworkErrorListener onNetworkErrorListener) {
+        this.onNetworkErrorListener = onNetworkErrorListener;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -127,15 +139,72 @@ public class GuideFragment extends Fragment  implements
 
         usinglanguage = locale.getDisplayLanguage();
 
-        guideEntity = new VoiceGuideGenerator().voiceGuideGenerator(locale);
-        if(guideEntity != null){
-            for (int i = 0; i < guideEntity.locList.size(); i++) {
-                guideTabs.addTab(guideTabs.newTab().setText(guideEntity.locList.get(i).location_title));
-            }
+        int language = 0;
+        switch (usinglanguage){
+            case "한국어":
+                language = 1;
+                break;
+            case "中文":
+                language = 2;
+                break;
+            case "日本言":
+                language = 3;
+                break;
+            default:
+                language = 0;
+                break;
+
         }
-        //first screen setting
-        locEntity = guideEntity.locList.get(0);
-        Log.e("탭선택 전","0번째: "+guideEntity.locList.get(0).location_title);
+        ApiClient.getInstance().getApiService()
+                .getGuide(MyApplication.APP_VERSION, 1024,language)
+                .enqueue(new Callback<List<Guide>>() {
+
+                    @Override
+                    public void onResponse(Call<List<Guide>> call, Response<List<Guide>> response) {
+                        if (response.body() != null) {
+                            guideEntities = response.body();
+                            if(guideEntities != null){
+                                for (int i = 0; i < guideEntities.size(); i++) {
+                                    guideTabs.addTab(guideTabs.newTab().setText(guideEntities.get(i).getTitle()));
+                                }
+                            }
+
+                            //first screen setting
+                            buildingEntity = guideEntities.get(0);
+                            Log.e("탭선택 전","0번째: "+guideEntities.get(0).getTitle());
+
+                            title.setText(buildingEntity.getTitle());
+                            totalTime.setText(getVoiceLength(buildingEntity.getLength()));
+                            voiceAddress = buildingEntity.getGuideUrl();
+
+                            LinearLayoutManager linkLayoutManager
+                                    = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                            SnapHelper snapHelper = new PagerSnapHelper();
+                            guide_img_rv.setLayoutManager(linkLayoutManager);
+                            snapHelper.attachToRecyclerView(guide_img_rv);
+                            VoiceImageRecyclerViewAdapter voiceImageRecyclerViewAdapter
+                                    = new VoiceImageRecyclerViewAdapter();
+                            for(int i=0;i<buildingEntity.getGuideImageList().size(); i++){
+                                voiceImageRecyclerViewAdapter.addVoiceImgList(buildingEntity.getGuideImageList().get(i));
+                            }
+                            guide_img_rv.setAdapter(voiceImageRecyclerViewAdapter);
+
+                            guideTabs.addOnTabSelectedListener(tabSelectedListener);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Guide>> call, Throwable t) {
+                        Alert.makeText(getResources().getString(R.string.network_error));
+                    }
+                });
+
+//        guideEntity = new VoiceGuideGenerator().voiceGuideGenerator(locale);
+
+
+
+
+
         //voice setting
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,25 +218,13 @@ public class GuideFragment extends Fragment  implements
                 stopAudio();
             }
         });
-        title.setText(locEntity.location_title);
-        voiceAddress = locEntity.voice_addr;
+
         String time = "0:00";
         thisTime.setText(time);
-//        setVoiceGuide();
 
-        LinearLayoutManager linkLayoutManager
-                = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        SnapHelper snapHelper = new PagerSnapHelper();
-        guide_img_rv.setLayoutManager(linkLayoutManager);
-        snapHelper.attachToRecyclerView(guide_img_rv);
-        VoiceImageRecyclerViewAdapter voiceImageRecyclerViewAdapter
-                = new VoiceImageRecyclerViewAdapter();
-        for(int i=0;i<locEntity.voiceGuideImg.size(); i++){
-            voiceImageRecyclerViewAdapter.addVoiceImgList(locEntity.voiceGuideImg.get(i));
-        }
-        guide_img_rv.setAdapter(voiceImageRecyclerViewAdapter);
+        seekbar.setVisibility(View.VISIBLE);
 
-        guideTabs.addOnTabSelectedListener(tabSelectedListener);
+
 
 
         guideMap.onCreate(savedInstanceState);
@@ -183,26 +240,27 @@ public class GuideFragment extends Fragment  implements
 
     }
 
+    private void getGuideEntity(){
+
+    }
+
     TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             checkMyLocation();
 
-            locEntity = new VoiceGuideLocation();
+            buildingEntity = new Guide();
 
-            for (int i = 0; i < guideEntity.locList.size(); i++) {
-                if (guideEntity.locList.get(i).location_title.equals(tab.getText())) {
-                    locEntity = guideEntity.locList.get(i);
-//                        Log.e("보이스가이드맵액티비티222222",locEntity.voice_title+"| 이미지 길이: "+locEntity.voiceGuideImg.size());
+            for (int i = 0; i < guideEntities.size(); i++) {
+                if (guideEntities.get(i).getTitle().equals(tab.getText())) {
+                    buildingEntity = guideEntities.get(i);
                 }
             }
 
-            if( Double.parseDouble(locEntity.voice_loc_south) < currentLat && currentLat < Double.parseDouble(locEntity.voice_loc_north)
-                    && Double.parseDouble(locEntity.voice_loc_west) < currentLong && currentLong < Double.parseDouble(locEntity.voice_loc_east)){
-                locEntity.checked = 1;
-            }
-
-            Log.e("탭클릭:",locEntity.voice_title+"| voice_title: "+locEntity.voice_title);
+//            if( Double.parseDouble(buildingEntity.getGuideSouth()) < currentLat && currentLat < Double.parseDouble(buildingEntity.getGuideNorth())
+//                    && Double.parseDouble(buildingEntity.getGuideWest()) < currentLong && currentLong < Double.parseDouble(buildingEntity.getGuideEast())){
+//                buildingEntity.setChecked(1);
+//            }
 
 
             if(true) {
@@ -211,11 +269,12 @@ public class GuideFragment extends Fragment  implements
                 play.setVisibility(View.VISIBLE);
                 seekbar.setVisibility(View.VISIBLE);
 
-                title.setText(locEntity.location_title);
-                voiceAddress = locEntity.voice_addr;
+                title.setText(buildingEntity.getTitle());
+                voiceAddress = buildingEntity.getGuideUrl();
                 String time = "0:00";
                 thisTime.setText(time);
-//                setVoiceGuide();
+//                new LogManager().LogManager("전체 시간: "+buildingEntity.getTitle(),buildingEntity.getLength()+" | "+getVoiceLength(buildingEntity.getLength()));
+                totalTime.setText(getVoiceLength(buildingEntity.getLength()));
                 LinearLayoutManager linkLayoutManager
                         = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.HORIZONTAL, false);
 
@@ -223,8 +282,8 @@ public class GuideFragment extends Fragment  implements
                 VoiceImageRecyclerViewAdapter voiceImageRecyclerViewAdapter
                         = new VoiceImageRecyclerViewAdapter();
 
-                for (int i = 0; i < locEntity.voiceGuideImg.size(); i++) {
-                    voiceImageRecyclerViewAdapter.addVoiceImgList(locEntity.voiceGuideImg.get(i));
+                for (int i = 0; i < buildingEntity.getGuideImageList().size(); i++) {
+                    voiceImageRecyclerViewAdapter.addVoiceImgList(buildingEntity.getGuideImageList().get(i));
                 }
                 guide_img_rv.setAdapter(voiceImageRecyclerViewAdapter);
 
@@ -233,7 +292,7 @@ public class GuideFragment extends Fragment  implements
 //                double tempy =(Double.parseDouble(locEntity.voice_loc_north)
 //                        +Double.parseDouble(locEntity.voice_loc_south))/2;
                 for(int i=0; i<markers.size(); i++){
-                    if(markers.get(i).getTitle().equals(locEntity.location_title)){
+                    if(markers.get(i).getTitle().equals(buildingEntity.getTitle())){
                         markers.get(i).showInfoWindow();
                     }
                 }
@@ -297,6 +356,16 @@ public class GuideFragment extends Fragment  implements
         }
     };
 
+    private String getVoiceLength(double length){
+        String voiceLength;
+        String sec = String.valueOf((int)(length%60));
+        if(sec.length() <2){
+            sec = "0"+sec;
+        }
+        String min = String.valueOf((int)(length/60));
+        voiceLength = min+":"+sec;
+        return voiceLength;
+    }
 
     private void checkMyLocation(){
         if (ContextCompat.checkSelfPermission(MyApplication.getContext(),
@@ -378,8 +447,8 @@ public class GuideFragment extends Fragment  implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Log.e("map markerClick","marker.getTitle(): "+marker.getTitle());
-                for(int i=0; i<guideEntity.locList.size(); i++) {
-                    if(marker.getTitle().equals(guideEntity.locList.get(i).location_title)) {
+                for(int i=0; i<guideEntities.size(); i++) {
+                    if(marker.getTitle().equals(guideEntities.get(i).getTitle())) {
 
                         if (mp != null) {
                             int playBtn;
@@ -415,16 +484,17 @@ public class GuideFragment extends Fragment  implements
 
 
     private void checkAround(GoogleMap mMap){
-        Log.e("Map-checkAround","콘텐츠 몇 개? "+guideEntity.locList.size());
-        for(int i=1; i< guideEntity.locList.size(); i++) {
-            double tempx =(Double.parseDouble(guideEntity.locList.get(i).voice_loc_west)
-                    +Double.parseDouble(guideEntity.locList.get(i).voice_loc_east))/2;
-            double tempy =(Double.parseDouble(guideEntity.locList.get(i).voice_loc_north)
-                    +Double.parseDouble(guideEntity.locList.get(i).voice_loc_south))/2;
-            LatLng location =  new LatLng(tempy, tempx);
+
+        Log.e("Map-checkAround","콘텐츠 몇 개? "+guideEntities.size());
+        for(int i=1; i< guideEntities.size(); i++) {
+            /*double tempx =(Double.parseDouble(guideEntities.get(i).getGuideWest())
+                    +Double.parseDouble(guideEntities.get(i).getGuideEast()))/2;
+            double tempy =(Double.parseDouble(guideEntities.get(i).getGuideNorth())
+                    +Double.parseDouble(guideEntities.get(i).getGuideSouth()))/2;*/
+            LatLng location =  new LatLng(guideEntities.get(i).getLat(), guideEntities.get(i).getLon());
             Marker tempMarker = mMap.addMarker(new MarkerOptions()
                     .position(location)
-                    .title(guideEntity.locList.get(i).location_title)
+                    .title(guideEntities.get(i).getTitle())
                     .alpha(0.5f)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
             );//.icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_bg))
@@ -440,38 +510,7 @@ public class GuideFragment extends Fragment  implements
         seekbar.setVisibility(View.INVISIBLE);
     }
 
-    private void setVoiceGuide(){
-        if (NetworkUtil.isNetworkConnected(MyApplication.getContext())) {
-            WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(CONNECTION_CONFIRM_CLIENT_URL);
-            try {
-                cc.start();
-                if (WifiCheck.wificheck == WifiCheck.WIFI_ON) {
-                    mp = new MediaPlayer();
-                    try {
-                        mp.setDataSource(voiceAddress);
-                        mp.prepare();
-                        seekbar.setVisibility(View.VISIBLE);
-                        seekbar.setOnSeekBarChangeListener(mOnSeek);
-                        mProgressHandler.sendEmptyMessageDelayed(0, 200);
-                        seekbar.setMax(mp.getDuration());
-                        totalTime.setText(milliSecondsToTimer(mp.getDuration()));
-                        settingVoiceGuide = true;
 
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(MyApplication.getContext(), R.string.securedWifi, Toast.LENGTH_LONG).show();
-                }
-            } catch (Exception e) {
-                Toast.makeText(MyApplication.getContext(), R.string.waitWifi, Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(MyApplication.getContext(), R.string.requireInternet, Toast.LENGTH_LONG).show();
-        }
-    }
 
     public void startAudio() {
         int playBtn;
@@ -482,12 +521,28 @@ public class GuideFragment extends Fragment  implements
         pauseBtn = getResources().getIdentifier(pauseTag, "drawable", MyApplication.getContext().getPackageName());
 
         if (mp == null) {
-//            Log.e("보이스가이드","start: "+voiceAddress);
+            voiceAddress = "http://13.209.61.27:8080/resources/guides/"+voiceAddress;
+            Log.e("보이스가이드","start: "+voiceAddress);
             if (NetworkUtil.isNetworkConnected(MyApplication.getContext())) {
                 WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(CONNECTION_CONFIRM_CLIENT_URL);
                 try {
                     cc.start();
                     if (WifiCheck.wificheck == WifiCheck.WIFI_ON ) {
+                        mp = new MediaPlayer();
+                        try {
+                            mp.setDataSource(voiceAddress);
+                            mp.prepare();
+                            seekbar.setVisibility(View.VISIBLE);
+                            seekbar.setOnSeekBarChangeListener(mOnSeek);
+                            mProgressHandler.sendEmptyMessageDelayed(0, 200);
+                            seekbar.setMax(mp.getDuration());
+                            totalTime.setText(milliSecondsToTimer(mp.getDuration()));
+                            settingVoiceGuide = true;
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         try {
                             mUpdateTime = new Runnable() {
                                 public void run() {
