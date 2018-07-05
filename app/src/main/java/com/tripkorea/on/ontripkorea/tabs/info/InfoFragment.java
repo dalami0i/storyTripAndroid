@@ -90,6 +90,33 @@ public class InfoFragment extends Fragment {
 
         usinglanguage = locale.getDisplayLanguage();
 
+        ApiClient.getInstance().getApiService()
+                .getMyLikeList(MyApplication.APP_VERSION, Me.getInstance().getIdx())
+                .enqueue(new Callback<List<AttractionSimple>>() {
+                    @Override
+                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                        if (response.body() != null) {
+                            likeList = response.body();
+                            likeRecyclerViewAdapter.setAttractionList(response.body());
+                            likeRecyclerViewAdapter.notifyDataSetChanged();
+                        } else {
+                            Alert.makeText("likelist 에러! : ");
+                            try {
+                                Log.e("INFO_FRAGMENT", "에러! : " + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
+
+                    }
+                });
+
+        LIKE_LIST_CHANGED = false;
+
         ChangImageFragmentPagerAdapter changImageFragmentPagerAdapter
                 = new ChangImageFragmentPagerAdapter(getChildFragmentManager());
         changImageFragmentPagerAdapter.addChangImage("https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Changdeokgung-Injeongjeon.jpg/1200px-Changdeokgung-Injeongjeon.jpg");

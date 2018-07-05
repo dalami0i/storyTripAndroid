@@ -1,17 +1,13 @@
 package com.tripkorea.on.ontripkorea.vo.attraction;
 
-import com.tripkorea.on.ontripkorea.util.Coordinate;
-
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by YangHC on 2018-06-11.
  */
 
 public class AttractionSimple implements Serializable{
-    private List<Integer> categoriyList;   // 0(관광), 1(식당), 2(쇼핑), 3(간식) ...
+    private int categoryIdx;
     private int idx;
     private String name;
     private double lat;
@@ -21,12 +17,12 @@ public class AttractionSimple implements Serializable{
     private String detail;
     private String thumnailAddr;
 
-    public List<Integer> getCategoriyList() {
-        return categoriyList;
+    public int getCategoryIdx() {
+        return categoryIdx;
     }
 
-    public void setCategoriyList(List<Integer> categoriyList) {
-        this.categoriyList = categoriyList;
+    public void setCategoryIdx(int categoryIdx) {
+        this.categoryIdx = categoryIdx;
     }
 
     public int getIdx() {

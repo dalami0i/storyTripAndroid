@@ -4,22 +4,22 @@ package com.tripkorea.on.ontripkorea.vo.attraction;
  * Created by YangHC on 2018-05-17.
  */
 public class AttractionDetail extends Attraction{
-    private boolean isLiked;
-    private boolean isVisited;
+    private boolean liked;
+    private boolean visited;
 
     public boolean isLiked() {
-        return isLiked;
+        return liked;
     }
 
     public void setLiked(boolean liked) {
-        isLiked = liked;
+        this.liked = liked;
     }
 
     public boolean isVisited() {
-        return isVisited;
+        return visited;
     }
 
     public void setVisited(boolean visited) {
-        isVisited = visited;
+        this.visited = visited;
     }
 }

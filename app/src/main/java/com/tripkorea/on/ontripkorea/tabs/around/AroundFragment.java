@@ -65,6 +65,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     private final static int TAB_TOUR = 2;
 
 
+    private List<AttractionSimple> totalList = new ArrayList<>();
     private List<AttractionSimple> aroundRouteList = new ArrayList<>();
     private List<AttractionSimple> restaurantList = new ArrayList<>();
     private List<AttractionSimple> tourList = new ArrayList<>();
@@ -195,9 +196,16 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
         //2018 06 24 20:10 kiryun 추가
         setRoute(coordinate.getLat(), coordinate.getLon(), 1);
+        setRestaurants(coordinate.getLat(), coordinate.getLon(), 1);
+        setTours(coordinate.getLat(), coordinate.getLon(), 1);
+
+
+
         Log.e("showaround", "aroundRouteList 갯수 :"+ aroundRouteList.size());
 
-        aroundRouteRecyclerViewAdapter = new AroundRecyclerViewAdapter(aroundRouteList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
+        aroundRouteRecyclerViewAdapter = new AroundRecyclerViewAdapter(aroundRouteList, main, TAB_ROUTE, coordinate, mMap);
+        aroundRestaurantsRecyclerViewAdapter = new AroundRecyclerViewAdapter(restaurantList, main, TAB_RESTAURANT, coordinate, mMap);
+        aroundToursRecyclerViewAdapter = new AroundRecyclerViewAdapter(tourList, main, TAB_TOUR, coordinate, mMap);
         aroundRV.setAdapter(aroundRouteRecyclerViewAdapter);
 
         aroundTabs.addOnTabSelectedListener(tabSelectedListener);
@@ -217,6 +225,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                         {
                             aroundRouteList.addAll(response.body());
                             Log.e("ROUTES", "size : "+aroundRouteList.size());
+                            totalList.addAll(aroundRoutes);
 
                             for(AttractionSimple aroundRoute : aroundRoutes)
                             {
@@ -255,6 +264,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                         if (response.body() != null) {
                             restaurantList.addAll(response.body());
                             Log.e("RESTAURANTS", "size : " + restaurantList.size());
+                            totalList.addAll(restaurantList);
 
                             for (AttractionSimple restaurant : restaurants) {
                                 Log.e("RESTAURANTS", restaurant.getName());
@@ -292,6 +302,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                         if (response.body() != null) {
                             tourList.addAll(response.body());
                             Log.e("TOURS", "size : " + tourList.size());
+                            totalList.addAll(tourList);
 
                             for (AttractionSimple restaurant : restaurants) {
                                 Log.e("TOURS", restaurant.getName());
@@ -325,33 +336,13 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
             switch (aroundTabs.getSelectedTabPosition()) {
                 case TAB_ROUTE:
-                    if (aroundRouteRecyclerViewAdapter == null) {
-                        aroundRouteRecyclerViewAdapter = new AroundRecyclerViewAdapter(aroundRouteList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
-                    }
                     aroundRV.setAdapter(aroundRouteRecyclerViewAdapter);
-                    if (aroundRouteList.size() == 0) {
-//                        setRestaurants(coordinate.getLat(), coordinate.getLon(), 1);
-                        setRoute(coordinate.getLat(), coordinate.getLon(), 1);
-
-                    }
                     break;
                 case TAB_RESTAURANT:
-                    if (aroundRestaurantsRecyclerViewAdapter == null) {
-                        aroundRestaurantsRecyclerViewAdapter = new AroundRecyclerViewAdapter(restaurantList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
-                    }
                     aroundRV.setAdapter(aroundRestaurantsRecyclerViewAdapter);
-                    if (restaurantList.size() == 0) {
-                        setRestaurants(coordinate.getLat(), coordinate.getLon(), 1);
-                    }
                     break;
                 case TAB_TOUR:
-                    if (aroundToursRecyclerViewAdapter == null) {
-                        aroundToursRecyclerViewAdapter = new AroundRecyclerViewAdapter(tourList, main, aroundTabs.getSelectedTabPosition(), coordinate, mMap);
-                    }
                     aroundRV.setAdapter(aroundToursRecyclerViewAdapter);
-                    if (tourList.size() == 0) {
-                        setTours(coordinate.getLat(), coordinate.getLon(), 1);
-                    }
                     break;
             }
         }
@@ -508,37 +499,35 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     }
 
     private void checkAround(GoogleMap mMap) {
-        Log.e("checkAround", "주변점검 몇 개? " + aroundList.size());
-        for (int i = 0; i < aroundList.size(); i++) {
+        Log.e("checkAround", "주변점검 몇 개? " + totalList.size());
+        for (int i = 0; i < totalList.size(); i++) {
 //            if(i != 0 && i != 9 && i!=58) {
-            String tmpY = aroundList.get(i).mapy.trim();
-            String tmpX = aroundList.get(i).mapx.trim();
 
             LatLng location =
-                    new LatLng(Double.parseDouble(tmpY), Double.parseDouble(tmpX));
-            switch (aroundList.get(i).categoryNum) {
-                case "4":
+                    new LatLng(totalList.get(i).getLat(), totalList.get(i).getLon());
+            switch (totalList.get(i).getCategoryIdx()) {
+                case 51:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(aroundList.get(i).title)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_history)))
                             .setTag(aroundList.get(i).contentID);
                     break;
-                case "6":
+                case 50:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(aroundList.get(i).title)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_museum)))
                             .setTag(aroundList.get(i).contentID);
                     break;
-                case "1":
+                case 52:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(aroundList.get(i).title)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_activity)))
                             .setTag(aroundList.get(i).contentID);
                     break;
-                case "3":
+                case 1:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(aroundList.get(i).title)

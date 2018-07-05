@@ -28,7 +28,6 @@ public class Attraction implements Serializable{
     private String homepage;
     private String thumnailAddr;
 
-
     public List<Integer> getCategoriyList() {
         return categoriyList;
     }

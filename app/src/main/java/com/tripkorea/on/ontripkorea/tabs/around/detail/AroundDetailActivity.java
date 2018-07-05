@@ -38,10 +38,9 @@ import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
 import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessasge;
 import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
 import com.tripkorea.on.ontripkorea.util.Alert;
+import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
-import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionDetail;
-import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
 import com.tripkorea.on.ontripkorea.vo.user.Me;
@@ -111,7 +110,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
     //authority
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
-    Attraction thisAttraction;//선택된 item의 공용 객체
+    AttractionDetail thisAttraction;//선택된 item의 공용 객체
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
@@ -119,6 +118,8 @@ public class AroundDetailActivity extends AppCompatActivity implements
     private int attractionIdx;
 
     public static ArrayList<YoutubeDetail> youtubeDetails = new ArrayList<>();
+
+
 
 
     @Override
@@ -129,7 +130,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
         guideMap.onCreate(savedInstanceState);
 
-        //1128은 '반한닥'
+        //1128은 '반한닥' 없으면 에러를 띄우던가 해야지 이건 수정해야 할 듯;;
         attractionIdx = getIntent().getIntExtra("attractionIdx", 1128);
 
         //사용자 언어 확인
@@ -194,6 +195,20 @@ public class AroundDetailActivity extends AppCompatActivity implements
                                 detailImageVp.setVisibility(View.GONE);
                             }
 
+                            new LogManager().LogManager(thisAttraction.getName(),thisAttraction.isLiked()+" | checkAttraction.isLiked() "+thisAttraction.getIdx());
+                            if(thisAttraction.isLiked()){
+                                likeImg.setImageResource(R.drawable.z_heart_image_s);
+                            }else{
+                                likeImg.setImageResource(R.drawable.z_heart_empty_s);
+                            }
+
+                            new LogManager().LogManager(thisAttraction.getName(),thisAttraction.isVisited()+" | checkAttraction.isVisited() "+thisAttraction.getIdx());
+                            if(thisAttraction.isVisited()){
+                                visitImg.setImageResource(R.drawable.z_footprint_s);
+                            }else{
+                                visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+                            }
+
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(thisAttraction.getLat(), thisAttraction.getLon()))
                                     .title(thisAttraction.getName())
@@ -234,6 +249,8 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
         setting = getSharedPreferences("setting", 0);
         editor = setting.edit();
+
+
 
 //        if (thisAttraction.youtubekey != null) {
 //            LinearLayoutManager linkLayoutManager
@@ -466,12 +483,63 @@ public class AroundDetailActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_detail_like:
+                if(thisAttraction.isLiked()){
+                    ApiClient.getInstance().getApiService()
+                            .cancelLike(MyApplication.APP_VERSION, new LikeDTO(Me.getInstance().getIdx(), attractionIdx))
+                            .enqueue(new Callback<ApiMessasge>(){
+                                @Override
+                                public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
+                                    if (response.body() != null) {
+                                        Alert.makeText("좋아요 취소!");
+                                        likeImg.setImageResource(R.drawable.z_heart_empty_s);
+                                        thisAttraction.setLiked(false);
+                                    } else {
+                                        Alert.makeText("좋아요 취소 에러 발생" + response.errorBody().toString());
+                                        try {
+                                            Log.e("LIKE", "error : " + response.errorBody().string());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ApiMessasge> call, Throwable t) {
+                                    Alert.makeText(getResources().getString(R.string.network_error));
+                                }
+                            });
+                }else{
+                    ApiClient.getInstance().getApiService()
+                            .like(MyApplication.APP_VERSION, new LikeDTO(Me.getInstance().getIdx(), attractionIdx))
+                            .enqueue(new Callback<ApiMessasge>(){
+                                @Override
+                                public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
+                                    if (response.body() != null) {
+                                        Alert.makeText("좋아요!");
+                                        likeImg.setImageResource(R.drawable.z_heart_image_s);
+                                        thisAttraction.setLiked(true);
+                                    } else {
+                                        Alert.makeText("좋아요 에러 발생" + response.errorBody().toString());
+                                        try {
+                                            Log.e("LIKE", "error : " + response.errorBody().string());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ApiMessasge> call, Throwable t) {
+                                    Alert.makeText(getResources().getString(R.string.network_error));
+                                }
+                            });
+                }
                 //likeList에 변동이 생김을 알림 -> InfoFragment에선 이 변수를 기준으로 likeList를 업데이트 할지 결정함
                 InfoFragment.LIKE_LIST_CHANGED = true;
                 //Glide.with(AroundDetailActivity.this).asDrawable().into(likeImg) == getResources().getDrawable(z_heart_empty_s)
                 //TODO: 토글버튼으로 대체 -> 이미지 일일이 변경할 필요 없음
                 //TODO: 현재 이미지가 무엇인지를 조건으로 주고있는데 이것보단 liked, visited같은 boolean 변수들을 두고 그것들을 조건으로 주는 것이 좋음
-                if (likeImg.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.z_heart_empty_s).getConstantState()) {
+                /*if (likeImg.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.z_heart_empty_s).getConstantState()) {
                     likeImg.setImageResource(R.drawable.z_heart_image_s);
 //                    Glide.with(AroundDetailActivity.this).load(R.drawable.z_heart_image_s).into(likeImg);
                     Log.e("LIKE", "userIdx : " + Me.getInstance().getIdx() + ", " + attractionIdx);
@@ -527,25 +595,21 @@ public class AroundDetailActivity extends AppCompatActivity implements
                                     Alert.makeText(getResources().getString(R.string.network_error));
                                 }
                             });
-                }
+                }*/
                 break;
             case R.id.img_detail_footprint:
-                //visitList에 변동이 생김을 알림 -> InfoFragment에선 이 변수를 기준으로 visitList를 업데이트 할지 결정함
-                InfoFragment.VISITED_LIST_CHANGED = true;
-
-                if (visitImg.getDrawable().getConstantState()
-                        == getResources().getDrawable(R.drawable.z_footprint_empty_s).getConstantState()) {
-                    visitImg.setImageResource(R.drawable.z_footprint_s);
+                if(thisAttraction.isVisited()){
                     ApiClient.getInstance().getApiService()
-                            .visit(MyApplication.APP_VERSION, new VisitDTO(Me.getInstance().getIdx()
-                                    , thisAttraction.getIdx()))
-                            .enqueue(new Callback<ApiMessasge>() {
+                            .cancelVisit(MyApplication.APP_VERSION, new VisitDTO(Me.getInstance().getIdx(), attractionIdx))
+                            .enqueue(new Callback<ApiMessasge>(){
                                 @Override
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
                                     if (response.body() != null) {
-                                        Alert.makeText("방문!");
+                                        Alert.makeText("방문한 것 취소!");
+                                        visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+                                        thisAttraction.setVisited(false);
                                     } else {
-                                        Alert.makeText("방문 에러 발생");
+                                        Alert.makeText("방문 취소 에러 발생" + response.errorBody().toString());
                                         try {
                                             Log.e("VISIT", "error : " + response.errorBody().string());
                                         } catch (IOException e) {
@@ -559,20 +623,20 @@ public class AroundDetailActivity extends AppCompatActivity implements
                                     Alert.makeText(getResources().getString(R.string.network_error));
                                 }
                             });
-                } else {
-                    visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+                }else{
                     ApiClient.getInstance().getApiService()
-                            .cancelVisit(MyApplication.APP_VERSION
-                                    , new VisitDTO(Me.getInstance().getIdx(), attractionIdx))
-                            .enqueue(new Callback<ApiMessasge>() {
+                            .visit(MyApplication.APP_VERSION, new VisitDTO(Me.getInstance().getIdx(), attractionIdx))
+                            .enqueue(new Callback<ApiMessasge>(){
                                 @Override
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
                                     if (response.body() != null) {
-                                        Alert.makeText("방문 취소!");
+                                        Alert.makeText("방문!");
+                                        visitImg.setImageResource(R.drawable.z_footprint_s);
+                                        thisAttraction.setVisited(true);
                                     } else {
-                                        Alert.makeText("방문 취소 에러 발생" + response.errorBody().toString());
+                                        Alert.makeText("방문 에러 발생" + response.errorBody().toString());
                                         try {
-                                            Log.e("LIKE", "error : " + response.errorBody().string());
+                                            Log.e("VISIT", "error : " + response.errorBody().string());
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
@@ -585,6 +649,61 @@ public class AroundDetailActivity extends AppCompatActivity implements
                                 }
                             });
                 }
+                //visitList에 변동이 생김을 알림 -> InfoFragment에선 이 변수를 기준으로 visitList를 업데이트 할지 결정함
+                InfoFragment.VISITED_LIST_CHANGED = true;
+
+//                if (visitImg.getDrawable().getConstantState()
+//                        == getResources().getDrawable(R.drawable.z_footprint_empty_s).getConstantState()) {
+//                    visitImg.setImageResource(R.drawable.z_footprint_s);
+//                    ApiClient.getInstance().getApiService()
+//                            .visit(MyApplication.APP_VERSION, new VisitDTO(Me.getInstance().getIdx()
+//                                    , thisAttraction.getIdx()))
+//                            .enqueue(new Callback<ApiMessasge>() {
+//                                @Override
+//                                public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
+//                                    if (response.body() != null) {
+//                                        Alert.makeText("방문!");
+//                                    } else {
+//                                        Alert.makeText("방문 에러 발생");
+//                                        try {
+//                                            Log.e("VISIT", "error : " + response.errorBody().string());
+//                                        } catch (IOException e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<ApiMessasge> call, Throwable t) {
+//                                    Alert.makeText(getResources().getString(R.string.network_error));
+//                                }
+//                            });
+//                } else {
+//                    visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+//                    ApiClient.getInstance().getApiService()
+//                            .cancelVisit(MyApplication.APP_VERSION
+//                                    , new VisitDTO(Me.getInstance().getIdx(), attractionIdx))
+//                            .enqueue(new Callback<ApiMessasge>() {
+//                                @Override
+//                                public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
+//                                    if (response.body() != null) {
+//                                        Alert.makeText("방문 취소!");
+//                                    } else {
+//                                        Alert.makeText("방문 취소 에러 발생" + response.errorBody().toString());
+//                                        try {
+//                                            Log.e("LIKE", "error : " + response.errorBody().string());
+//                                        } catch (IOException e) {
+//                                            e.printStackTrace();
+//                                        }
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<ApiMessasge> call, Throwable t) {
+//                                    Alert.makeText(getResources().getString(R.string.network_error));
+//                                }
+//                            });
+//                }
                 break;
             case R.id.rating_best_layout:
                 Alert.makeText(getResources().getString(R.string.image_select_toast));

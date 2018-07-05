@@ -84,7 +84,7 @@ public class GuideFragment extends Fragment  implements
 
     //map
 //    private static VoiceGuide guideEntity;
-    static List<Guide> guideEntities;
+   List<Guide> guideEntities = new ArrayList<>();
 
 
 //    GoogleApiClient mGoogleApiClient;
@@ -240,9 +240,6 @@ public class GuideFragment extends Fragment  implements
 
     }
 
-    private void getGuideEntity(){
-
-    }
 
     TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
