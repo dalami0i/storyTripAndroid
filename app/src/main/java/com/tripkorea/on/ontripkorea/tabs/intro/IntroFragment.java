@@ -92,22 +92,22 @@ public class IntroFragment extends Fragment {
         main_image_vp.setAdapter(mainImageFragmentPagerAdapter);
         switch (usinglanguage) {
             case "한국어":
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/ko_changdeok_0(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/ko_changdeok_00_intro(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/ko_changdeok_01_don(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/ko_changdeok_02_geum(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/ko_changdeok_03_in(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/ko_changdeok_04_seon_hee(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/ko_changdeok_05_nak_total(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/ko_changdeok_0(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/ko_changdeok_00_intro(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/ko_changdeok_01_don(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/ko_changdeok_02_geum(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/ko_changdeok_03_in(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/ko_changdeok_04_seon_hee(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/ko_changdeok_05_nak_total(810x1230).jpg");
                 break;
             default:
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/en_changdeok_0(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/en_changdeok_00_intro(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/en_changdeok_01_don(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/en_changdeok_02_geum(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/en_changdeok_03_in(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/en_changdeok_04_seon_hee(810x1230).jpg");
-                mainImageFragmentPagerAdapter.addMainImage("http://13.209.77.103:8080/resources/images/catoon/changdeokgung/en_changdeok_05_nak_total(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/en_changdeok_0(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/en_changdeok_00_intro(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/en_changdeok_01_don(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/en_changdeok_02_geum(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/en_changdeok_03_in(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/en_changdeok_04_seon_hee(810x1230).jpg");
+                mainImageFragmentPagerAdapter.addMainImage("http://13.209.61.27:8080/resources/images/catoon/changdeokgung/en_changdeok_05_nak_total(810x1230).jpg");
                 break;
         }
         main_image_vp.setAdapter(mainImageFragmentPagerAdapter);

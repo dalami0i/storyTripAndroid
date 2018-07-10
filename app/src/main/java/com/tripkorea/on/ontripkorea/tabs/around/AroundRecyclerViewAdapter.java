@@ -23,6 +23,7 @@ import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.LocationDistance;
+import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 
 import java.io.InputStream;
@@ -54,7 +55,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
         this.coordinate = coordinate;
 
 
-        switch (tabPosition) {
+        /*switch (tabPosition) {
             case 0:
                 for (int i = 0; i < resources.size(); i++) {
                     try {
@@ -85,7 +86,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
                 }
                 break;
 
-        }
+        }*/
 //            findingList = resources;
     }
 
@@ -222,7 +223,9 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
         holder.mView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                new LogManager().LogManager("around-adapter111",thisAttraction.getName()+" | "+thisAttraction.getLat());
                 if (aroundMap != null) {
+                    new LogManager().LogManager("around-adapter222",thisAttraction.getName()+" | "+thisAttraction.getLat());
                     aroundMap.moveCamera(
                             CameraUpdateFactory.newLatLng(
                                     new LatLng(thisAttraction.getLat(), thisAttraction.getLon())));

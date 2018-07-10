@@ -39,6 +39,7 @@ import com.tripkorea.on.ontripkorea.tabs.MainActivity;
 import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
+import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
@@ -120,11 +121,17 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_around, container, false);
 
-        initViews(view);
+        aroundMap = view.findViewById(R.id.around_map);
+        aroundMap.getMapAsync(this);
 
         if (aroundMap != null) {
             aroundMap.onCreate(savedInstanceState);
         }
+
+        initViews(view);
+
+
+
         return view;
     }
 
@@ -148,12 +155,12 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     }
 
     private void initViews(View view) {
-        Log.d("initViews","start");
+        Log.d("around initViews","start");
 
-        aroundMap = view.findViewById(R.id.around_map);
+
         aroundTabs = view.findViewById(R.id.around_tabs);
         aroundRV = view.findViewById(R.id.around_rv);
-        aroundMap.getMapAsync(this);
+
 
         //사용자 언어 확인
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
@@ -192,16 +199,17 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
         aroundRV.addItemDecoration(dividerItemDecorationLinkTransportation);
         aroundRV.setLayoutManager(lm);
 
-        Log.e("showaround", "tab 위치: " + aroundTabs.getSelectedTabPosition());
 
         //2018 06 24 20:10 kiryun 추가
         setRoute(coordinate.getLat(), coordinate.getLon(), 1);
         setRestaurants(coordinate.getLat(), coordinate.getLon(), 1);
         setTours(coordinate.getLat(), coordinate.getLon(), 1);
 
-
-
-        Log.e("showaround", "aroundRouteList 갯수 :"+ aroundRouteList.size());
+        if(mMap == null){
+            new LogManager().LogManager("aroundFragmnet","map 이 널널널");
+        }else{
+            new LogManager().LogManager("aroundFragmnet","map 이 안널안널안널");
+        }
 
         aroundRouteRecyclerViewAdapter = new AroundRecyclerViewAdapter(aroundRouteList, main, TAB_ROUTE, coordinate, mMap);
         aroundRestaurantsRecyclerViewAdapter = new AroundRecyclerViewAdapter(restaurantList, main, TAB_RESTAURANT, coordinate, mMap);
@@ -502,44 +510,44 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
         Log.e("checkAround", "주변점검 몇 개? " + totalList.size());
         for (int i = 0; i < totalList.size(); i++) {
 //            if(i != 0 && i != 9 && i!=58) {
-
+            new LogManager().LogManager("checkAround","i: "+i+" | totalList.get(i).getName(): "+totalList.get(i).getName()+" | totalList.get(i).getCategoryIdx(): "+totalList.get(i).getCategoryIdx());
             LatLng location =
                     new LatLng(totalList.get(i).getLat(), totalList.get(i).getLon());
             switch (totalList.get(i).getCategoryIdx()) {
                 case 51:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
-                            .title(aroundList.get(i).title)
+                            .title(totalList.get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_history)))
-                            .setTag(aroundList.get(i).contentID);
+                            .setTag(totalList.get(i).getIdx());
                     break;
                 case 50:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
-                            .title(aroundList.get(i).title)
+                            .title(totalList.get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_museum)))
-                            .setTag(aroundList.get(i).contentID);
+                            .setTag(totalList.get(i).getIdx());
                     break;
                 case 52:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
-                            .title(aroundList.get(i).title)
+                            .title(totalList.get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_activity)))
-                            .setTag(aroundList.get(i).contentID);
+                            .setTag(totalList.get(i).getIdx());
                     break;
-                case 1:
+                case 0:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
-                            .title(aroundList.get(i).title)
+                            .title(totalList.get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_food)))
-                            .setTag(aroundList.get(i).contentID);
+                            .setTag(totalList.get(i).getIdx());
                     break;
                 default:
                     mMap.addMarker(new MarkerOptions()
                             .position(location)
-                            .title(aroundList.get(i).title)
+                            .title(totalList.get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_bus)))
-                            .setTag(aroundList.get(i).contentID);
+                            .setTag(totalList.get(i).getIdx());
                     break;
             }
 //            }
