@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -27,7 +28,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -38,7 +41,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
+import com.tripkorea.on.ontripkorea.tabs.MainActivity;
 import com.tripkorea.on.ontripkorea.util.Alert;
+import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.NetworkUtil;
 import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
@@ -75,7 +80,7 @@ public class GuideFragment extends Fragment  implements
     RecyclerView guide_img_rv;
 
 
-    Context main;
+    MainActivity main;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";
@@ -87,7 +92,7 @@ public class GuideFragment extends Fragment  implements
    List<Guide> guideEntities = new ArrayList<>();
 
 
-//    GoogleApiClient mGoogleApiClient;
+    GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
     Location currentLocation;
     double currentLat, currentLong;
@@ -102,8 +107,9 @@ public class GuideFragment extends Fragment  implements
 //    private static VoiceGuideLocation locEntity;
     private Guide buildingEntity;
 
-    public Fragment guideFragmentNewInstance(GoogleMap mMap, int lastTab){
+    public Fragment guideFragmentNewInstance(GoogleMap mMap, MainActivity main, int lastTab){//GoogleMap mMap,
         this.lastTab = lastTab;
+        this.main = main;
         this.mMap = mMap;
         return new GuideFragment();
     }
@@ -231,6 +237,12 @@ public class GuideFragment extends Fragment  implements
         guideMap.getMapAsync(this);
 
         initViews(view);
+
+        if(mMap == null){
+            new LogManager().LogManager("guideFragmnet","map 이 널널널");
+        }else{
+            new LogManager().LogManager("guideFragmnet","map 이 안널안널안널");
+        }
 
 
         return view;
@@ -365,23 +377,65 @@ public class GuideFragment extends Fragment  implements
     }
 
     private void checkMyLocation(){
-        if (ContextCompat.checkSelfPermission(MyApplication.getContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            LocationManager locationManager = (LocationManager) MyApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-            String provider = locationManager.getBestProvider(criteria, true);
-            currentLocation = locationManager.getLastKnownLocation(provider);
-            if(currentLocation != null) {
-                currentLong = currentLocation.getLongitude();
-                currentLat = currentLocation.getLatitude();
-            }else{
-                Toast.makeText(MyApplication.getContext(), R.string.failtoloadlocation, Toast.LENGTH_LONG).show();
-                currentLong = 37.577401;
-                currentLat = 126.989511;
-            }
+        checkLocationPermission();
+        LocationManager locationManager = (LocationManager)main.getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        String provider = locationManager.getBestProvider(criteria, true);
+        currentLocation = locationManager.getLastKnownLocation(provider);
+        if(currentLocation != null) {
+            currentLong = currentLocation.getLongitude();
+            currentLat = currentLocation.getLatitude();
+        }else{
+            Toast.makeText(main, R.string.failtoloadlocation, Toast.LENGTH_LONG).show();
+            currentLong = 37.577401;
+            currentLat = 126.989511;
         }
+//        double dist = distance(latitude, longitude, currentLat, currentLong, "meter");
+
+    }
+
+    private void checkLocationPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(main,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                buildGoogleApiClient();
+                mMap.setMyLocationEnabled(true);
+                mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                    @Override
+                    public boolean onMyLocationButtonClick() {
+                        checkAround(mMap);
+                        return false;
+                    }
+                });
+            }else{
+                ActivityCompat.requestPermissions(main,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        } else {
+            buildGoogleApiClient();
+            mMap.setMyLocationEnabled(true);
+            mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                @Override
+                public boolean onMyLocationButtonClick() {
+                    checkAround(mMap);
+                    return false;
+                }
+            });
+        }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+//        new LogManager().printLogManager("빌드에이피아이","비이이이이이틀");
+        mGoogleApiClient = new GoogleApiClient.Builder(main)
+                .addApi(LocationServices.API)
+                .build();
+
+        mGoogleApiClient.connect();
+
     }
 
 
@@ -396,9 +450,11 @@ public class GuideFragment extends Fragment  implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        checkLocationPermission();
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
+                checkLocationPermission();
                 if (ContextCompat.checkSelfPermission(MyApplication.getContext(),
                         android.Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {

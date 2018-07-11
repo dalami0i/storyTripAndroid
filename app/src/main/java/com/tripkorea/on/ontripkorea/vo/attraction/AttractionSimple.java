@@ -1,6 +1,8 @@
 package com.tripkorea.on.ontripkorea.vo.attraction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by YangHC on 2018-06-11.
@@ -8,6 +10,7 @@ import java.io.Serializable;
 
 public class AttractionSimple implements Serializable{
     private int categoryIdx;
+    private List<Integer> categoryList = new ArrayList<>();
     private int idx;
     private String name;
     private double lat;
@@ -16,6 +19,14 @@ public class AttractionSimple implements Serializable{
     private String summary;
     private String detail;
     private String thumnailAddr;
+
+    public List<Integer> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Integer> categoryList) {
+        this.categoryList = categoryList;
+    }
 
     public int getCategoryIdx() {
         return categoryIdx;

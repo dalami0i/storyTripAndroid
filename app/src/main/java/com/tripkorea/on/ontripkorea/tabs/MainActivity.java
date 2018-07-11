@@ -3,6 +3,7 @@ package com.tripkorea.on.ontripkorea.tabs;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity  {
+public class MainActivity extends BaseActivity {
     @BindView(R.id.tab_main)
     MyTabLayout tabLayout;
     @BindView(R.id.frame_main)
@@ -64,6 +65,12 @@ public class MainActivity extends BaseActivity  {
     private MediaPlayer click;
 
     static int currentTab;
+
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private GoogleMap mMap;
+    public GoogleApiClient mGoogleApiClient;
+    Location currentLocation;
+    double currentLat, currentLong;
 
 
     @Override
@@ -158,7 +165,7 @@ public class MainActivity extends BaseActivity  {
                 case MyTabLayout.TAB_GUIDE:
                     checkLocationPermission();
                     GuideFragment guideFragment = new GuideFragment();
-                    guideFragment.guideFragmentNewInstance(mMap, currentTab);
+                    guideFragment.guideFragmentNewInstance(mMap, MainActivity.this, currentTab);
                     guideFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
                         @Override
                         public void onNetWorkError() {
@@ -177,7 +184,7 @@ public class MainActivity extends BaseActivity  {
                 case MyTabLayout.TAB_AROUND:
                     checkLocationPermission();
                     AroundFragment aroundFragment = new AroundFragment();
-                    aroundFragment.aroundFragmentNewInstance(MainActivity.this, mMap, currentTab);
+                    aroundFragment.aroundFragmentNewInstance(mMap, MainActivity.this,  currentTab);
                     fragment = aroundFragment;
                     currentTab = MyTabLayout.TAB_AROUND;
                     aroundFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
@@ -280,9 +287,7 @@ public class MainActivity extends BaseActivity  {
 
 
 
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private GoogleMap mMap;
-    public GoogleApiClient mGoogleApiClient;
+
 
     protected synchronized void buildGoogleApiClient() {
 //        )Log.e("빌드에이피아이","비이이이이이틀");
@@ -324,6 +329,7 @@ public class MainActivity extends BaseActivity  {
 //            });
         }
     }
+
 
 
 }

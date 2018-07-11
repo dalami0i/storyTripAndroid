@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -56,9 +58,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by YangHC on 2018-06-05.
- */
 
 public class AroundFragment extends Fragment implements OnMapReadyCallback, LocationListener {
     private final static int TAB_ROUTE = 0;
@@ -104,7 +103,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
     MainActivity main;
 
-    public AroundFragment aroundFragmentNewInstance(MainActivity main, GoogleMap mMap, int lastTab) {
+    public AroundFragment aroundFragmentNewInstance(GoogleMap mMap, MainActivity main, int lastTab) {//GoogleMap mMap,
         this.lastTab = lastTab;
         this.main = main;
         this.mMap = mMap;
@@ -156,7 +155,6 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
     private void initViews(View view) {
         Log.d("around initViews","start");
-
 
         aroundTabs = view.findViewById(R.id.around_tabs);
         aroundRV = view.findViewById(R.id.around_rv);
@@ -235,11 +233,12 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                             Log.e("ROUTES", "size : "+aroundRouteList.size());
                             totalList.addAll(aroundRoutes);
 
-                            for(AttractionSimple aroundRoute : aroundRoutes)
+                            /*for(AttractionSimple aroundRoute : aroundRoutes)
                             {
                                 Log.e("ROUTES", aroundRoute.getName());
-                            }
+                            }*/
                             aroundRouteRecyclerViewAdapter.notifyDataSetChanged();
+
                         }
                         else
                         {
@@ -274,10 +273,11 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                             Log.e("RESTAURANTS", "size : " + restaurantList.size());
                             totalList.addAll(restaurantList);
 
-                            for (AttractionSimple restaurant : restaurants) {
+                            /*for (AttractionSimple restaurant : restaurants) {
                                 Log.e("RESTAURANTS", restaurant.getName());
-                            }
+                            }*/
                             aroundRestaurantsRecyclerViewAdapter.notifyDataSetChanged();
+                            checkAround(mMap);
                         } else {
                             Log.e("RESTAURANTS", "실패");
                             if (response.errorBody() != null) {
@@ -312,10 +312,11 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                             Log.e("TOURS", "size : " + tourList.size());
                             totalList.addAll(tourList);
 
-                            for (AttractionSimple restaurant : restaurants) {
+                            /*for (AttractionSimple restaurant : restaurants) {
                                 Log.e("TOURS", restaurant.getName());
-                            }
+                            }*/
                             aroundToursRecyclerViewAdapter.notifyDataSetChanged();
+                            checkAround(mMap);
                         } else {
                             Log.e("TOURS", "실패");
                             if (response.errorBody() != null) {
@@ -353,6 +354,8 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                     aroundRV.setAdapter(aroundToursRecyclerViewAdapter);
                     break;
             }
+
+
         }
 
         @Override
@@ -366,28 +369,28 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     };
 
 
-    private void checkMyLocation() {
-        if (ContextCompat.checkSelfPermission(MyApplication.getContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            LocationManager locationManager = (LocationManager)
-                    MyApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-            String provider = locationManager.getBestProvider(criteria, true);
-            currentLocation = locationManager.getLastKnownLocation(provider);
-            if (currentLocation != null) {
-                currentLong = currentLocation.getLongitude();
-                currentLat = currentLocation.getLatitude();
-            } else {
-                Toast.makeText(MyApplication.getContext(), R.string.failtoloadlocation, Toast.LENGTH_LONG).show();
-                currentLong = 37.577401;
-                currentLat = 126.989511;
-            }
-//        double dist = distance(latitude, longitude, currentLat, currentLong, "meter");
-
-        }
-    }
+//    private void checkMyLocation() {
+//        if (ContextCompat.checkSelfPermission(MyApplication.getContext(),
+//                android.Manifest.permission.ACCESS_FINE_LOCATION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            LocationManager locationManager = (LocationManager)
+//                    MyApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
+//            Criteria criteria = new Criteria();
+//            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+//            String provider = locationManager.getBestProvider(criteria, true);
+//            currentLocation = locationManager.getLastKnownLocation(provider);
+//            if (currentLocation != null) {
+//                currentLong = currentLocation.getLongitude();
+//                currentLat = currentLocation.getLatitude();
+//            } else {
+//                Toast.makeText(MyApplication.getContext(), R.string.failtoloadlocation, Toast.LENGTH_LONG).show();
+//                currentLong = 37.577401;
+//                currentLat = 126.989511;
+//            }
+////        double dist = distance(latitude, longitude, currentLat, currentLong, "meter");
+//
+//        }
+//    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -398,15 +401,79 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
     }
 
+    private void checkMyLocation(){
+        checkLocationPermission();
+        LocationManager locationManager = (LocationManager)main.getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        String provider = locationManager.getBestProvider(criteria, true);
+        currentLocation = locationManager.getLastKnownLocation(provider);
+        if(currentLocation != null) {
+            currentLong = currentLocation.getLongitude();
+            currentLat = currentLocation.getLatitude();
+        }else{
+            Toast.makeText(main, R.string.failtoloadlocation, Toast.LENGTH_LONG).show();
+            currentLong = 37.577401;
+            currentLat = 126.989511;
+        }
+//        double dist = distance(latitude, longitude, currentLat, currentLong, "meter");
+
+    }
+
+    private void checkLocationPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(main,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                buildGoogleApiClient();
+                mMap.setMyLocationEnabled(true);
+                mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                    @Override
+                    public boolean onMyLocationButtonClick() {
+                        checkAround(mMap);
+                        return false;
+                    }
+                });
+            }else{
+                ActivityCompat.requestPermissions(main,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        } else {
+            buildGoogleApiClient();
+            mMap.setMyLocationEnabled(true);
+            mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                @Override
+                public boolean onMyLocationButtonClick() {
+                    checkAround(mMap);
+                    return false;
+                }
+            });
+        }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+//        new LogManager().printLogManager("빌드에이피아이","비이이이이이틀");
+        mGoogleApiClient = new GoogleApiClient.Builder(main)
+                .addApi(LocationServices.API)
+                .build();
+
+        mGoogleApiClient.connect();
+
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        new LogManager().LogManager("aroundFragment","onMapReady");
         mMap = googleMap;
 //        mMap.clear();
 //        Log.e("onMapReady","맵 청소 함");
+        checkLocationPermission();
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
+                checkLocationPermission();
                 if (ContextCompat.checkSelfPermission(MyApplication.getContext(),
                         android.Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -507,53 +574,56 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     }
 
     private void checkAround(GoogleMap mMap) {
-        Log.e("checkAround", "주변점검 몇 개? " + totalList.size());
+        Log.e("checkAround", "주변점검 몇 개(totalList.size())? " + totalList.size());
+
         for (int i = 0; i < totalList.size(); i++) {
 //            if(i != 0 && i != 9 && i!=58) {
-            new LogManager().LogManager("checkAround","i: "+i+" | totalList.get(i).getName(): "+totalList.get(i).getName()+" | totalList.get(i).getCategoryIdx(): "+totalList.get(i).getCategoryIdx());
-            LatLng location =
-                    new LatLng(totalList.get(i).getLat(), totalList.get(i).getLon());
-            switch (totalList.get(i).getCategoryIdx()) {
-                case 51:
-                    mMap.addMarker(new MarkerOptions()
-                            .position(location)
-                            .title(totalList.get(i).getName())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_history)))
-                            .setTag(totalList.get(i).getIdx());
-                    break;
-                case 50:
-                    mMap.addMarker(new MarkerOptions()
-                            .position(location)
-                            .title(totalList.get(i).getName())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_museum)))
-                            .setTag(totalList.get(i).getIdx());
-                    break;
-                case 52:
-                    mMap.addMarker(new MarkerOptions()
-                            .position(location)
-                            .title(totalList.get(i).getName())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_activity)))
-                            .setTag(totalList.get(i).getIdx());
-                    break;
-                case 0:
-                    mMap.addMarker(new MarkerOptions()
-                            .position(location)
-                            .title(totalList.get(i).getName())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_food)))
-                            .setTag(totalList.get(i).getIdx());
-                    break;
-                default:
-                    mMap.addMarker(new MarkerOptions()
-                            .position(location)
-                            .title(totalList.get(i).getName())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_bus)))
-                            .setTag(totalList.get(i).getIdx());
-                    break;
-            }
+            if(totalList.get(i).getCategoryList().size() > 0) {
+                new LogManager().LogManager("checkAround", "i: " + i + " | totalList.get(i).getName(): " + totalList.get(i).getName() + " | totalList.get(i).getCategoryIdx(): " + totalList.get(i).getCategoryList().get(0));
+                LatLng location =
+                        new LatLng(totalList.get(i).getLat(), totalList.get(i).getLon());
+                switch (totalList.get(i).getCategoryList().get(0)) {
+                    case 51:
+                        mMap.addMarker(new MarkerOptions()
+                                .position(location)
+                                .title(totalList.get(i).getName())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_history)))
+                                .setTag(totalList.get(i).getIdx());
+                        break;
+                    case 2:
+                        mMap.addMarker(new MarkerOptions()
+                                .position(location)
+                                .title(totalList.get(i).getName())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_museum)))
+                                .setTag(totalList.get(i).getIdx());
+                        break;
+                    case 52:
+                        mMap.addMarker(new MarkerOptions()
+                                .position(location)
+                                .title(totalList.get(i).getName())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_activity)))
+                                .setTag(totalList.get(i).getIdx());
+                        break;
+                    case 1:
+                        mMap.addMarker(new MarkerOptions()
+                                .position(location)
+                                .title(totalList.get(i).getName())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_food)))
+                                .setTag(totalList.get(i).getIdx());
+                        break;
+                    default:
+                        mMap.addMarker(new MarkerOptions()
+                                .position(location)
+                                .title(totalList.get(i).getName())
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_bus)))
+                                .setTag(totalList.get(i).getIdx());
+                        break;
+                }
 //            }
 
 //            String id = String.valueOf(aroundList.get(i).contentID);
 //            new YoutubeAsyncTask().execute(id, new GetYoutubeKey().takeYoutubekey(id));
+            }
         }
     }
 }
