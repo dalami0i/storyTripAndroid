@@ -51,7 +51,6 @@ import com.tripkorea.on.ontripkorea.util.WifiCheck;
 import com.tripkorea.on.ontripkorea.vo.voiceguide.Guide;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -89,7 +88,7 @@ public class GuideFragment extends Fragment  implements
 
     //map
 //    private static VoiceGuide guideEntity;
-   List<Guide> guideEntities = new ArrayList<>();
+    static ArrayList<Guide> guideEntities = new ArrayList<>();
 
 
     GoogleApiClient mGoogleApiClient;
@@ -163,10 +162,10 @@ public class GuideFragment extends Fragment  implements
         }
         ApiClient.getInstance().getApiService()
                 .getGuide(MyApplication.APP_VERSION, 1024,language)
-                .enqueue(new Callback<List<Guide>>() {
+                .enqueue(new Callback<ArrayList<Guide>>() {
 
                     @Override
-                    public void onResponse(Call<List<Guide>> call, Response<List<Guide>> response) {
+                    public void onResponse(Call<ArrayList<Guide>> call, Response<ArrayList<Guide>> response) {
                         if (response.body() != null) {
                             guideEntities = response.body();
                             if(guideEntities != null){
@@ -200,7 +199,7 @@ public class GuideFragment extends Fragment  implements
                     }
 
                     @Override
-                    public void onFailure(Call<List<Guide>> call, Throwable t) {
+                    public void onFailure(Call<ArrayList<Guide>> call, Throwable t) {
                         Alert.makeText(getResources().getString(R.string.network_error));
                     }
                 });
@@ -449,6 +448,7 @@ public class GuideFragment extends Fragment  implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        new LogManager().LogManager("GuideFragment","onMapReady");
         mMap = googleMap;
         checkLocationPermission();
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
@@ -538,7 +538,7 @@ public class GuideFragment extends Fragment  implements
 
     private void checkAround(GoogleMap mMap){
 
-        Log.e("Map-checkAround","콘텐츠 몇 개? "+guideEntities.size());
+        Log.e("GuideFragment","콘텐츠 몇 개? "+guideEntities.size());
         for(int i=1; i< guideEntities.size(); i++) {
             /*double tempx =(Double.parseDouble(guideEntities.get(i).getGuideWest())
                     +Double.parseDouble(guideEntities.get(i).getGuideEast()))/2;
@@ -788,4 +788,17 @@ public class GuideFragment extends Fragment  implements
         tempStop();
     }
 
+   /* @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("GuideFragment",guideEntities);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null) {
+            guideEntities = savedInstanceState.getParcelableArrayList("GuideFragment");
+        }
+    }*/
 }

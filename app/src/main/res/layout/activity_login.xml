@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tripkorea.on.ontripkorea">
+
+    <TextView
+        android:id="@+id/txt_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="ID input please"/>
+
+    <com.tripkorea.on.ontripkorea.util.LinedEditText
+        android:id="@+id/et_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_id"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="your ID"
+        android:paddingStart="5dp"
+        android:textColorHint="@color/edit_hint"
+        />
+
+
+    <TextView
+        android:id="@+id/txt_pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_id"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:text="input password"/>
+
+    <com.tripkorea.on.ontripkorea.util.LinedEditText
+        android:id="@+id/et_pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_pw"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="your password"
+        android:paddingStart="5dp"
+        android:textColorHint="@color/edit_hint"
+        />
+
+    <requestFocus/>
+
+
+    <LinearLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/et_pw"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:id="@+id/btn_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"/>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="Login"/>
+    </LinearLayout>
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:visibility="visible"
+        tools:visibility="gone" />
+
+    <!--<com.facebook.login.widget.LoginButton-->
+    <!--android:id="@+id/facebook_login_button"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/google_sign_in_button"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout_marginTop="30dp"/>-->
+
+    <CheckBox
+        android:id="@+id/chk_auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/google_sign_in_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Auto login"/>
+
+
+</RelativeLayout>

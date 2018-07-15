@@ -7,7 +7,7 @@
     <string name="exit_quit_text">Quit</string>
     <string name="exit_cancel_text">Cancel</string>
 
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAay6YKMaDsB9KgvlB4HY6-x-x03FsqetY</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAay6YKMaDsB9KgvlB4HY6-x-x03FsqetY</string><!--AIzaSyCFaWAvd4HXG13DHhEX6KRPanWfpVit9yM-->
     <!--AIzaSyCKnPvppC9UxzX0pirap6kkOWnBn0LNzDo-->
 
     <string name="serverip">http://13.124.155.173:</string>
@@ -16,6 +16,7 @@
     <string name="right_arrow">◀</string>
     <string name="left_arrow">▶</string>
     <string name="failtoloadlocation">Fail to get your location. Just it will service based on standard location.</string>
+    <string name="internet_failed">Internet was disconnected. Update will be failed</string>
 
     <string name="home_tab">home</string>
     <string name="intro_tab">intro</string>

@@ -1,5 +1,6 @@
 package com.tripkorea.on.ontripkorea.tabs;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -31,6 +33,7 @@ import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
 import com.tripkorea.on.ontripkorea.tabs.intro.IntroFragment;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.BaseActivity;
+import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.MyTabLayout;
 import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
@@ -103,6 +106,9 @@ public class MainActivity extends BaseActivity {
         Gson gsonTotal = new Gson();
         String totalListString = setting.getString("totalList", null);
 
+        TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        String countryCode = tm.getSimCountryIso();
+        new LogManager().LogManager("나라 이름 테스트",countryCode+" | ");
 
         if(Build.VERSION.SDK_INT >Build.VERSION_CODES.N) {
             locale = getResources().getConfiguration().getLocales().get(0);

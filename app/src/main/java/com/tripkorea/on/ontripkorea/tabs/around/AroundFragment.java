@@ -574,12 +574,12 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     }
 
     private void checkAround(GoogleMap mMap) {
-        Log.e("checkAround", "주변점검 몇 개(totalList.size())? " + totalList.size());
+//        Log.e("checkAround", "주변점검 몇 개(totalList.size())? " + totalList.size());
 
         for (int i = 0; i < totalList.size(); i++) {
 //            if(i != 0 && i != 9 && i!=58) {
             if(totalList.get(i).getCategoryList().size() > 0) {
-                new LogManager().LogManager("checkAround", "i: " + i + " | totalList.get(i).getName(): " + totalList.get(i).getName() + " | totalList.get(i).getCategoryIdx(): " + totalList.get(i).getCategoryList().get(0));
+//                new LogManager().LogManager("checkAround", "i: " + i + " | totalList.get(i).getName(): " + totalList.get(i).getName() + " | totalList.get(i).getCategoryIdx(): " + totalList.get(i).getCategoryList().get(0));
                 LatLng location =
                         new LatLng(totalList.get(i).getLat(), totalList.get(i).getLon());
                 switch (totalList.get(i).getCategoryList().get(0)) {

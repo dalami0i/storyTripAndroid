@@ -8,6 +8,7 @@ import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
 import com.tripkorea.on.ontripkorea.vo.voiceguide.Guide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,6 +59,6 @@ public interface ApiService {
 
     //어트랙션 보이스 가이드
     @GET("/storytour/api/{version}/user/attr/guide/list/{attractionIdx}/{language}")
-    Call<List<Guide>> getGuide(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);
+    Call<ArrayList<Guide>> getGuide(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);
 
 }

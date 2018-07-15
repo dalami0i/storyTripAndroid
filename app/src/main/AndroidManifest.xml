@@ -41,6 +41,11 @@
         </activity>
 
         <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.GungTheme">
+        </activity>
+
+        <activity
             android:name=".tabs.MainActivity"
             android:theme="@style/Theme.GungTheme">
         </activity>

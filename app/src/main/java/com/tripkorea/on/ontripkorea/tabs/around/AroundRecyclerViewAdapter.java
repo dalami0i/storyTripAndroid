@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,9 +29,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by YangHC on 2018-06-11.
- */
+///**
+// * Created by YangHC on 2018-06-11.
+// */
 
 public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecyclerViewAdapter.ViewHolder> {
     private List<AttractionSimple> findingList = new ArrayList<>();
@@ -145,6 +143,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final AttractionSimple thisAttraction = findingList.get(position);
+        new LogManager().LogManager("aroundAdapter","title: "+thisAttraction.getName()+" | id:"+thisAttraction.getIdx());
 //            )Log.e("어라운드 onBindViewHolder","firstShowPosition: "+firstShowPosition);
 
         //보여주기
@@ -177,7 +176,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
                 try {
                     int temp = thisAttraction.getIdx();
                     AroundDetailActivity.youtubeDetails.clear();
-                    Log.e("showaround", "show detail 직전");
+//                    Log.e("showaround", "show detail 직전");
 //                    if(findingResult.youtubekey != null){
 //                        String[] youtubeList = findingResult.youtubekey.split(",");
 //                        Log.e("showaround","item youtube"+youtubeList[0]);
@@ -206,6 +205,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
                             Intent intent = new Intent(context, AroundDetailActivity.class);
                             intent.putExtra("attraction", thisAttraction);
                             intent.putExtra("attractionIdx", thisAttraction.getIdx());
+                            new LogManager().LogManager("around to detail","thisAttraction.getIdx(); "+thisAttraction.getIdx());
                             context.startActivity(intent);
                             break;
                     }
@@ -223,9 +223,7 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
         holder.mView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                new LogManager().LogManager("around-adapter111",thisAttraction.getName()+" | "+thisAttraction.getLat());
                 if (aroundMap != null) {
-                    new LogManager().LogManager("around-adapter222",thisAttraction.getName()+" | "+thisAttraction.getLat());
                     aroundMap.moveCamera(
                             CameraUpdateFactory.newLatLng(
                                     new LatLng(thisAttraction.getLat(), thisAttraction.getLon())));

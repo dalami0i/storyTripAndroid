@@ -1,5 +1,6 @@
 package com.tripkorea.on.ontripkorea.tabs.around.detail;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -119,6 +120,8 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
     public static ArrayList<YoutubeDetail> youtubeDetails = new ArrayList<>();
 
+    ProgressDialog detailProgress = null;
+
 
 
 
@@ -128,10 +131,13 @@ public class AroundDetailActivity extends AppCompatActivity implements
         setContentView(R.layout.showarounddetailactivity);
         ButterKnife.bind(this);
 
+        detailProgress = ProgressDialog.show(AroundDetailActivity.this, "", "Loading...", true);
+
         guideMap.onCreate(savedInstanceState);
 
         //1128은 '반한닥' 없으면 에러를 띄우던가 해야지 이건 수정해야 할 듯;;
         attractionIdx = getIntent().getIntExtra("attractionIdx", 1128);
+        new LogManager().LogManager("detail: idx from around","thisAttraction.getIdx(); "+attractionIdx);
 
         //사용자 언어 확인
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
@@ -151,7 +157,8 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
                         if (response.body() != null) {
                             thisAttraction = response.body();
-
+                            new LogManager().LogManager("AroundDetail","thisAttraction is 안널안널안널");
+                            new LogManager().LogManager("AroundDetail",response.body()+"");
                             if (thisAttraction.getThumnailAddr() != null && thisAttraction.getThumnailAddr().length() > 5) {
 //                final MainImageRecyclerViewAdapter imgRvAdapter = new MainImageRecyclerViewAdapter();
 //                for (int i = 0; i < MainActivity.attrImgURLArrayList.size(); i++) {
@@ -234,6 +241,15 @@ public class AroundDetailActivity extends AppCompatActivity implements
                                 e.printStackTrace();
                             }
                         }
+                        new LogManager().LogManager("디테일",thisAttraction.getName()+" | "+thisAttraction.getThumnailAddr());
+                        new LogManager().LogManager("디테일","값 받아옴");
+                        initViews();
+                        if(detailProgress.isShowing()) {
+                            detailProgress.dismiss();
+                            new LogManager().LogManager("디테일","디엔드");
+//                            dialogShowing = false;
+                        }
+
                     }
 
                     @Override
@@ -264,7 +280,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
 //            youtubeLinkRV.setNestedScrollingEnabled(false);
 //        }
 
-        initViews();
+
     }
 
     private void initViews() {
@@ -273,6 +289,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
         ratingBestLayout.setOnClickListener(this);
         ratingMidLayout.setOnClickListener(this);
         ratingLowLayout.setOnClickListener(this);
+        new LogManager().LogManager("디테일","뷰완성");
     }
 
     private void checkMyLocation() {

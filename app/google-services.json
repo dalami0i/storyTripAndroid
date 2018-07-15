@@ -1,0 +1,331 @@
+{
+  "project_info": {
+    "project_number": "365705909926",
+    "firebase_url": "https://mymapfirst-146310.firebaseio.com",
+    "project_id": "mymapfirst-146310",
+    "storage_bucket": "mymapfirst-146310.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365705909926:android:cceb95ba51f2f21c",
+        "android_client_info": {
+          "package_name": "com.tripkorea.on.ontripkorea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365705909926-mge5k96per93tdj0f65i7alvk2q1seob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tripkorea.on.ontripkorea",
+            "certificate_hash": "5b5798d1bbc026e76e137bc676d637dd7ee6ea5e"
+          }
+        },
+        {
+          "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIGhJJP9q9OjyvXn-aR6DHUE_Z91kEoK0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365705909926:android:a9d4ec45ed6c1d3d",
+        "android_client_info": {
+          "package_name": "org.androidtown.realchangdeokgung"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365705909926-4o0tkc7e1sj4ntj4j9vcf89pn6n7dkuv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.realchangdeokgung",
+            "certificate_hash": "97d12867958f7340481855afacb1d55af35ec94f"
+          }
+        },
+        {
+          "client_id": "365705909926-usmqn7k0bof4oqj1nfsrbcnc6gasfca0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.realchangdeokgung",
+            "certificate_hash": "5b5798d1bbc026e76e137bc676d637dd7ee6ea5e"
+          }
+        },
+        {
+          "client_id": "365705909926-k36oth86eshsve63scu26784s9pqskm0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.realchangdeokgung",
+            "certificate_hash": "2311aed01b806ed6933e8180c40fcd6970653c85"
+          }
+        },
+        {
+          "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIGhJJP9q9OjyvXn-aR6DHUE_Z91kEoK0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365705909926:android:9d362563cea0118d",
+        "android_client_info": {
+          "package_name": "org.androidtown.realchangdeokgunge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365705909926-3l187m1aoli8t1bhnfqurphjhtnnq326.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.realchangdeokgunge",
+            "certificate_hash": "4f58ba5298eee4b438b4bf307647dbbe78da6445"
+          }
+        },
+        {
+          "client_id": "365705909926-tmee4mg9ca7jrkcmbv47adrko0ksjgku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.realchangdeokgunge",
+            "certificate_hash": "5b5798d1bbc026e76e137bc676d637dd7ee6ea5e"
+          }
+        },
+        {
+          "client_id": "365705909926-loboea3dbcqbs3md3ipl251fkt1eqsp1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.realchangdeokgunge",
+            "certificate_hash": "2311aed01b806ed6933e8180c40fcd6970653c85"
+          }
+        },
+        {
+          "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIGhJJP9q9OjyvXn-aR6DHUE_Z91kEoK0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365705909926:android:f6fae7a48898d32f",
+        "android_client_info": {
+          "package_name": "seoul.realkorea.org.mygoogleoauth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365705909926-jlna68mc2fmp3ojgghsfvlf309mt2je9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "seoul.realkorea.org.mygoogleoauth",
+            "certificate_hash": "5b5798d1bbc026e76e137bc676d637dd7ee6ea5e"
+          }
+        },
+        {
+          "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIGhJJP9q9OjyvXn-aR6DHUE_Z91kEoK0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365705909926:android:f026586dacf1b3b1",
+        "android_client_info": {
+          "package_name": "seoul.realkorea.org.mylittleseoul"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365705909926-q4v9e2g2i3drp00tp85qnbhkgmirs4mn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "seoul.realkorea.org.mylittleseoul",
+            "certificate_hash": "5b5798d1bbc026e76e137bc676d637dd7ee6ea5e"
+          }
+        },
+        {
+          "client_id": "365705909926-376imselterd43mcaov0jjr2kq49ib0v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "seoul.realkorea.org.mylittleseoul",
+            "certificate_hash": "2311aed01b806ed6933e8180c40fcd6970653c85"
+          }
+        },
+        {
+          "client_id": "365705909926-pd723eiplqrjornb6jarisk3nr83vc0g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "seoul.realkorea.org.mylittleseoul",
+            "certificate_hash": "38281cfa163c69ae0fc01f3ed0bcb3351a0d491f"
+          }
+        },
+        {
+          "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIGhJJP9q9OjyvXn-aR6DHUE_Z91kEoK0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365705909926:android:fb099e8741f05423",
+        "android_client_info": {
+          "package_name": "seoul.realkorea.org.ontripkorea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365705909926-cep2vi26v1ifrhar3e7ugv59c6o1jrq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "seoul.realkorea.org.ontripkorea",
+            "certificate_hash": "5b5798d1bbc026e76e137bc676d637dd7ee6ea5e"
+          }
+        },
+        {
+          "client_id": "365705909926-m8mccoc415fl5otqa49c8atk8uu9d2dg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "seoul.realkorea.org.ontripkorea",
+            "certificate_hash": "38281cfa163c69ae0fc01f3ed0bcb3351a0d491f"
+          }
+        },
+        {
+          "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIGhJJP9q9OjyvXn-aR6DHUE_Z91kEoK0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365705909926-4uun5p01qko6ou4r9uqke8lg7fi1e24c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
