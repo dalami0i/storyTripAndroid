@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
 import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessasge;
+import com.tripkorea.on.ontripkorea.tabs.guide.GuideActivity;
 import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.LogManager;
@@ -135,8 +137,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
         guideMap.onCreate(savedInstanceState);
 
-        //1128은 '반한닥' 없으면 에러를 띄우던가 해야지 이건 수정해야 할 듯;;
-        attractionIdx = getIntent().getIntExtra("attractionIdx", 1128);
+        attractionIdx = getIntent().getIntExtra("attractionIdx", 1024);
         new LogManager().LogManager("detail: idx from around","thisAttraction.getIdx(); "+attractionIdx);
 
         //사용자 언어 확인
@@ -146,19 +147,33 @@ public class AroundDetailActivity extends AppCompatActivity implements
             locale = getResources().getConfiguration().locale;
         }
         usinglanguage = locale.getDisplayLanguage();
+        int language = 0;
+        switch (usinglanguage){
+            case "한국어":
+                language = 1;
+                break;
+            case "中文":
+                language = 2;
+                break;
+            case "日本言":
+                language = 3;
+                break;
+            default:
+                language = 0;
+                break;
+
+        }
 
         guideMap.getMapAsync(this);
 
         ApiClient.getInstance().getApiService()
-                .getAttractionDetail(MyApplication.APP_VERSION, attractionIdx, Me.getInstance().getIdx())
+                .getAttractionDetail(MyApplication.APP_VERSION, attractionIdx, language, Me.getInstance().getIdx())
                 .enqueue(new Callback<AttractionDetail>() {
                     @Override
                     public void onResponse(Call<AttractionDetail> call, Response<AttractionDetail> response) {
-
+                        new LogManager().LogManager("AroundDetail",response.body()+"");
                         if (response.body() != null) {
                             thisAttraction = response.body();
-                            new LogManager().LogManager("AroundDetail","thisAttraction is 안널안널안널");
-                            new LogManager().LogManager("AroundDetail",response.body()+"");
                             if (thisAttraction.getThumnailAddr() != null && thisAttraction.getThumnailAddr().length() > 5) {
 //                final MainImageRecyclerViewAdapter imgRvAdapter = new MainImageRecyclerViewAdapter();
 //                for (int i = 0; i < MainActivity.attrImgURLArrayList.size(); i++) {
@@ -243,7 +258,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
                         }
                         new LogManager().LogManager("디테일",thisAttraction.getName()+" | "+thisAttraction.getThumnailAddr());
                         new LogManager().LogManager("디테일","값 받아옴");
-                        initViews();
+                        initViews(attractionIdx);
                         if(detailProgress.isShowing()) {
                             detailProgress.dismiss();
                             new LogManager().LogManager("디테일","디엔드");
@@ -283,12 +298,19 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
     }
 
-    private void initViews() {
+    private void initViews(int attractionIdx) {
         likeImg.setOnClickListener(this);
         visitImg.setOnClickListener(this);
         ratingBestLayout.setOnClickListener(this);
         ratingMidLayout.setOnClickListener(this);
         ratingLowLayout.setOnClickListener(this);
+
+        if(attractionIdx == 1024){
+            LinearLayout guidebtnLayout = findViewById(R.id.item_guidebtn_layout);
+            guidebtnLayout.setVisibility(View.VISIBLE);
+            guidebtnLayout.setOnClickListener(this);
+        }
+
         new LogManager().LogManager("디테일","뷰완성");
     }
 
@@ -721,6 +743,11 @@ public class AroundDetailActivity extends AppCompatActivity implements
 //                                }
 //                            });
 //                }
+                break;
+            case R.id.item_guidebtn_layout:
+                Intent guideIntent = new Intent(AroundDetailActivity.this, GuideActivity.class);
+                guideIntent.putExtra("guideIdx",attractionIdx);
+                startActivity(guideIntent);
                 break;
             case R.id.rating_best_layout:
                 Alert.makeText(getResources().getString(R.string.image_select_toast));

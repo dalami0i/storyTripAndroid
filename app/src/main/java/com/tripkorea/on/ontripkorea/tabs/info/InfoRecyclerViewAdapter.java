@@ -72,7 +72,6 @@ public class InfoRecyclerViewAdapter extends RecyclerView.Adapter<InfoRecyclerVi
                 try {
                     int attractionIdx = thisAttraction.getIdx();
                     Intent intent = new Intent(context, AroundDetailActivity.class);
-                    intent.putExtra("attraction", thisAttraction);
                     intent.putExtra("attractionIdx", attractionIdx);
                     context.startActivity(intent);
                 } catch (NumberFormatException e) {

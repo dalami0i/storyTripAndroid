@@ -17,7 +17,7 @@ public class Guide implements Parcelable{
     private double length;
     private double lat;
     private double lon;
-    private String guideUrl;
+    private String voiceAddress;
     private List<GuideImage> guideImageList;
     private String guideSouth;
     private String guideNorth;
@@ -35,7 +35,7 @@ public class Guide implements Parcelable{
         length = in.readDouble();
         lat = in.readDouble();
         lon = in.readDouble();
-        guideUrl = in.readString();
+        voiceAddress = in.readString();
         guideSouth = in.readString();
         guideNorth = in.readString();
         guideEast = in.readString();
@@ -52,7 +52,7 @@ public class Guide implements Parcelable{
         dest.writeDouble(length);
         dest.writeDouble(lat);
         dest.writeDouble(lon);
-        dest.writeString(guideUrl);
+        dest.writeString(voiceAddress);
         dest.writeString(guideSouth);
         dest.writeString(guideNorth);
         dest.writeString(guideEast);
@@ -173,12 +173,12 @@ public class Guide implements Parcelable{
         this.lon = lon;
     }
 
-    public String getGuideUrl() {
-        return guideUrl;
+    public String getVoiceAddress() {
+        return voiceAddress;
     }
 
-    public void setGuideUrl(String guideUrl) {
-        this.guideUrl = guideUrl;
+    public void setVoiceAddress(String voiceAddress) {
+        this.voiceAddress = voiceAddress;
     }
 
     public List<GuideImage> getGuideImageList() {

@@ -34,7 +34,7 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:id="@+id/admission"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,33 +136,21 @@
                     android:layout_weight="7"
                     android:text="@string/transportation_info_con" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <TextView
+            <android.support.design.widget.TabLayout
+                android:id="@+id/info_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:paddingStart="10dp"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/type_title_bg"
-                android:text="@string/detail_like" />
+                android:background="@color/white"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/colorAccent"
+                app:tabMaxWidth="0dp"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabTextColor="@color/iconLightTintColor" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_info_like"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:paddingStart="10dp"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/type_title_bg"
-                android:text="@string/detail_visit" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_info_visit"
+                android:id="@+id/info_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

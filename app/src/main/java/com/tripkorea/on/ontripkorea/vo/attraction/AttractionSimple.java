@@ -1,5 +1,8 @@
 package com.tripkorea.on.ontripkorea.vo.attraction;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * Created by YangHC on 2018-06-11.
  */
 
-public class AttractionSimple implements Serializable{
+public class AttractionSimple implements Serializable, Parcelable{
     private int categoryIdx;
     private List<Integer> categoryList = new ArrayList<>();
     private int idx;
@@ -19,6 +22,50 @@ public class AttractionSimple implements Serializable{
     private String summary;
     private String detail;
     private String thumnailAddr;
+
+    public  AttractionSimple(){}
+
+    protected AttractionSimple(Parcel in) {
+        categoryIdx = in.readInt();
+        idx = in.readInt();
+        name = in.readString();
+        lat = in.readDouble();
+        lon = in.readDouble();
+        route = in.readString();
+        summary = in.readString();
+        detail = in.readString();
+        thumnailAddr = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(categoryIdx);
+        dest.writeInt(idx);
+        dest.writeString(name);
+        dest.writeDouble(lat);
+        dest.writeDouble(lon);
+        dest.writeString(route);
+        dest.writeString(summary);
+        dest.writeString(detail);
+        dest.writeString(thumnailAddr);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AttractionSimple> CREATOR = new Creator<AttractionSimple>() {
+        @Override
+        public AttractionSimple createFromParcel(Parcel in) {
+            return new AttractionSimple(in);
+        }
+
+        @Override
+        public AttractionSimple[] newArray(int size) {
+            return new AttractionSimple[size];
+        }
+    };
 
     public List<Integer> getCategoryList() {
         return categoryList;

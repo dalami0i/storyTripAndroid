@@ -74,6 +74,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
     //locale
     String usinglanguage;
+    int language;
     Locale locale;
 
     //중심 여행지 위치 (현재는 창덕궁)
@@ -169,7 +170,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
 
         usinglanguage = locale.getDisplayLanguage();
 
-        int language = 0;
+        language = 0;
         switch (usinglanguage){
             case "한국어":
                 language = 1;
@@ -263,7 +264,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     // TODO : 서버에서 주변 관광지 정보 가져오기
     private void setRestaurants(double lat, double lon, int page) {
         ApiClient.getInstance().getApiService()
-                .getAroundRestaurants(MyApplication.APP_VERSION, lat, lon, page)
+                .getAroundRestaurants(MyApplication.APP_VERSION, lat, lon,language, page)
                 .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
@@ -302,7 +303,7 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
     // TODO : 서버에서 주변 관광지 정보 가져오기
     private void setTours(double lat, double lon, int page) {
         ApiClient.getInstance().getApiService()
-                .getAroundTours(MyApplication.APP_VERSION, lat, lon, page)
+                .getAroundTours(MyApplication.APP_VERSION, lat, lon,language, page)
                 .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {

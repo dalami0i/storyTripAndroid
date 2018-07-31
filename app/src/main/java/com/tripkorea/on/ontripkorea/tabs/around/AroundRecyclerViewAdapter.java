@@ -203,7 +203,6 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
                             break;
                         default:
                             Intent intent = new Intent(context, AroundDetailActivity.class);
-                            intent.putExtra("attraction", thisAttraction);
                             intent.putExtra("attractionIdx", thisAttraction.getIdx());
                             new LogManager().LogManager("around to detail","thisAttraction.getIdx(); "+thisAttraction.getIdx());
                             context.startActivity(intent);

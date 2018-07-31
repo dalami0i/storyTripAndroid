@@ -6,7 +6,9 @@ import com.tripkorea.on.ontripkorea.vo.attraction.AttractionDetail;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
+import com.tripkorea.on.ontripkorea.vo.toonguide.Toon;
 import com.tripkorea.on.ontripkorea.vo.voiceguide.Guide;
+import com.tripkorea.on.ontripkorea.vo.voiceguide.VoiceGuideLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +28,8 @@ public interface ApiService {
     @HTTP(method = "POST", path = "/storytour/api/{version}/user/like/cancel", hasBody = true)
     Call<ApiMessasge> cancelLike(@Path("version") int version, @Body LikeDTO likeDTO);
     // 내 좋아요 리스트
-    @GET("/storytour/api/{version}/user/like/list/{userIdx}")
-    Call<List<AttractionSimple>> getMyLikeList(@Path("version") int version, @Path("userIdx") int userIdx);
+    @GET("/storytour/api/{version}/user/like/list/{userIdx}/{language}")
+    Call<List<AttractionSimple>> getMyLikeList(@Path("version") int version, @Path("userIdx") int userIdx, @Path("language") int languag);
 
      // 방문
     @POST("/storytour/api/{version}/user/visit")
@@ -36,8 +38,8 @@ public interface ApiService {
     @HTTP(method = "POST", path = "/storytour/api/{version}/user/visit/cancel", hasBody = true)
     Call<ApiMessasge> cancelVisit(@Path("version") int version,@Body VisitDTO likeDTO);
     // 내 방문 리스트
-    @GET("/storytour/api/{version}/user/visit/list/{userIdx}")
-    Call<List<AttractionSimple>> getMyVisitList(@Path("version") int version, @Path("userIdx") int userIdx);
+    @GET("/storytour/api/{version}/user/visit/list/{userIdx}/{language}")
+    Call<List<AttractionSimple>> getMyVisitList(@Path("version") int version, @Path("userIdx") int userIdx, @Path("language") int languag);
 
 
     // 주변 교통정보 리스트
@@ -46,19 +48,27 @@ public interface ApiService {
     @GET("/storytour/api/{version}/user/attr/route/list/{index}")
     Call<List<AttractionSimple>> getAroundRoutes(@Path("version") int version, @Path("index") int idx);
     // 주변 식당 리스트
-    @GET("/storytour/api/{version}/user/attr/restaurant/list/{lat}/{lon}/{page}")
-    Call<List<AttractionSimple>> getAroundRestaurants(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("page") int page);
+    @GET("/storytour/api/{version}/user/attr/restaurant/list/{lat}/{lon}/{language}/{page}")
+    Call<List<AttractionSimple>> getAroundRestaurants(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon,@Path("language") int language, @Path("page") int page);
     // 주변 놀거리 리스트
-    @GET("/storytour/api/{version}/user/attr/tour/list/{lat}/{lon}/{page}")
-    Call<List<AttractionSimple>> getAroundTours(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("page") int page);
+    @GET("/storytour/api/{version}/user/attr/tour/list/{lat}/{lon}/{language}/{page}")
+    Call<List<AttractionSimple>> getAroundTours(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("language") int language, @Path("page") int page);
 
     //어트랙션 상세 정보
-    @GET("/storytour/api/{version}/user/attr/detail/{attractionIdx}/{userIdx}")
-    Call<AttractionDetail> getAttractionDetail(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("userIdx") int userIdx);
+    @GET("/storytour/api/{version}/user/attr/detail/{attractionIdx}/{language}/{userIdx}")
+    Call<AttractionDetail> getAttractionDetail(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language, @Path("userIdx") int userIdx);
 
 
     //어트랙션 보이스 가이드
     @GET("/storytour/api/{version}/user/attr/guide/list/{attractionIdx}/{language}")
     Call<ArrayList<Guide>> getGuide(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);
 
+    //어트랙션 가이드툰
+    @GET("/storytour/api/{version}/user/attr/cartoon/list/{attractionIdx}/{language}")
+    Call<List<Toon>> getCartoon(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);
+
+
+    //보이스가이드 로그 전송
+    @POST("/storytour/api/{version}/logging/voiceGuide")
+    Call<ApiMessasge> voiceGuideLog (@Path("version") int version,@Body ArrayList<VoiceGuideLog> voiceGuideLogList);
 }

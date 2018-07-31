@@ -150,10 +150,10 @@ public class GuideFragment extends Fragment  implements
                 language = 1;
                 break;
             case "中文":
-                language = 2;
+                language = 0;
                 break;
             case "日本言":
-                language = 3;
+                language = 0;
                 break;
             default:
                 language = 0;
@@ -180,7 +180,7 @@ public class GuideFragment extends Fragment  implements
 
                             title.setText(buildingEntity.getTitle());
                             totalTime.setText(getVoiceLength(buildingEntity.getLength()));
-                            voiceAddress = buildingEntity.getGuideUrl();
+                            voiceAddress = buildingEntity.getVoiceAddress();
 
                             LinearLayoutManager linkLayoutManager
                                     = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -188,7 +188,7 @@ public class GuideFragment extends Fragment  implements
                             guide_img_rv.setLayoutManager(linkLayoutManager);
                             snapHelper.attachToRecyclerView(guide_img_rv);
                             VoiceImageRecyclerViewAdapter voiceImageRecyclerViewAdapter
-                                    = new VoiceImageRecyclerViewAdapter();
+                                    = new VoiceImageRecyclerViewAdapter(main);
                             for(int i=0;i<buildingEntity.getGuideImageList().size(); i++){
                                 voiceImageRecyclerViewAdapter.addVoiceImgList(buildingEntity.getGuideImageList().get(i));
                             }
@@ -237,12 +237,6 @@ public class GuideFragment extends Fragment  implements
 
         initViews(view);
 
-        if(mMap == null){
-            new LogManager().LogManager("guideFragmnet","map 이 널널널");
-        }else{
-            new LogManager().LogManager("guideFragmnet","map 이 안널안널안널");
-        }
-
 
         return view;
     }
@@ -278,7 +272,7 @@ public class GuideFragment extends Fragment  implements
                 seekbar.setVisibility(View.VISIBLE);
 
                 title.setText(buildingEntity.getTitle());
-                voiceAddress = buildingEntity.getGuideUrl();
+                voiceAddress = buildingEntity.getVoiceAddress();
                 String time = "0:00";
                 thisTime.setText(time);
 //                new LogManager().LogManager("전체 시간: "+buildingEntity.getTitle(),buildingEntity.getLength()+" | "+getVoiceLength(buildingEntity.getLength()));
@@ -574,7 +568,9 @@ public class GuideFragment extends Fragment  implements
         pauseBtn = getResources().getIdentifier(pauseTag, "drawable", MyApplication.getContext().getPackageName());
 
         if (mp == null) {
-            voiceAddress = "http://13.209.61.27:8080/resources/guides/"+voiceAddress;
+            if(voiceAddress.length() < 40) {
+                voiceAddress = "http://13.209.61.27:8080/resources/guides/voice/" + voiceAddress;
+            }
             Log.e("보이스가이드","start: "+voiceAddress);
             if (NetworkUtil.isNetworkConnected(MyApplication.getContext())) {
                 WifiCheck.CheckConnect cc = new WifiCheck.CheckConnect(CONNECTION_CONFIRM_CLIENT_URL);

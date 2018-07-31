@@ -20,30 +20,36 @@
         android:layout_height="wrap_content"
         android:background="@color/white">
 
-        <!--<android.support.design.widget.TabItem-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:icon="@drawable/selector_home"-->
-            <!--android:text="@string/home_tab"-->
-            <!--/>-->
-
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/selector_home"
-            android:text="@string/intro_tab" />
+            android:text="@string/home_tab"
+            />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/selector_guide"
-            android:text="@string/guide_tab"/>
+            android:icon="@drawable/selector_food"
+            android:text="@string/food_tab" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/selector_attraction"
+            android:text="@string/attraction_tab"/>
+
+        <!--<android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/selector_toon"
+            android:text="@string/toon_tab"/>
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/selector_around"
-            android:text="@string/around_tab" />
+            android:text="@string/around_tab" />-->
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"

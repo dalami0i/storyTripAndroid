@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.vo.voiceguide;
 
 import android.util.Log;
@@ -7,9 +8,11 @@ import com.tripkorea.on.ontripkorea.util.MyApplication;
 
 import java.util.Locale;
 
+*/
 /**
  * Created by Edward Won on 2018-06-12.
- */
+ *//*
+
 
 public class VoiceGuideGenerator {
 
@@ -110,20 +113,6 @@ public class VoiceGuideGenerator {
 
     private VoiceGuideLocation generatorLoc(VoiceGuideLocation VoiceGuideLocation){
         switch(VoiceGuideLocation.voiceguideid){
-            case "changMain":
-                VoiceGuideLocation.location_title = MyApplication.getContext().getString(R.string.changtitle);
-                VoiceGuideLocation.voice_addr = MyApplication.getContext().getString(R.string.changaudioaddress);
-                VoiceGuideLocation.voice_title = MyApplication.getContext().getString(R.string.changsubtitle);
-                VoiceGuideLocation.voice_loc_east ="126.9941050";
-                VoiceGuideLocation.voice_loc_north="37.5806567";
-                VoiceGuideLocation.voice_loc_south="37.5776092";
-                VoiceGuideLocation.voice_loc_west="126.9891875";
-                VoiceGuideLocation.location_img_size = 1;
-                VoiceGuideImage changMain_img1 = new VoiceGuideImage();
-                changMain_img1.imgAddr = MyApplication.getContext().getString(R.string.changUrl1);
-                changMain_img1.voiceimgtext = MyApplication.getContext().getString(R.string.changsubtitle);
-                VoiceGuideLocation.voiceGuideImg.add(changMain_img1);
-                break;
             case "donhwa":
                 VoiceGuideLocation = makeDon(VoiceGuideLocation);
                 break;
@@ -1223,3 +1212,4 @@ public class VoiceGuideGenerator {
         return VoiceGuideLocation;
     }
 }
+*/
