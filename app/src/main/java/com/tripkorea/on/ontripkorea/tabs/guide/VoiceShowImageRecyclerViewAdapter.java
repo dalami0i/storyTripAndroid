@@ -69,7 +69,7 @@ public class VoiceShowImageRecyclerViewAdapter extends RecyclerView.Adapter<Voic
         final GuideImage voiceIMGEntity = voiceIMGlist.get(position);
         Log.e("맵onBindViewHolder", position + " | " + voiceIMGEntity.getDescription());
         if(voiceIMGEntity.getImgAddress().length() < 50) {
-            voiceIMGEntity.setImgAddress("http://13.209.61.27:8080/resources/guides/voice/img/" + voiceIMGEntity.getImgAddress() + ".jpg");
+            voiceIMGEntity.setImgAddress("http://13.125.83.183:8080/resources/guides/voice/img/" + voiceIMGEntity.getImgAddress() + ".jpg");
         }
         Log.e("보이스가이드이미지", voiceIMGEntity.getGuideIdx() + " | " + voiceIMGEntity.getImgAddress());
         /*holder.voiceguide_img_text.setText(voiceIMGEntity.getDescription());

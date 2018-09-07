@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="20dp">
+
+    <android.support.v7.widget.ContentFrameLayout
+        android:id="@+id/frame_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_recommended"
+            android:layout_width="160dp"
+            android:layout_height="120dp"
+            app:riv_corner_radius="10dp"
+            android:scaleType="centerCrop"/>
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_recommended_foreground"
+            android:layout_width="160dp"
+            android:layout_height="120dp"
+            app:riv_corner_radius="10dp"
+            android:background="@drawable/round_background_main_recommend"
+            android:scaleType="centerCrop"/>
+
+
+        <TextView
+            android:id="@+id/tv_recommended_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/round_background_main_recommend_title"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+
+    </android.support.v7.widget.ContentFrameLayout>
+
+    <TextView
+        android:id="@+id/tv_recommend_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/frame_recommend"/>
+
+</RelativeLayout>

@@ -28,6 +28,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -106,6 +107,8 @@ public class AroundDetailActivity extends AppCompatActivity implements
     Location currentLocation;
     double currentLat, currentLong;
 
+//    net.daum.mf.map.api.MapView kakaoMap;
+
     //youtube
     @BindView(R.id.links_list_rv)
     RecyclerView youtubeLinkRV;
@@ -135,9 +138,14 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
         detailProgress = ProgressDialog.show(AroundDetailActivity.this, "", "Loading...", true);
 
-        guideMap.onCreate(savedInstanceState);
 
-        attractionIdx = getIntent().getIntExtra("attractionIdx", 1024);
+
+//        kakaoMap = new net.daum.mf.map.api.MapView(this);
+//        kakaoMap.setDaumMapApiKey(getString(R.string.kakao_native_key));
+//        ViewGroup kakaoMapContainer = findViewById(R.id.kakao_map);
+//        kakaoMapContainer.addView(kakaoMap);
+
+        attractionIdx = getIntent().getIntExtra("attractionIdx", 3466);
         new LogManager().LogManager("detail: idx from around","thisAttraction.getIdx(); "+attractionIdx);
 
         //사용자 언어 확인
@@ -164,10 +172,12 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
         }
 
-        guideMap.getMapAsync(this);
+
+
+//        new LogManager().LogManager("맵테스트 onCreate","mMap.getMapType(): "+mMap.getMapType());
 
         ApiClient.getInstance().getApiService()
-                .getAttractionDetail(MyApplication.APP_VERSION, attractionIdx, language, Me.getInstance().getIdx())
+                .getFoodDetail(MyApplication.APP_VERSION, attractionIdx, language, Me.getInstance().getIdx())
                 .enqueue(new Callback<AttractionDetail>() {
                     @Override
                     public void onResponse(Call<AttractionDetail> call, Response<AttractionDetail> response) {
@@ -236,13 +246,30 @@ public class AroundDetailActivity extends AppCompatActivity implements
                                     .title(thisAttraction.getName())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_s)))
                                     .setTag(thisAttraction.getIdx());
+                            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                            new LogManager().LogManager("맵테스트_ApiClient","mMap.getMapType(): "+mMap.getMapType());
+                            new LogManager().LogManager("맵테스트_ApiClient","moveCamera: "+thisAttraction.getLat()+" | "+thisAttraction.getLon());
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(thisAttraction.getLat(), thisAttraction.getLon())));
+
+//                            kakaoMap.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(thisAttraction.getLat(), thisAttraction.getLon()), 2,true);
+//
+//                            MapPOIItem marker = new MapPOIItem();
+//                            marker.setItemName(thisAttraction.getName());
+//                            marker.setTag(0);
+//                            marker.setMapPoint(MapPoint.mapPointWithGeoCoord(thisAttraction.getLat(), thisAttraction.getLon()));
+//                            marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+//                            marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+//
+//                            kakaoMap.addPOIItem(marker);
+
 
                             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                                 @Override
                                 public void onMapClick(LatLng latLng) {
-                                    Log.e("showdetailactivity", thisAttraction.getName() + "맵클릭됨");
                                     Intent intent = new Intent(AroundDetailActivity.this, AroundDetailMapActivity.class);
+                                    new LogManager().LogManager("showdetailactivity_맵클릭됨", "getName(): "+thisAttraction.getName());
+                                    new LogManager().LogManager("showdetailactivity_맵클릭됨", "getLat(): "+thisAttraction.getLat());
+                                    new LogManager().LogManager("showdetailactivity_맵클릭됨", "getLon(): "+thisAttraction.getLon());
                                     intent.putExtra("attractionMap", thisAttraction);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                                     startActivity(intent);
@@ -283,6 +310,8 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
 
 
+
+
 //        if (thisAttraction.youtubekey != null) {
 //            LinearLayoutManager linkLayoutManager
 //                    = new LinearLayoutManager(AroundDetailActivity.this, LinearLayoutManager.VERTICAL, false);
@@ -305,7 +334,7 @@ public class AroundDetailActivity extends AppCompatActivity implements
         ratingMidLayout.setOnClickListener(this);
         ratingLowLayout.setOnClickListener(this);
 
-        if(attractionIdx == 1024){
+        if(attractionIdx == 3466){
             LinearLayout guidebtnLayout = findViewById(R.id.item_guidebtn_layout);
             guidebtnLayout.setVisibility(View.VISIBLE);
             guidebtnLayout.setOnClickListener(this);
@@ -380,9 +409,10 @@ public class AroundDetailActivity extends AppCompatActivity implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-//        GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+        GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
 
         mMap = googleMap;
+        new LogManager().LogManager("맵테스트_onMapReady",mMap.getMapType()+"");
 
 //        mMap.addMarker(new MarkerOptions()
 //                .position(new LatLng(thisAttraction.getLat(), thisAttraction.getLon()))
@@ -424,18 +454,19 @@ public class AroundDetailActivity extends AppCompatActivity implements
         });
 
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(thisAttraction.getLat(), thisAttraction.getLon())));
 
-//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                Log.e("showdetailactivity", AroundDetailActivity.this.thisAttraction.getName() + "맵클릭됨");
-//                Intent intent = new Intent(AroundDetailActivity.this, AroundDetailMapActivity.class);
-//                intent.putExtra("attractionMap", AroundDetailActivity.this.thisAttraction);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-//                startActivity(intent);
-//            }
-//        });
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Log.e("showdetailactivity", AroundDetailActivity.this.thisAttraction.getName() + "맵클릭됨");
+                Intent intent = new Intent(AroundDetailActivity.this, AroundDetailMapActivity.class);
+                intent.putExtra("attractionMap", AroundDetailActivity.this.thisAttraction);
+                intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -458,21 +489,21 @@ public class AroundDetailActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        guideMap.onResume();
+//        guideMap.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 //        stopAudio();
-        guideMap.onPause();
+//        guideMap.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 //        unbinder = ButterKnife.bind(this, view);
-        guideMap.onDestroy();
+//        guideMap.onDestroy();
     }
 
     @Override
@@ -513,8 +544,8 @@ public class AroundDetailActivity extends AppCompatActivity implements
 //            mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
 
         } else {
-            mMap.clear();
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//            mMap.clear();
+//            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
     }
 

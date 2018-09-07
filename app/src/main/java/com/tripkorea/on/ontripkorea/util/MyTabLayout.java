@@ -11,10 +11,10 @@ import com.tripkorea.on.ontripkorea.R;
  */
 
 public class MyTabLayout extends TabLayout {
-    public static final int RES_ICON[] = {R.drawable.appbar_home_off, R.drawable.appbar_food, R.drawable.appbar_food, R.drawable.appbar_my_off};
+    public static final int RES_ICON[] = {R.drawable.appbar_home_off, R.drawable.appbar_map, R.drawable.appbar_toon, R.drawable.appbar_my_off};
     public static final int TAB_TOTAL = 0;
-    public static final int TAB_FOOD = 1;
-    public static final int TAB_ATTRACTION = 2;
+    public static final int TAB_MAP = 1;
+    public static final int TAB_GUIDE = 2;
     public static final int TAB_INFO = 3;
 
     public MyTabLayout(Context context) {

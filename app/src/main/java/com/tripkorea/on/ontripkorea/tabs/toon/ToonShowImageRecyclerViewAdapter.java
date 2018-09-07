@@ -69,14 +69,13 @@ public class ToonShowImageRecyclerViewAdapter extends RecyclerView.Adapter<ToonS
         Log.e("맵onBindViewHolder", position + " | " + toonIMGEntity);
 //        if(toonIMGEntity.getImgAddress().length() < 50) {
 //            toonIMGEntity.setImgAddress("http://13.209.61.27:8080/resources/images/img/" + toonIMGEntity.getImgAddress() + ".jpg");
-//        }
-        Log.e("보이스가이드이미지", toonIMGEntity+" | ");
+//        }\
         /*holder.voiceguide_img_text.setText(voiceIMGEntity.getDescription());
         holder.voiceguide_img_item.setCornerRadius((float) 10);*/
 
         RequestOptions myOptions = new RequestOptions().fitCenter().override(diviceSizeW, 900);
 
-        String imgAddr = "http://13.209.61.27:8080/resources/guides/cartoon/"+toonIMGEntity;
+        String imgAddr = "http://13.125.83.183:8080/resources/guides/cartoon/"+toonIMGEntity;
         Glide.with(MyApplication.getContext())
                 .load(imgAddr)
                 .apply(myOptions)

@@ -18,8 +18,22 @@ android {
     }
 }
 
+apply plugin: 'io.imqa'
 repositories {
     maven { url 'https://jitpack.io' }
+    jcenter()
+}
+
+// Add Build script dependencies
+buildscript {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        jcenter()
+    }
+    dependencies {
+        // dependencies 추가
+        classpath 'io.imqa:imqa-mpm-injector:1.3.10'
+    }
 }
 
 dependencies {
@@ -60,6 +74,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:11.6.0'
     implementation files('C:/AndroidProjects/StoryTour/storytour/.idea/libraries/android-zoom-view.jar')
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.0'
+
+    implementation 'com.kakao.sdk:usermgmt:1.1.35'
+    
+    compile files('libs/libDaumMapAndroid.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'

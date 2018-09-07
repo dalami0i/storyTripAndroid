@@ -57,7 +57,8 @@ import retrofit2.Response;
 public class GuideActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         LocationListener,
-        GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener{
 
     MapView guideMap;
     TextView title;
@@ -118,7 +119,7 @@ public class GuideActivity extends AppCompatActivity implements
         guideVoiceBtn = findViewById(R.id.sub_guide_voice);
         guideCardView = findViewById(R.id.guide_card_view);
 
-        guideIdx = getIntent().getIntExtra("guideIdx", 1024);
+        guideIdx = getIntent().getIntExtra("guideIdx", 8344);
 
         //사용자 언어 확인
         if(Build.VERSION.SDK_INT >Build.VERSION_CODES.N) {
@@ -145,7 +146,7 @@ public class GuideActivity extends AppCompatActivity implements
                 break;
         }
 
-        getVoiceGuide(language);
+//        getVoiceGuide(language);
         getCartoon(language);
 
         logList = new VoiceGuideLogList();
@@ -155,7 +156,7 @@ public class GuideActivity extends AppCompatActivity implements
 
     private void getVoiceGuide(final int language){
         ApiClient.getInstance().getApiService()
-                .getGuide(MyApplication.APP_VERSION, 1024,language)
+                .getGuide(MyApplication.APP_VERSION, 8344,language)
                 .enqueue(new Callback<ArrayList<Guide>>() {
 
                     @Override
@@ -178,12 +179,18 @@ public class GuideActivity extends AppCompatActivity implements
 
     private void getCartoon(final int language){
         ApiClient.getInstance().getApiService()
-                .getCartoon(MyApplication.APP_VERSION, 1024,language)
+                .getCartoon(MyApplication.APP_VERSION, 8344,language)
                 .enqueue(new Callback<List<Toon>>() {
                     @Override
                     public void onResponse(Call<List<Toon>> call, Response<List<Toon>> response) {
                         if(response.body() != null){
                             toons = response.body();
+                            for(int i=0;i<toons.size(); i++){
+                                new LogManager().LogManager("toonFragment toons.get(i).getTitle(): ",toons.get(i).getTitle()
+                                        +" | getLat(): "+toons.get(i).getLat()
+                                        +" | getLon(): "+toons.get(i).getLon());
+                            }
+                            checkMarker();
                             new LogManager().LogManager("toonFragment","toons.size(): "+toons.size()+" | ");
                         }
                     }
@@ -256,16 +263,16 @@ public class GuideActivity extends AppCompatActivity implements
     }
 
     private void checkMarker(){
-        Log.e("GuideFragment","콘텐츠 몇 개? "+guideEntities.size());
-        for(int i=1; i< guideEntities.size(); i++) {
+        Log.e("GuideFragment","콘텐츠 몇 개? "+toons.size());
+        for(int i=0; i< toons.size(); i++) {
             /*double tempx =(Double.parseDouble(guideEntities.get(i).getGuideWest())
                     +Double.parseDouble(guideEntities.get(i).getGuideEast()))/2;
             double tempy =(Double.parseDouble(guideEntities.get(i).getGuideNorth())
                     +Double.parseDouble(guideEntities.get(i).getGuideSouth()))/2;*/
-            LatLng location =  new LatLng(guideEntities.get(i).getLat(), guideEntities.get(i).getLon());
+            LatLng location =  new LatLng(toons.get(i).getLat(), toons.get(i).getLon());
             Marker tempMarker = mMap.addMarker(new MarkerOptions()
                     .position(location)
-                    .title(guideEntities.get(i).getTitle())
+                    .title(toons.get(i).getTitle())
                     .alpha(0.5f)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
             );//.icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_bg))
@@ -329,6 +336,7 @@ public class GuideActivity extends AppCompatActivity implements
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
         mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 
 
     }
@@ -338,9 +346,13 @@ public class GuideActivity extends AppCompatActivity implements
     @Override
     public boolean onMarkerClick(Marker marker) {
         new LogManager().LogManager("GuideActivity","onMarkerClick - marker.getTitle(): "+marker.getTitle());
-        checkGuideLayout(marker.getTitle());
+//        checkGuideLayout(marker.getTitle());
+
+
         return false;
     }
+
+
 
     @Override
     protected void onPause() {
@@ -367,5 +379,22 @@ public class GuideActivity extends AppCompatActivity implements
                 });
 
 
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toon tempToon = new Toon();
+        for(int i=0; i<toons.size(); i++){
+            if(marker.getTitle().equals(toons.get(i).getTitle())){
+                tempToon = toons.get(i);
+            }
+        }
+        new LogManager().LogManager("ToonFragment","인텐트 보내기 실행 전-tempToonSize: "+tempToon.getTitle()+"|");
+        new LogManager().LogManager("ToonFragment","인텐트 보내기 실행 전-tempToonSize: "+tempToon.getCartoonImageAddressList().size()+"|");
+        ToonImageEntity toonImageEntity = new ToonImageEntity();
+        toonImageEntity.setToonList(tempToon.getCartoonImageAddressList());
+        Intent showToonDetail = new Intent(GuideActivity.this, ToonDetailImageActivity.class);
+        showToonDetail.putExtra("toons",toonImageEntity);
+        startActivity(showToonDetail);
     }
 }

@@ -24,7 +24,7 @@ import butterknife.Unbinder;
 
 public class DetailedImageListFragment extends Fragment {
     private String detailedImgAddr;
-    AroundDetailActivity owner;
+    AroundDetailMapActivity owner;
     RoundedImageView detailed_img;
     int size;
     int position;
@@ -66,7 +66,7 @@ public class DetailedImageListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.detaileditem_image, container, false);
         unbinder = ButterKnife.bind(this, view);
-        owner = (AroundDetailActivity) getActivity();
+        owner = (AroundDetailMapActivity) getActivity();
         detailed_img = view.findViewById(R.id.detailed_img);
         TextView right_arrow = view.findViewById(R.id.right_arrow);
         TextView left_arrow = view.findViewById(R.id.left_arrow);

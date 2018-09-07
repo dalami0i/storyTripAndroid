@@ -7,23 +7,32 @@
     <string name="exit_quit_text">Quit</string>
     <string name="exit_cancel_text">Cancel</string>
 
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAay6YKMaDsB9KgvlB4HY6-x-x03FsqetY</string><!--AIzaSyCFaWAvd4HXG13DHhEX6KRPanWfpVit9yM-->
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyCFaWAvd4HXG13DHhEX6KRPanWfpVit9yM</string><!--희찬?? AIzaSyAay6YKMaDsB9KgvlB4HY6-x-x03FsqetY  내꺼: AIzaSyCFaWAvd4HXG13DHhEX6KRPanWfpVit9yM |  AIzaSyCALj5E5NL6dn9WQsDARdCA0xKkPheBm80  |  AIzaSyCYoF9Vr5DThwXm651rbJ1U0XfPOBlocMI | AIzaSyCFaWAvd4HXG13DHhEX6KRPanWfpVit9yM-->
     <!--AIzaSyCKnPvppC9UxzX0pirap6kkOWnBn0LNzDo-->
+    <string name="facebook_key" translatable="false" templateMergeStrategy="preserve">165093227569630</string>
+    <string name="naver_key" translatable="false" templateMergeStrategy="preserve">jiBZC2isRuydbd_tswoS</string>
+    <string name="naver_secret_key" translatable="false" templateMergeStrategy="preserve">q_Rj4pkg9x</string>
+    <string name="kakao_native_key" translatable="false" templateMergeStrategy="preserve">9ef00032d197f13b6f1dd48d9cc4072b</string>
 
-    <string name="serverip">http://13.124.155.173:</string>
+
+    <string name="serverip">http://13.125.83.183:</string><!-- 13.125.83.183 13.209.61.27 -->
     <string name="SERVER_CONTENT_TOTAL">/mylittleseoul/changFoodSelect?</string>
 
     <string name="right_arrow">◀</string>
     <string name="left_arrow">▶</string>
     <string name="failtoloadlocation">Fail to get your location. Just it will service based on standard location.</string>
     <string name="internet_failed">Internet was disconnected. Update will be failed</string>
+    <string name="google_login_failed">Google Login failed. Try again or Check your internet connection.</string>
+    <string name="naver_login_failed">Naver Login failed. Try again or Check your internet connection.</string>
+    <string name="login_failed">Login error, Please login again</string>
 
     <string name="home_tab">home</string>
+    <string name="map_tab">map</string>
     <string name="intro_tab">intro</string>
     <string name="guide_tab">guide</string>
     <string name="toon_tab">toon</string>
     <string name="around_tab">around</string>
-    <string name="info_tab">option</string>
+    <string name="info_tab">my page</string>
     <string name="food_tab">food</string>
     <string name="attraction_tab">attraction</string>
 

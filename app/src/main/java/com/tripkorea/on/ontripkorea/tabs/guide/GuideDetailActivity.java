@@ -97,7 +97,7 @@ public class GuideDetailActivity extends AppCompatActivity{
         VoiceImageGridAdapter gridAdapter
                 = new VoiceImageGridAdapter(GuideDetailActivity.this,
                                             R.layout.item_voice_guide_grid,
-                                            imgListEntity);
+                                            detailGuide);
 
         voiceImgGridview.setAdapter(gridAdapter);
 

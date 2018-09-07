@@ -12,10 +12,14 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tripkorea.on.ontripkorea.R;
-import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
+import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailMapActivity;
+import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleList;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleListSet;
+
+import java.util.List;
 
 ///**
 // * Created by YangHC on 2018-06-18.
@@ -35,6 +39,28 @@ public class FoodPhotoRecyclerViewAdapter extends RecyclerView.Adapter<FoodPhoto
 
     public void addFoodPhotoList(AttractionSimpleList obj) {//, String link_content
         foodPhotolistSet.getItems().add(obj);
+    }
+
+    public void setFoodPhotoList(List<AttractionSimple> addTemp){
+        for(int i=0;i<addTemp.size(); i++){
+            new LogManager().LogManager("푸드리싸", "if(x) 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+            int tmp = i;
+            if(tmp+5 < addTemp.size()) {
+                new LogManager().LogManager("푸드리싸", "전 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+                AttractionSimpleList tempList = new AttractionSimpleList();
+                tempList.getItems().add(addTemp.get(i));
+                tempList.getItems().add(addTemp.get(i+1));
+                tempList.getItems().add(addTemp.get(i+2));
+                tempList.getItems().add(addTemp.get(i+3));
+                tempList.getItems().add(addTemp.get(i+4));
+                tempList.getItems().add(addTemp.get(i+5));
+                this.foodPhotolistSet.getItems().add(tempList);
+
+                i = i + 5;
+                new LogManager().LogManager("푸드리싸", "후 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+            }
+        }
+
     }
 
     public FoodPhotoRecyclerViewAdapter() {    }
@@ -111,7 +137,7 @@ public class FoodPhotoRecyclerViewAdapter extends RecyclerView.Adapter<FoodPhoto
         holder.firstPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(0).getIdx());
                 context.startActivity(intent);
             }
@@ -119,7 +145,7 @@ public class FoodPhotoRecyclerViewAdapter extends RecyclerView.Adapter<FoodPhoto
         holder.secondPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(1).getIdx());
                 context.startActivity(intent);
             }
@@ -127,7 +153,7 @@ public class FoodPhotoRecyclerViewAdapter extends RecyclerView.Adapter<FoodPhoto
         holder.thirdPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(2).getIdx());
                 context.startActivity(intent);
             }
@@ -135,7 +161,7 @@ public class FoodPhotoRecyclerViewAdapter extends RecyclerView.Adapter<FoodPhoto
         holder.forthPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(3).getIdx());
                 context.startActivity(intent);
             }
@@ -143,7 +169,7 @@ public class FoodPhotoRecyclerViewAdapter extends RecyclerView.Adapter<FoodPhoto
         holder.fifthPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(4).getIdx());
                 context.startActivity(intent);
             }
@@ -151,7 +177,7 @@ public class FoodPhotoRecyclerViewAdapter extends RecyclerView.Adapter<FoodPhoto
         holder.sixthPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(5).getIdx());
                 context.startActivity(intent);
             }

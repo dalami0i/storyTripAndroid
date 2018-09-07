@@ -12,11 +12,12 @@
     <string name="failtoloadlocation">모바일 위치 불러오기에 실패하였습니다. 창덕궁 기본 위치로 서비스 됩니다.</string>
 
     <string name="home_tab">홈</string>
+    <string name="map_tab">지도</string>
     <string name="intro_tab">소개</string>
     <string name="guide_tab">음성 가이드</string>
     <string name="toon_tab">가이드툰</string>
     <string name="around_tab">주변 찾기</string>
-    <string name="info_tab">상세정보</string>
+    <string name="info_tab">마이 페이지</string>
     <string name="food_tab">맛집</string>
     <string name="attraction_tab">놀거리</string>
 
@@ -168,7 +169,9 @@
     <string name="image_explain_voice_btn">음성가이드 버튼</string>
     <string name="image_explain_toon_btn">가이드툰 버튼</string>
 
-
+    <string name="google_login_failed">구글 로그인에 실패하였습니다. 다시 로그인 하거나 인터넷 연결 상태를 확인해 주세요.</string>
+    <string name="naver_login_failed">Naver 로그인에 실패하였습니다. 다시 로그인 하거나 인터넷 연결 상태를 확인해 주세요.</string>
+    <string name="login_failed">로그인에 실패 하였습니다. 다시 로그인 해 주세요.</string>
 
 
 

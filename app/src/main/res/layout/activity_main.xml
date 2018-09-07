@@ -14,11 +14,12 @@
     <com.tripkorea.on.ontripkorea.util.MyTabLayout
         android:id="@+id/tab_main"
         android:layout_width="match_parent"
-        app:tabSelectedTextColor="@color/iconTintColor"
-        app:tabTextColor="@color/grey"
+        app:tabSelectedTextColor="@color/gnbSelectedColor"
+        app:tabTextColor="@color/gnbUnselectedColor"
         app:tabTextAppearance="@style/CustomTabText"
+        app:tabIndicatorColor="@color/gnbSelectedColor"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@drawable/oneside_background_bottom_detail_top">
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
@@ -30,26 +31,15 @@
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/selector_food"
-            android:text="@string/food_tab" />
+            android:icon="@drawable/selector_map"
+            android:text="@string/map_tab" />
 
         <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/selector_attraction"
-            android:text="@string/attraction_tab"/>
-
-        <!--<android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/selector_toon"
-            android:text="@string/toon_tab"/>
+            android:text="@string/guide_tab"/>
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/selector_around"
-            android:text="@string/around_tab" />-->
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"

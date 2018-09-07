@@ -22,6 +22,9 @@ public class AttractionSimple implements Serializable, Parcelable{
     private String summary;
     private String detail;
     private String thumnailAddr;
+    private String thumnailAddr2;
+    private int type;
+    private int guideType;
 
     public  AttractionSimple(){}
 
@@ -35,6 +38,9 @@ public class AttractionSimple implements Serializable, Parcelable{
         summary = in.readString();
         detail = in.readString();
         thumnailAddr = in.readString();
+        thumnailAddr2 = in.readString();
+        type = in.readInt();
+        guideType = in.readInt();
     }
 
     @Override
@@ -48,6 +54,9 @@ public class AttractionSimple implements Serializable, Parcelable{
         dest.writeString(summary);
         dest.writeString(detail);
         dest.writeString(thumnailAddr);
+        dest.writeString(thumnailAddr2);
+        dest.writeInt(type);
+        dest.writeInt(guideType);
     }
 
     @Override
@@ -146,5 +155,29 @@ public class AttractionSimple implements Serializable, Parcelable{
 
     public void setThumnailAddr(String thumnailAddr) {
         this.thumnailAddr = thumnailAddr;
+    }
+
+    public String getThumnailAddr2() {
+        return thumnailAddr2;
+    }
+
+    public void setThumnailAddr2(String thumnailAddr2) {
+        this.thumnailAddr2 = thumnailAddr2;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getGuideType() {
+        return guideType;
+    }
+
+    public void setGuideType(int guideType) {
+        this.guideType = guideType;
     }
 }

@@ -13,9 +13,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
+import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleList;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleListSet;
+
+import java.util.List;
 
 ///**
 // * Created by YangHC on 2018-06-18.
@@ -35,6 +39,28 @@ public class TotalPhotoRecyclerViewAdapter extends RecyclerView.Adapter<TotalPho
 
     public void addTotalPhotoList(AttractionSimpleList obj) {//, String link_content
         totalPhotolistSet.getItems().add(obj);
+    }
+
+    public void setTotalPhotoList(List<AttractionSimple> addTemp){
+        for(int i=0;i<addTemp.size(); i++){
+            new LogManager().LogManager("토탈리싸", "if(x) 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+            int tmp = i;
+            if(tmp+5 < addTemp.size()) {
+                new LogManager().LogManager("토탈리싸", "전 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+                AttractionSimpleList tempList = new AttractionSimpleList();
+                tempList.getItems().add(addTemp.get(i));
+                tempList.getItems().add(addTemp.get(i+1));
+                tempList.getItems().add(addTemp.get(i+2));
+                tempList.getItems().add(addTemp.get(i+3));
+                tempList.getItems().add(addTemp.get(i+4));
+                tempList.getItems().add(addTemp.get(i+5));
+                this.addTotalPhotoList(tempList);
+
+                i = i + 5;
+                new LogManager().LogManager("토탈리싸", "후 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+            }
+        }
+
     }
 
     public TotalPhotoRecyclerViewAdapter() {    }

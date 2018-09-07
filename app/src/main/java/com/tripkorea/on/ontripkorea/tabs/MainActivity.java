@@ -9,6 +9,7 @@ import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -26,21 +27,23 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.gson.Gson;
 import com.tripkorea.on.ontripkorea.R;
-import com.tripkorea.on.ontripkorea.tabs.attraction.PhotoAttractionFragment;
-import com.tripkorea.on.ontripkorea.tabs.food.PhotoFoodFragment;
+import com.tripkorea.on.ontripkorea.tabs.guide.GuideTabFragment;
 import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
-import com.tripkorea.on.ontripkorea.tabs.total.PhotoTotalFragment;
+import com.tripkorea.on.ontripkorea.tabs.list.ListItemFragment;
+import com.tripkorea.on.ontripkorea.tabs.map.MainMapFragment;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.BaseActivity;
 import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.MyTabLayout;
 import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
+import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleList;
 import com.tripkorea.on.ontripkorea.vo.user.Me;
+import com.tripkorea.on.ontripkorea.vo.user.User;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -76,7 +79,10 @@ public class MainActivity extends BaseActivity {
     public GoogleApiClient mGoogleApiClient;
     Location currentLocation;
     double currentLat, currentLong;
+    static int attractionPage;
 
+//    private ArrayList<GuidePhoto> guideList = new ArrayList<>();
+    private ArrayList<Attraction> itemListOnMap = new ArrayList<>();
     private AttractionSimpleList foodList;
     private AttractionSimpleList attractionList;
     private AttractionSimpleList totalList;
@@ -104,23 +110,31 @@ public class MainActivity extends BaseActivity {
 //        }
 
         Intent intent = getIntent();
+//        Bundle bundle = intent.getExtras();
+//        guideList = bundle.getParcelableArrayList("guides");
+        totalList = intent.getParcelableExtra("totals");
         foodList = intent.getParcelableExtra("foods");
         attractionList = intent.getParcelableExtra("attraction");
-        totalList = foodList;
-        totalList.getItems().addAll(attractionList.getItems());
+        User user = intent.getParcelableExtra("user");
+        currentLat = intent.getDoubleExtra("lat", 37.579108);
+        currentLong = intent.getDoubleExtra("lon",126.990957);
+        attractionPage = intent.getIntExtra("page",1);
 
         new LogManager().LogManager("메인엑티비티","foodList.getItems().size(): "+foodList.getItems().size());
         new LogManager().LogManager("메인엑티비티","attractionList.getItems().size(): "+attractionList.getItems().size());
-        new LogManager().LogManager("메인엑티비티","totalList.getItems().size(): "+totalList.getItems().size());
+//        new LogManager().LogManager("메인엑티비티","totalList.getItems().size(): "+totalList.getItems().size());
 
-        String welcomeMessage =getResources().getString(R.string.welcome_text)+Me.getInstance().getName();
+        String welcomeMessage;
+        if(user != null) {
+            welcomeMessage = getResources().getString(R.string.welcome_text) + user.getName() + " | " + user.getId();
+        }else{
+            welcomeMessage = getResources().getString(R.string.welcome_text) + Me.getInstance().getName();
+        }
         Alert.makeText(welcomeMessage);
 
         //////////////////////////////////////////////////////////////////////////sj
         setting = getSharedPreferences("setting",0);
         editor= setting.edit();
-        Gson gsonTotal = new Gson();
-        String totalListString = setting.getString("totalList", null);
 
         TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         String countryCode = tm.getSimCountryIso();
@@ -153,14 +167,27 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initViews() {
-        PhotoFoodFragment photoFoodFragment = new PhotoFoodFragment();
-        photoFoodFragment.photoFoodFragmentNewInstance(MainActivity.this, currentTab, foodList);
-        fragment = photoFoodFragment;
+        ListItemFragment listItemFragment = new ListItemFragment();
+        listItemFragment.listFragmentNewInstance(
+                MainActivity.this, totalList, foodList, attractionList, currentLat, currentLong
+        );
+        listItemFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+            @Override
+            public void onNetWorkError() {
+                Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
+                if(lastTab == null) {
+                    finish();
+                }
+            }
+        });
+        fragment = listItemFragment;
         currentTab = MyTabLayout.TAB_TOTAL;
 
-        replaceFragment(R.id.frame_main, photoFoodFragment);
+        replaceFragment(R.id.frame_main, listItemFragment);
 
         tabLayout.addOnTabSelectedListener(onTabSelectedListener);
+
+
     }
 
     TabLayout.Tab lastTab;
@@ -173,9 +200,11 @@ public class MainActivity extends BaseActivity {
 
                 case MyTabLayout.TAB_TOTAL:
 
-                    PhotoTotalFragment totalFragment = new PhotoTotalFragment();
-                    totalFragment.photoTotalFragmentNewInstance(MainActivity.this, currentTab, totalList);
-                    totalFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+                    ListItemFragment listItemFragment = new ListItemFragment();
+                    listItemFragment.listFragmentNewInstance(
+                            MainActivity.this, totalList, foodList, attractionList, currentLat, currentLong
+                    );
+                    listItemFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
                         @Override
                         public void onNetWorkError() {
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
@@ -186,36 +215,17 @@ public class MainActivity extends BaseActivity {
                             }
                         }
                     });
-                    fragment = totalFragment;
-                    currentTab = MyTabLayout.TAB_ATTRACTION;
-                    lastTab = tab;
 
-                    break;
-                case MyTabLayout.TAB_FOOD:
-
-                    PhotoFoodFragment photoFoodFragment = new PhotoFoodFragment();
-                    photoFoodFragment.photoFoodFragmentNewInstance(MainActivity.this, currentTab, foodList);
-                    photoFoodFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
-                        @Override
-                        public void onNetWorkError() {
-                            Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
-                            if(lastTab == null) {
-                                finish();
-                            }else{
-                                onTabSelected(lastTab);
-                            }
-                        }
-                    });
-                    fragment = photoFoodFragment;
+                    fragment = listItemFragment;
                     currentTab = MyTabLayout.TAB_TOTAL;
                     lastTab = tab;
-
                     break;
-                case MyTabLayout.TAB_ATTRACTION:
 
-                    PhotoAttractionFragment attractionFragment = new PhotoAttractionFragment();
-                    attractionFragment.photoAttractionFragmentNewInstance(MainActivity.this, currentTab, attractionList);
-                    attractionFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+                case MyTabLayout.TAB_MAP:
+                    MainMapFragment mainMapFragment = new MainMapFragment();
+                    mainMapFragment.mainMapFragmentNewInstance(
+                            MainActivity.this, currentTab, attractionList, foodList);
+                    mainMapFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
                         @Override
                         public void onNetWorkError() {
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
@@ -226,49 +236,32 @@ public class MainActivity extends BaseActivity {
                             }
                         }
                     });
-                    fragment = attractionFragment;
-                    currentTab = MyTabLayout.TAB_FOOD;
+                    fragment = mainMapFragment;
+                    currentTab = MyTabLayout.TAB_MAP;
+                    lastTab = tab;
+                    break;
+
+                case MyTabLayout.TAB_GUIDE:
+
+                    GuideTabFragment guideTabFragment = new GuideTabFragment();
+                    guideTabFragment.guideTabFragmentNewInstance(
+                            MainActivity.this, currentTab, attractionList);
+                    guideTabFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+                        @Override
+                        public void onNetWorkError() {
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
+                            if(lastTab == null) {
+                                finish();
+                            }else{
+                                onTabSelected(lastTab);
+                            }
+                        }
+                    });
+                    fragment = guideTabFragment;
+                    currentTab = MyTabLayout.TAB_GUIDE;
                     lastTab = tab;
 
                     break;
-               /* case MyTabLayout.TAB_TOON:
-                    checkLocationPermission();
-                    ToonFragment toonFragment = new ToonFragment();
-                    toonFragment.toonFragmentNewInstance(mMap, MainActivity.this, currentTab);
-                    toonFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
-                        @Override
-                        public void onNetWorkError() {
-                            Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
-                            if(lastTab == null) {
-                                finish();
-                            }else{
-                                onTabSelected(lastTab);
-                            }
-                        }
-                    });
-                    fragment = toonFragment;
-                    currentTab = MyTabLayout.TAB_TOON;
-                    lastTab = tab;
-                    break;
-                case MyTabLayout.TAB_AROUND:
-                    checkLocationPermission();
-                    AroundFragment aroundFragment = new AroundFragment();
-                    aroundFragment.aroundFragmentNewInstance(mMap, MainActivity.this,  currentTab);
-                    fragment = aroundFragment;
-                    currentTab = MyTabLayout.TAB_AROUND;
-                    aroundFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
-                        @Override
-                        public void onNetWorkError() {
-                            Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
-                            if(lastTab == null) {
-                                finish();
-                            }else{
-                                onTabSelected(lastTab);
-                            }
-                        }
-                    });
-                    lastTab = tab;
-                    break;*/
                 case MyTabLayout.TAB_INFO:
                     InfoFragment infoFragment = new InfoFragment();
                     infoFragment.infoFragment(MainActivity.this, currentTab);
@@ -327,6 +320,23 @@ public class MainActivity extends BaseActivity {
 //                        Log.e("LOCATION", "SEND_FAIL");
 //                    }
 //                });
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        totalList = savedInstanceState.getParcelable("totals");
+        foodList = savedInstanceState.getParcelable("foods");
+        attractionList = savedInstanceState.getParcelable("attractions");
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelable("totals",totalList);
+        outState.putParcelable("foods",foodList);
+        outState.putParcelable("attractions",attractionList);
     }
 
     @Override

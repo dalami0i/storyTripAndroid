@@ -5,6 +5,11 @@
     <color name="colorAccent">#880E4F</color>
     <color name="iconTintColor">#EC407A</color>
     <color name="iconLightTintColor">#e084a3</color>
+    <color name="pointColor">#e084a3</color>
+    <color name="pointedGrayColor">#626262</color>
+    <color name="gnbSelectedColor">#626262</color>
+    <color name="gnbSelectedIndicatorColor">#3f51</color>
+    <color name="gnbUnselectedColor">#969696</color>
     <color name="noncolor">#103F51B5</color>
     <color name="white">#ffffff</color>
     <color name="white2">#ffffff</color>
@@ -12,6 +17,8 @@
     <color name="grey">#988c8c8c</color>
     <color name="lightblack">#191919</color>
     <color name="edit_hint">#A1887F</color>
+    <color name="imgForeground">#908c8c8c</color>
+    <color name="imgForegroundStrong">#308c8c8c</color>
 
 
     <!--<color name="colorPrimary">#3F51B5</color>

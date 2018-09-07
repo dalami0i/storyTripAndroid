@@ -11,11 +11,14 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.tripkorea.on.ontripkorea.R;
-import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
+import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailMapActivity;
 import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
+import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleList;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleListSet;
+
+import java.util.List;
 
 ///**
 // * Created by YangHC on 2018-06-18.
@@ -29,12 +32,34 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
     public static final int VIEW_TYPE_ODD = 1;
     public static final int VIEW_TYPE_EVEN = 2;
 
-    AttractionSimpleListSet foodPhotolistSet = new AttractionSimpleListSet();
+    AttractionSimpleListSet attracctionPhotolistSet = new AttractionSimpleListSet();
     int diviceSizeW;
     static Context context;
 
-    public void addFoodPhotoList(AttractionSimpleList obj) {//, String link_content
-        foodPhotolistSet.getItems().add(obj);
+    public void addAttractionPhotoList(AttractionSimpleList obj) {//, String link_content
+        attracctionPhotolistSet.getItems().add(obj);
+    }
+
+    public void setAttractionPhotoList(List<AttractionSimple> addTemp){
+        for(int i=0;i<addTemp.size(); i++){
+            new LogManager().LogManager("놀거리리싸", "if(x) 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+            int tmp = i;
+            if(tmp+5 < addTemp.size()) {
+                new LogManager().LogManager("놀거리리싸", "전 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+                AttractionSimpleList tempList = new AttractionSimpleList();
+                tempList.getItems().add(addTemp.get(i));
+                tempList.getItems().add(addTemp.get(i+1));
+                tempList.getItems().add(addTemp.get(i+2));
+                tempList.getItems().add(addTemp.get(i+3));
+                tempList.getItems().add(addTemp.get(i+4));
+                tempList.getItems().add(addTemp.get(i+5));
+                this.attracctionPhotolistSet.getItems().add(tempList);
+
+                i = i + 5;
+                new LogManager().LogManager("놀거리리싸", "후 포토프레그먼트 이미지 배치: " + addTemp.get(i).getThumnailAddr() + " | i :" + i);
+            }
+        }
+
     }
 
     public AttractionPhotoRecyclerViewAdapter() {    }
@@ -76,7 +101,7 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final AttractionSimpleList attractionSimpleList = foodPhotolistSet.getItems().get(position);
+        final AttractionSimpleList attractionSimpleList = attracctionPhotolistSet.getItems().get(position);
 //        Log.e("Food onBindViewHolder", position + " | " + attractionSimpleList.getItems().get(0).getThumnailAddr());
 
         RequestOptions myOptions = new RequestOptions().override(diviceSizeW, 900);
@@ -112,7 +137,7 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
         holder.firstPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(0).getIdx());
                 context.startActivity(intent);
             }
@@ -120,7 +145,7 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
         holder.secondPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(1).getIdx());
                 context.startActivity(intent);
             }
@@ -128,7 +153,7 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
         holder.thirdPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(2).getIdx());
                 context.startActivity(intent);
             }
@@ -136,7 +161,7 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
         holder.forthPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(3).getIdx());
                 context.startActivity(intent);
             }
@@ -144,7 +169,7 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
         holder.fifthPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(4).getIdx());
                 context.startActivity(intent);
             }
@@ -152,7 +177,7 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
         holder.sixthPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AroundDetailActivity.class);
+                Intent intent = new Intent(context, AroundDetailMapActivity.class);
                 intent.putExtra("attractionIdx",attractionSimpleList.getItems().get(5).getIdx());
                 context.startActivity(intent);
             }
@@ -163,7 +188,7 @@ public class AttractionPhotoRecyclerViewAdapter extends RecyclerView.Adapter<Att
 
     @Override
     public int getItemCount() {
-        return foodPhotolistSet.getItems().size();
+        return attracctionPhotolistSet.getItems().size();
     }
 
     @Override

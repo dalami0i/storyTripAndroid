@@ -285,6 +285,13 @@
                             android:layout_marginTop="10dp"/>
                     </LinearLayout>
 
+                    <!--<RelativeLayout
+                        android:id="@+id/kakao_map"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_below="@+id/direction_layout"
+                        />-->
+
                     <com.google.android.gms.maps.MapView
                         android:id="@+id/around_detail_map"
                         android:layout_width="match_parent"

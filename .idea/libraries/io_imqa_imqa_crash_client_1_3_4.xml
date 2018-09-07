@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="io.imqa:imqa-crash-client-1.3.4">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/imqa-crash-client-1.3.4.aar/d38d6c8ee4207c150ab9a693f124d015/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/imqa-crash-client-1.3.4.aar/d38d6c8ee4207c150ab9a693f124d015/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.imqa/imqa-crash-client/1.3.4/56417c69e31edf1a4a6d400855b49e1d62b6c5d0/imqa-crash-client-1.3.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

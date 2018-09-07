@@ -1,116 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical"
-    android:weightSum="5">
+    android:background="@android:color/white">
 
 
+    <ImageView
+        android:id="@+id/iv_voice_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/pointColor"
+        android:scaleType="centerCrop"/>
 
-        <LinearLayout
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_background_guide">
+
+        <TextView
+            android:id="@+id/tv_voice_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textSize="20sp"/>
 
-            <RelativeLayout
-                android:id="@+id/text_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="#ffffff">
 
-                <TextView
-                    android:id="@+id/thistime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text=""
-                    android:textColor="#353535"
-                    android:textSize="15sp" />
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map_voiceguide"
+            android:layout_width="match_parent"
+            android:layout_height="800dp"
+            android:layout_below="@+id/tv_voice_title"/>
 
-                <TextView
-                    android:id="@+id/thistitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="#353535"
-                    android:textSize="15sp" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/totaltime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="10dp"
-                    android:text=""
-                    android:textColor="#353535"
-                    android:textSize="15sp" />
-            </RelativeLayout>
+    <include layout="@layout/bottomsheet_guide_voice"/>
 
-            <SeekBar
-                android:id="@+id/seekbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:visibility="invisible" />
 
-            <RelativeLayout
-                android:id="@+id/btn_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white">
-
-                <ImageView
-                    android:id="@+id/palybtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_toLeftOf="@+id/centerbar"
-                    android:src="@drawable/z_play_button"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/centerbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="25sp" />
-
-                <ImageView
-                    android:id="@+id/pausebtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/centerbar"
-                    android:onClick="stopAudio"
-                    android:src="@drawable/z_stop_button"
-                    android:visibility="invisible"
-                    tools:ignore="ContentDescription" />
-            </RelativeLayout>
-
-            <GridView
-                android:id="@+id/voice_img_gridview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:columnWidth="100dp"
-                android:numColumns="auto_fit"
-                android:horizontalSpacing="10dp"
-                android:verticalSpacing="10dp"/>
-
-        </LinearLayout>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

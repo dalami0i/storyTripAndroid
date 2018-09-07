@@ -13,8 +13,9 @@ public class Attraction implements Serializable{
     private List<String> tagList;
     private int idx;
     private String name;
+    private String dayoff;
     private String category;
-    private int score;
+    private double score;
     private String tel;
     private int likeCnt;
     private int visitCnt;
@@ -25,8 +26,25 @@ public class Attraction implements Serializable{
     private String route;
     private String summary;
     private String detail;
+    private String subway;
     private String homepage;
     private String thumnailAddr;
+
+    public String getDayoff() {
+        return dayoff;
+    }
+
+    public void setDayoff(String dayoff) {
+        this.dayoff = dayoff;
+    }
+
+    public String getSubway() {
+        return subway;
+    }
+
+    public void setSubway(String subway) {
+        this.subway = subway;
+    }
 
     public List<Integer> getCategoriyList() {
         return categoriyList;
@@ -76,11 +94,11 @@ public class Attraction implements Serializable{
         this.category = category;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

@@ -12,12 +12,15 @@ public class User implements Parcelable {
     private String name;
     private int mindAge;
     private int nationCode;     // ex) 82(대한민국)  ref) https://ko.wikipedia.org/wiki/%EA%B5%AD%EC%A0%9C%EC%A0%84%ED%99%94_%EB%82%98%EB%9D%BC_%EB%B2%88%ED%98%B8
+    private String nationString;
     private int sexCode;        // ex) 0(남성), 1(여성)
     private int religionCode;   // ex) 0(기독교), 1(천주교), 2(불교), 3(힌두교) ....
+    private int serviceCode;   // 2 : Facebook 3 : Naver 4 : Google 5 : Kakaotalk
 
     private String id;
     private String service;
     private String profileAddr;
+
 
     public User(){}
 
@@ -26,8 +29,10 @@ public class User implements Parcelable {
         name = in.readString();
         mindAge = in.readInt();
         nationCode = in.readInt();
+        nationString = in.readString();
         sexCode = in.readInt();
         religionCode = in.readInt();
+        serviceCode = in.readInt();
         id = in.readString();
         service = in.readString();
         profileAddr = in.readString();
@@ -44,6 +49,22 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    public int getServiceCode() {
+        return serviceCode;
+    }
+
+    public void setServiceCode(int serviceCode) {
+        this.serviceCode = serviceCode;
+    }
+
+    public String getNationString() {
+        return nationString;
+    }
+
+    public void setNationString(String nationString) {
+        this.nationString = nationString;
+    }
 
     public String getProfileAddr() {
         return profileAddr;
@@ -128,8 +149,10 @@ public class User implements Parcelable {
         dest.writeString(name);
         dest.writeInt(mindAge);
         dest.writeInt(nationCode);
+        dest.writeString(nationString);
         dest.writeInt(sexCode);
         dest.writeInt(religionCode);
+        dest.writeInt(serviceCode);
         dest.writeString(id);
         dest.writeString(service);
         dest.writeString(profileAddr);
