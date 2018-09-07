@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by Edward Won on 2018-08-21.
  */
 
-public class ListItemFragment extends Fragment {
+public class ListItemFragment extends Fragment{
 
     MainActivity main;
     AttractionSimpleList totalList, foodList, tourList, showList;
@@ -94,6 +93,7 @@ public class ListItemFragment extends Fragment {
         final TextView tvHiddenTitle = view.findViewById(R.id.id_title_bar);
         final ImageView ivHiddenMylocation = view.findViewById(R.id.btn_hidden_mylocation);
         final TabLayout menuHiddenTablayout = view.findViewById(R.id.menu_hidden_tablayout);
+        final RelativeLayout layoutMainRVlayout = view.findViewById(R.id.layout_main_rvlayout);
         underLayout = view.findViewById(R.id.layout_main_under);
         btnMylocation = view.findViewById(R.id.btn_mylocation);
         rvMainRecommendation = view.findViewById(R.id.rv_recommend_list);
@@ -101,6 +101,7 @@ public class ListItemFragment extends Fragment {
 
 
 
+        final String[] states = new String[1];
 
         mainAppbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
@@ -108,12 +109,7 @@ public class ListItemFragment extends Fragment {
                 new LogManager().LogManager("Appbar State",state.name());
                 switch(state.name()){
                     case"COLLAPSED":
-                        slideDown(hiddenLayout);
-                        /*RelativeLayout.LayoutParams collaedParams = new RelativeLayout.LayoutParams
-                                (ViewGroup.LayoutParams.MATCH_PARENT,
-                                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                        collaedParams.addRule(RelativeLayout.BELOW,hiddenLayout.getId());
-                        layoutMainRVlayout.setLayoutParams(collaedParams);*/
+                        hiddenLayout.setVisibility(View.VISIBLE);
                         tvHiddenTitle.setVisibility(View.VISIBLE);
                         ivHiddenMylocation.setVisibility(View.VISIBLE);
                         menuHiddenTablayout.setVisibility(View.VISIBLE);
@@ -123,33 +119,76 @@ public class ListItemFragment extends Fragment {
                         int a = menuHiddenTablayout.getVisibility();
                         new LogManager().LogManager("COLLAPSED",a+" | getVisibility");
 
+                        menuHiddenTablayout.clearOnTabSelectedListeners();
+                        menuHiddenTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                            @Override
+                            public void onTabSelected(TabLayout.Tab tab) {
+                                switch (tab.getPosition()){
+                                    case 0:
+                                        listItemRecyclerViewAdapter.clearList();
+                                        for(int i=0; i<totalList.getItems().size(); i++){
+                                            listItemRecyclerViewAdapter.addListView(totalList.getItems().get(i));
+                                        }
+                                        listItemRecyclerViewAdapter.notifyDataSetChanged();
+                                        break;
+                                    case 1:
+                                        listItemRecyclerViewAdapter.clearList();
+                                        for(int i=0; i<tourList.getItems().size(); i++){
+                                            listItemRecyclerViewAdapter.addListView(tourList.getItems().get(i));
+                                        }
+                                        listItemRecyclerViewAdapter.notifyDataSetChanged();
 
+                                        break;
+                                    case 2:
+                                        listItemRecyclerViewAdapter.clearList();
+                                        for(int i=0; i<foodList.getItems().size(); i++){
+                                            listItemRecyclerViewAdapter.addListView(foodList.getItems().get(i));
+                                        }
+                                        listItemRecyclerViewAdapter.notifyDataSetChanged();
+                                        break;
+
+                                }
+
+                            }
+
+
+                            @Override
+                            public void onTabUnselected(TabLayout.Tab tab) {                            }
+                            @Override
+                            public void onTabReselected(TabLayout.Tab tab) {                            }
+                        });
+
+                        menuHiddenTablayout.setScrollPosition(upsideTabLayout.getSelectedTabPosition(),0,true);
+                        states[0] = state.name();
                         break;
 
+                    case "IDLE":
+                        if(states[0].equals("COLLAPSED")){
+                            upsideTabLayout.setScrollPosition(menuHiddenTablayout.getSelectedTabPosition(),0,true);
+                        }
+                        hiddenLayout.setVisibility(View.GONE);
+                        tvHiddenTitle.setVisibility(View.GONE);
+                        ivHiddenMylocation.setVisibility(View.GONE);
+                        menuHiddenTablayout.setVisibility(View.GONE);
+                        RelativeLayout.LayoutParams idleParams = new RelativeLayout.LayoutParams
+                                (ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                        idleParams.addRule(RelativeLayout.BELOW,hiddenLayout.getId());
+                        layoutMainRVlayout.setLayoutParams(idleParams);
 
+                        break;
 
                     default:
                         hiddenLayout.setVisibility(View.GONE);
                         tvHiddenTitle.setVisibility(View.GONE);
                         ivHiddenMylocation.setVisibility(View.GONE);
                         menuHiddenTablayout.setVisibility(View.GONE);
-//                        slideUp(hiddenLayout);
-                        /*RelativeLayout.LayoutParams expanededParams = new RelativeLayout.LayoutParams
+                        RelativeLayout.LayoutParams expandedParams = new RelativeLayout.LayoutParams
                                 (ViewGroup.LayoutParams.MATCH_PARENT,
                                         ViewGroup.LayoutParams.WRAP_CONTENT);
-                        expanededParams.addRule(RelativeLayout.BELOW,appBarLayout.getId());
-                        layoutMainRVlayout.setLayoutParams(expanededParams);*/
-//                        LinearLayout tabStrip = ((LinearLayout)menuHiddenTablayout.getChildAt(0));
-//                        for(int i = 0; i < tabStrip.getChildCount(); i++) {
-//                            tabStrip.getChildAt(i).setOnTouchListener(new View.OnTouchListener() {
-//                                @Override
-//                                public boolean onTouch(View v, MotionEvent event) {
-//                                    return true;
-//                                }
-//                            });
-//                        }
-//                        menuHiddenTablayout.getTabAt(upsideTabLayout.getSelectedTabPosition());
-//                        menuHiddenTablayout.setSelected(true);
+                        expandedParams.addRule(RelativeLayout.BELOW,hiddenLayout.getId());
+                        layoutMainRVlayout.setLayoutParams(expandedParams);
+                        states[0] = state.name();
                         break;
                 }
             }
@@ -157,9 +196,6 @@ public class ListItemFragment extends Fragment {
 
         upsideTabLayout = view.findViewById(R.id.menu_tablayout);
         wrapTabIndicatorToTitle(upsideTabLayout, 0, 10);
-
-
-
 
         LinearLayoutManager recommendLayoutManager
                 = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -195,6 +231,7 @@ public class ListItemFragment extends Fragment {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
         upsideTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -224,9 +261,6 @@ public class ListItemFragment extends Fragment {
                         break;
 
                 }
-//                menuHiddenTablayout.setScrollPosition(tab.getPosition(),1,false);
-//                menuHiddenTablayout.getTabAt(tab.getPosition());
-
             }
 
             @Override
@@ -250,91 +284,14 @@ public class ListItemFragment extends Fragment {
             }
         });
 
-        menuHiddenTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()){
-                    case 0:
-                        listItemRecyclerViewAdapter.clearList();
-                        for(int i=0; i<totalList.getItems().size(); i++){
-                            listItemRecyclerViewAdapter.addListView(totalList.getItems().get(i));
-                        }
-                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-                        break;
-                    case 1:
-                        listItemRecyclerViewAdapter.clearList();
-                        for(int i=0; i<tourList.getItems().size(); i++){
-                            listItemRecyclerViewAdapter.addListView(tourList.getItems().get(i));
-                        }
-                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-
-                        break;
-                    case 2:
-                        listItemRecyclerViewAdapter.clearList();
-                        for(int i=0; i<foodList.getItems().size(); i++){
-                            listItemRecyclerViewAdapter.addListView(foodList.getItems().get(i));
-                        }
-                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-                        break;
-
-                }
-            upsideTabLayout.setScrollPosition(tab.getPosition(), 1, false);
-//                LinearLayout tabStrip = ((LinearLayout)upsideTabLayout.getChildAt(0));
-//                for(int i = 0; i < tabStrip.getChildCount(); i++) {
-//                    tabStrip.getChildAt(i).setOnTouchListener(new View.OnTouchListener() {
-//                        @Override
-//                        public boolean onTouch(View v, MotionEvent event) {
-//                            return true;
-//                        }
-//                    });
-//                }
-//            upsideTabLayout.getTabAt(tab.getPosition());
-            upsideTabLayout.setSelected(true);
 
 
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
 
 
         return view;
     }
 
-    // slide the view from below itself to the current position
-    public void slideUp(View view){
 
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                0,                 // fromYDelta
-                view.getHeight()); // toYDelta
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
-        view.setVisibility(View.GONE);
-    }
-
-    // slide the view from its current position to below itself
-    public void slideDown(View view){
-        view.setVisibility(View.VISIBLE);
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                view.getHeight(),  // fromYDelta
-                0);                // toYDelta
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
-    }
 
     public void wrapTabIndicatorToTitle(TabLayout tabLayout, int externalMargin, int internalMargin) {
         View tabStrip = tabLayout.getChildAt(0);
@@ -525,3 +482,63 @@ public class ListItemFragment extends Fragment {
     }
 
 }
+
+
+//            upsideTabLayout.setScrollPosition(tab.getPosition(), 1, false);
+//                LinearLayout tabStrip = ((LinearLayout)upsideTabLayout.getChildAt(0));
+//                for(int i = 0; i < tabStrip.getChildCount(); i++) {
+//                    tabStrip.getChildAt(i).setOnTouchListener(new View.OnTouchListener() {
+//                        @Override
+//                        public boolean onTouch(View v, MotionEvent event) {
+//                            return true;
+//                        }
+//                    });
+//                }
+//            upsideTabLayout.getTabAt(tab.getPosition());
+//            upsideTabLayout.setSelected(true);
+
+
+//                        slideUp(hiddenLayout);
+                        /*RelativeLayout.LayoutParams expanededParams = new RelativeLayout.LayoutParams
+                                (ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                        expanededParams.addRule(RelativeLayout.BELOW,appBarLayout.getId());
+                        layoutMainRVlayout.setLayoutParams(expanededParams);*/
+//                        LinearLayout tabStrip = ((LinearLayout)menuHiddenTablayout.getChildAt(0));
+//                        for(int i = 0; i < tabStrip.getChildCount(); i++) {
+//                            tabStrip.getChildAt(i).setOnTouchListener(new View.OnTouchListener() {
+//                                @Override
+//                                public boolean onTouch(View v, MotionEvent event) {
+//                                    return true;
+//                                }
+//                            });
+//                        }
+//                        menuHiddenTablayout.getTabAt(upsideTabLayout.getSelectedTabPosition());
+//                        menuHiddenTablayout.setSelected(true);
+
+    // slide the view from below itself to the current position
+   /* public void slideUp(View view){
+
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                view.getHeight()); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+        view.setVisibility(View.GONE);
+    }
+
+    // slide the view from its current position to below itself
+    public void slideDown(View view){
+        view.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                view.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }*/

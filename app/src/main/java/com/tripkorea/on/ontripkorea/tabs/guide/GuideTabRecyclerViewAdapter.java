@@ -2,13 +2,13 @@ package com.tripkorea.on.ontripkorea.tabs.guide;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tripkorea.on.ontripkorea.R;
@@ -17,6 +17,7 @@ import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 ///**
 // * Created by YangHC on 2018-06-18.
@@ -41,14 +42,14 @@ public class GuideTabRecyclerViewAdapter extends RecyclerView.Adapter<GuideTabRe
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivMainGuide;
-        private final TextView tvGuideTitle;
+//        private final TextView tvGuideTitle;
         private final View mView;
 
         private ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
             ivMainGuide = mView.findViewById(R.id.iv_guide_main);
-            tvGuideTitle = mView.findViewById(R.id.tv_guide_title);
+//            tvGuideTitle = mView.findViewById(R.id.tv_guide_title);
 
         }
     }
@@ -64,10 +65,47 @@ public class GuideTabRecyclerViewAdapter extends RecyclerView.Adapter<GuideTabRe
         Log.e("Total onBindViewHolder", position + " | " + guideItem.getThumnailAddr());
         new LogManager().LogManager("guideItem.getName(): ",guideItem.getName());
         new LogManager().LogManager("guideItem.getIdx(): ",guideItem.getIdx()+"");
-        Glide.with(MyApplication.getContext())
-             .load(guideItem.getThumnailAddr())
-             .into(holder.ivMainGuide);
-        holder.tvGuideTitle.setText(guideItem.getName());
+
+        Locale locale;
+        //사용자 언어 확인
+        if(Build.VERSION.SDK_INT >Build.VERSION_CODES.N) {
+            locale = MyApplication.getContext().getResources().getConfiguration().getLocales().get(0);
+        } else {
+            locale = MyApplication.getContext().getResources().getConfiguration().locale;
+        }
+
+        String usinglanguage = locale.getDisplayLanguage();
+
+        switch(guideItem.getGuideType() ){
+            case 1000:
+                if(usinglanguage.equals("한국어")) {
+                    Glide.with(MyApplication.getContext())
+                            .load(R.drawable.guide_intro_cartoon_ko)
+                            .into(holder.ivMainGuide);
+                    //guideItem.getThumnailAddr()
+                }else{
+                    Glide.with(MyApplication.getContext())
+                            .load(R.drawable.guide_intro_cartoon_en)
+                            .into(holder.ivMainGuide);
+                    //guideItem.getThumnailAddr()
+                }
+                break;
+            case 2000:
+                if(usinglanguage.equals("한국어")) {
+                    Glide.with(MyApplication.getContext())
+                            .load(R.drawable.guide_intro_voice_ko)
+                            .into(holder.ivMainGuide);
+                    //guideItem.getThumnailAddr()
+                }else{
+                    Glide.with(MyApplication.getContext())
+                            .load(R.drawable.guide_intro_voice_en)
+                            .into(holder.ivMainGuide);
+                    //guideItem.getThumnailAddr()
+                }
+                break;
+        }
+
+//        holder.tvGuideTitle.setText(guideItem.getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

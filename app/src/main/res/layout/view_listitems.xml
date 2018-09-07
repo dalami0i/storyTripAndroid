@@ -31,7 +31,7 @@
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/item_img_foreground"
                     android:layout_width="match_parent"
-                    android:layout_height="170dp"
+                    android:layout_height="140dp"
                     android:background="@color/imgForeground"
                     android:contentDescription="Represent image"/>
 
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:text="Text"/>
             </android.support.v7.widget.FitWindowsFrameLayout>
 
