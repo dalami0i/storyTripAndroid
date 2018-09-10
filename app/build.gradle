@@ -82,6 +82,8 @@ dependencies {
     implementation 'com.kakao.sdk:usermgmt:1.1.35'
     
     compile files('libs/libDaumMapAndroid.jar')
+
+    compile 'org.apmem.tools:layouts:1.10@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/search_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="10dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_search_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:text="검색"/>
+
+            <RelativeLayout
+                android:id="@+id/search_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_search_title"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp">
+
+
+                <EditText
+                    android:id="@+id/edittext_main_search"
+                    android:layout_width="300dp"
+                    android:layout_height="40dp"
+                    android:hint="관광지/맛집/지역 등을 검색해보세요"
+                    android:textSize="10sp"
+                    android:inputType="text"
+                    android:imeOptions="actionSend"
+                    android:maxLines="2"
+                    android:layout_centerHorizontal="true"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:enabled="true"
+                    android:textAlignment="center"
+                    android:background="@drawable/round_background_main_search"/>
+
+                <ImageView
+                    android:id="@+id/btn_find"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignEnd="@+id/edittext_main_search"
+                    android:src="@drawable/mylocation"
+                    android:background="@color/pointColor"
+
+                    android:scaleType="fitXY"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_search_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/search_frame"
+
+                android:background="@drawable/oneside_background_bottom_detail_top"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/btn_search_list_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="13dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:textAlignment="center"
+                    android:text="Location"
+                    android:background="@drawable/oneside_background_bottom_detail_right"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/btn_search_list_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="13dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:textAlignment="center"
+                    android:text="Category"
+                    android:background="@drawable/oneside_background_bottom_detail_right"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/btn_search_list_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="13dp"
+                    android:paddingBottom="13dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:textAlignment="center"
+                    android:text="Tag"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_search_rvlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_appbar"
+        android:layout_marginTop="50dp"
+        android:background="@color/defaultbg">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searched_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
+            />
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layout_search_under"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_appbar"
+        android:paddingTop="30dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:animateLayoutChanges="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:id="@+id/layout_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_recommend_tag_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="추천검색어"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/pointTextColor"/>
+
+            <org.apmem.tools.layouts.FlowLayout
+                android:id="@+id/search_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/tv_recommend_tag_title"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:id="@+id/tv_detail_tag1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday111"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday222"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday333"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_tag10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+
+
+            </org.apmem.tools.layouts.FlowLayout>
+
+            <TextView
+                android:id="@+id/tv_recommend_location_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="인기지역"
+                android:layout_below="@+id/search_tags"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/pointTextColor"/>
+
+            <org.apmem.tools.layouts.FlowLayout
+                android:id="@+id/search_locations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/tv_recommend_location_title"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:id="@+id/tv_detail_location1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday777"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday8888888888"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday999999999999999999999999999"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+                <TextView
+                    android:id="@+id/tv_detail_location10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="rainyday"
+                    android:textColor="@color/lightblack"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/round_background_search_tag"/>
+
+
+
+            </org.apmem.tools.layouts.FlowLayout>
+
+        </RelativeLayout>
+
+
+
+
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

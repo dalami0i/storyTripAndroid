@@ -21,6 +21,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
     //로그인
@@ -92,6 +93,10 @@ public interface ApiService {
     @GET("/storytour/api/{version}/user/attr/cartoon/list/{attractionIdx}/{language}")
     Call<List<Toon>> getCartoon(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);
 
+    //검색
+    @GET("/storytour/api/{version}/user/attr/search/dozens/{language}/{page}")
+    Call<List<AttractionSimple>> search(@Path("version") int version, @Path("language") int language, @Path("page") int page,
+                                        @Query("lat") String lat,@Query("lon") String lon,@Query("query") String query,@Query("category") String categoty,@Query("tag") String tag);
 
     //보이스가이드 로그 전송
     @POST("/storytour/api/{version}/logging/voiceGuide")

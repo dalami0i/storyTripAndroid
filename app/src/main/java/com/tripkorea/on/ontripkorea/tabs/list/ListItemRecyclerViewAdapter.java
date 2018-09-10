@@ -29,12 +29,14 @@ public class ListItemRecyclerViewAdapter extends RecyclerView.Adapter<ListItemRe
     ArrayList<AttractionSimple> ltemList = new ArrayList<>();
 
     public void clearList(){ltemList.clear();}
-    public void addContext(MainActivity main){this.main = main;}
-    public void addListView(AttractionSimple obj) {//, String link_content
+    public void addContext(MainActivity main){ this.main = main;}
+    public void addListView(AttractionSimple obj) {//, String
+        new LogManager().LogManager("ListRV어댑터","addListView : obj name - "+obj.getName());
         ltemList.add(obj);
     }
     @Override
     public ListItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        new LogManager().LogManager("ListRV어댑터","onCreateViewHolder");
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_listitems, parent, false));
     }
 

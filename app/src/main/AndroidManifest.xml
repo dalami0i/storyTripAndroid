@@ -112,6 +112,11 @@
             android:theme="@style/Theme.GungTheme">
         </activity>
 
+        <activity
+            android:name=".tabs.search.SearchActivity"
+            android:theme="@style/Theme.GungTheme">
+        </activity>
+
 
 
 

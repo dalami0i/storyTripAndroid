@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" >
+        <bitmap android:src="@color/pointColor" />
+    </item>
+    <item>
+        <bitmap android:src="@drawable/round_background_search_tag" android:tint="@color/gnbSelectedColor" />
+    </item>
+
+</selector>

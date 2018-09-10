@@ -2,6 +2,7 @@ package com.tripkorea.on.ontripkorea.tabs.list;
 
 
 import android.content.Intent;
+import android.inputmethodservice.ExtractEditText;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
 import com.tripkorea.on.ontripkorea.tabs.MainActivity;
+import com.tripkorea.on.ontripkorea.tabs.search.SearchActivity;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
@@ -55,6 +57,7 @@ public class ListItemFragment extends Fragment{
     ImageView btnMylocation;
     double lat;
     double lon;
+    ExtractEditText mainSearch;
 
     final int CHANGE_FIND_LOCATION = 1024;
 
@@ -86,7 +89,7 @@ public class ListItemFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        new LogManager().LogManager("list fragment","리스트프레그먼트진입 list size: "+foodList.getItems().size());
+        new LogManager().LogManager("list fragment","리스트프레그먼트진입 ");
 
         mainAppbar = view.findViewById(R.id.main_appbar);
         final RelativeLayout hiddenLayout = view.findViewById(R.id.layout_main_hidden);
@@ -98,6 +101,7 @@ public class ListItemFragment extends Fragment{
         btnMylocation = view.findViewById(R.id.btn_mylocation);
         rvMainRecommendation = view.findViewById(R.id.rv_recommend_list);
         listRV = view.findViewById(R.id.item_list);
+        mainSearch = view.findViewById(R.id.edittext_main_search);
 
 
 
@@ -285,6 +289,15 @@ public class ListItemFragment extends Fragment{
         });
 
 
+        mainSearch.setActivated(false);
+        mainSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new LogManager().LogManager("Search","검색으로 이동");
+                Intent searchIntent = new Intent(main, SearchActivity.class);
+                main.startActivity(searchIntent);
+            }
+        });
 
 
 
