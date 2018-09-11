@@ -103,8 +103,8 @@ public class ListMapViewActivity extends AppCompatActivity implements
             currentLat = currentLocation.getLatitude();
         }else{
             Toast.makeText(this, R.string.failtoloadlocation, Toast.LENGTH_LONG).show();
-            currentLong = 37.577401;
-            currentLat = 126.989511;
+            currentLong = 126.989511;
+            currentLat = 37.577401;
         }
 //        double dist = distance(latitude, longitude, currentLat, currentLong, "meter");
 

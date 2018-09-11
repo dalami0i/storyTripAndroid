@@ -45,7 +45,6 @@ import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,12 +66,12 @@ public class MainMapFragment extends Fragment  implements
     LocationManager locationManager;
 
     MainActivity main;
+    int language;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     ProgressDialog loadingGuide = null;
     static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";
-    String usinglanguage;
-    Locale locale;
+
 
     //map
 //    private static VoiceGuide guideEntity;
@@ -98,12 +97,13 @@ public class MainMapFragment extends Fragment  implements
 
     public OnNetworkErrorListener onNetworkErrorListener;
 
-    public Fragment mainMapFragmentNewInstance(MainActivity main, int lastTab, AttractionSimpleList tourList, AttractionSimpleList foodList){//GoogleMap mMap,
+    public Fragment mainMapFragmentNewInstance(MainActivity main, int lastTab, AttractionSimpleList tourList, AttractionSimpleList foodList, int language){//GoogleMap mMap,
         this.lastTab = lastTab;
         this.main = main;
         mapBottomRecyclerViewAdapter.addContext(main);
         this.tourList = tourList;
         this.foodList = foodList;
+        this.language = language;
         return new MainMapFragment();
     }
 
@@ -119,31 +119,7 @@ public class MainMapFragment extends Fragment  implements
         mainMap = view.findViewById(R.id.map_gnb);
         currentMapViewCenter = view.findViewById(R.id.iv_map_current_map);
 
-        //사용자 언어 확인
-        if(Build.VERSION.SDK_INT >Build.VERSION_CODES.N) {
-            locale = getResources().getConfiguration().getLocales().get(0);
-        } else {
-            locale = getResources().getConfiguration().locale;
-        }
 
-        usinglanguage = locale.getDisplayLanguage();
-
-        int language = 0;
-        switch (usinglanguage){
-            case "한국어":
-                language = 1;
-                break;
-            case "中文":
-                language = 2;
-                break;
-            case "日本言":
-                language = 3;
-                break;
-            default:
-                language = 0;
-                break;
-
-        }
 
         mainMap.onCreate(savedInstanceState);
         mainMap.getMapAsync(this);
@@ -394,7 +370,7 @@ public class MainMapFragment extends Fragment  implements
     // TODO : 서버에서 주변 맛집 정보 가져오기
     private void setRestaurants(final double lat,final double lon, final int page) {
         ApiClient.getInstance().getApiService()
-                .getAroundRestaurants(MyApplication.APP_VERSION,lat, lon,4, page)
+                .getAroundRestaurants(MyApplication.APP_VERSION,lat, lon, language, page)
                 .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
@@ -427,7 +403,7 @@ public class MainMapFragment extends Fragment  implements
     // TODO : 서버에서 주변 관광지 정보 가져오기
     private void setTours(final double lat, final double lon, int page) {
         ApiClient.getInstance().getApiService()
-                .getAroundTours(MyApplication.APP_VERSION,lat, lon,4, page)
+                .getAroundTours(MyApplication.APP_VERSION,lat, lon, language, page)
                 .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {

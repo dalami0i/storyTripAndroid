@@ -31,7 +31,6 @@ public class ListItemRecyclerViewAdapter extends RecyclerView.Adapter<ListItemRe
     public void clearList(){ltemList.clear();}
     public void addContext(MainActivity main){ this.main = main;}
     public void addListView(AttractionSimple obj) {//, String
-        new LogManager().LogManager("ListRV어댑터","addListView : obj name - "+obj.getName());
         ltemList.add(obj);
     }
     @Override

@@ -60,9 +60,8 @@
                     android:layout_height="27dp"
                     android:layout_marginTop="5dp"
                     android:layout_alignEnd="@+id/edittext_main_search"
-                    android:src="@drawable/mylocation"
+                    android:src="@drawable/btn_serch"
                     android:background="@color/pointColor"
-
                     android:scaleType="fitXY"/>
 
             </RelativeLayout>

@@ -73,41 +73,21 @@ import retrofit2.Response;
 public class ListDetailActivity extends AppCompatActivity implements
         OnMapReadyCallback, LocationListener, View.OnClickListener {
 
-    @BindView(R.id.iv_detail_main)
-    ImageView detailMain;//
-
-    @BindView(R.id.tv_detail_title)
-    TextView tvTitle;//여행지 타이틀
-    @BindView(R.id.tv_detail_top_location)
-    TextView tvSubwayLocation;//여행지 지하철역 위치
-    @BindView(R.id.tv_detail_top_bizhour_detail)
-    TextView tvBizHour;//여행지 영업시간
-    @BindView(R.id.tv_detail_top_dayoff_detail)
-    TextView tvDayOff;//여행지 휴무일
-    @BindView(R.id.tv_detail_top_rating_detail)
-    TextView tvRating;//여행지 별점
-
-    @BindView(R.id.item_footprint_layout)
-    LinearLayout footprintLayout;
-    @BindView(R.id.img_detail_like)
-    ImageView likeImg;//여행지-유저 좋아요
-    @BindView(R.id.tv_item_footprint)
-    TextView foodprintTv;
-    @BindView(R.id.item_like_layout)
-    LinearLayout likeLayout;
-    @BindView(R.id.img_detail_footprint)
-    ImageView visitImg;//여행지-유저 발자국
-    @BindView(R.id.tv_item_like)
-    TextView likeTv;
-
-    @BindView(R.id.tv_detail_con)
-    TextView contentTv;//여행지 설명
-    @BindView(R.id.fee_content)
-    TextView fee_content; //여행지 이용금액
-    @BindView(R.id.operatinghours_content)
-    TextView operatinghours_content; //여행지 운영시간
-
-
+    @BindView(R.id.iv_detail_main)                  ImageView detailMain;//
+    @BindView(R.id.tv_detail_title)                 TextView tvTitle;//여행지 타이틀
+    @BindView(R.id.tv_detail_top_location)          TextView tvSubwayLocation;//여행지 지하철역 위치
+    @BindView(R.id.tv_detail_top_bizhour_detail)    TextView tvBizHour;//여행지 영업시간
+    @BindView(R.id.tv_detail_top_dayoff_detail)     TextView tvDayOff;//여행지 휴무일
+    @BindView(R.id.tv_detail_top_rating_detail)     TextView tvRating;//여행지 별점
+    @BindView(R.id.item_like_layout)                LinearLayout likeLayout;
+    @BindView(R.id.img_detail_like)                 ImageView likeImg;//여행지-유저 좋아요
+    @BindView(R.id.item_footprint_layout)           LinearLayout footprintLayout;
+    @BindView(R.id.tv_item_footprint)               TextView foodprintTv;
+    @BindView(R.id.img_detail_footprint)            ImageView visitImg;//여행지-유저 발자국
+    @BindView(R.id.tv_item_like)                    TextView likeTv;
+    @BindView(R.id.tv_detail_con)                   TextView contentTv;//여행지 설명
+    @BindView(R.id.fee_content)                     TextView fee_content; //여행지 이용금액
+    @BindView(R.id.operatinghours_content)          TextView operatinghours_content; //여행지 운영시간
 
     //locale
     String usinglanguage;
@@ -246,15 +226,24 @@ public class ListDetailActivity extends AppCompatActivity implements
                             new LogManager().LogManager(thisAttraction.getName(),thisAttraction.isLiked()+" | checkAttraction.isLiked() "+thisAttraction.getIdx());
                             if(thisAttraction.isLiked()){
                                 likeImg.setImageResource(R.drawable.z_heart_image_s);
+                                likeTv.setTextColor(getResources().getColor(R.color.white));
+                                likeLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                             }else{
                                 likeImg.setImageResource(R.drawable.z_heart_empty_s);
+                                likeTv.setTextColor(getResources().getColor(R.color.pointedGrayColor));
+                                likeLayout.setBackground(getDrawable(R.drawable.round_background_main_tabmenu));
                             }
 
                             new LogManager().LogManager(thisAttraction.getName(),thisAttraction.isVisited()+" | checkAttraction.isVisited() "+thisAttraction.getIdx());
+
                             if(thisAttraction.isVisited()){
                                 visitImg.setImageResource(R.drawable.z_footprint_s);
+                                foodprintTv.setTextColor(getResources().getColor(R.color.white));
+                                footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                             }else{
                                 visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+                                foodprintTv.setTextColor(getResources().getColor(R.color.pointedGrayColor));
+                                footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tabmenu));
                             }
 
                             mMap.addMarker(new MarkerOptions()
@@ -333,10 +322,6 @@ public class ListDetailActivity extends AppCompatActivity implements
                                 try {
                                     int size = Integer.parseInt(thumnailAddr.split("_")[1]);
                                     String path = thumnailAddr.split("_")[0];
-                                    //최대 10장이라고 가정  (만약 '1228_3_0.png'와 같은 형식이 아닐 때
-                                    //                      이상한 숫자(ex. 135172486)가 와서 for문을
-                                    //                      너무 오래 도는 것을 방지)
-                                    //근데 그렇게되면 밑에 catch가 잡아줄 것 같긴한데 일단 넣어놓자. 후에 필요없으면 빼는걸로.
                                     if (size < 11) {
                                         for (int i = 1; i < size; i++) {
                                             detailedImageFragmentPagerAdapter.addDetailedImage(path + "_" + size + "_" + i + ".png");
@@ -364,15 +349,23 @@ public class ListDetailActivity extends AppCompatActivity implements
                             new LogManager().LogManager(thisAttraction.getName(),thisAttraction.isLiked()+" | checkAttraction.isLiked() "+thisAttraction.getIdx());
                             if(thisAttraction.isLiked()){
                                 likeImg.setImageResource(R.drawable.z_heart_image_s);
+                                likeTv.setTextColor(getResources().getColor(R.color.white));
+                                likeLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                             }else{
                                 likeImg.setImageResource(R.drawable.z_heart_empty_s);
+                                likeTv.setTextColor(getResources().getColor(R.color.pointedGrayColor));
+                                likeLayout.setBackground(getDrawable(R.drawable.round_background_main_tabmenu));
                             }
 
                             new LogManager().LogManager(thisAttraction.getName(),thisAttraction.isVisited()+" | checkAttraction.isVisited() "+thisAttraction.getIdx());
                             if(thisAttraction.isVisited()){
                                 visitImg.setImageResource(R.drawable.z_footprint_s);
+                                foodprintTv.setTextColor(getResources().getColor(R.color.white));
+                                footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                             }else{
                                 visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+                                foodprintTv.setTextColor(getResources().getColor(R.color.pointedGrayColor));
+                                footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tabmenu));
                             }
 
                             mMap.addMarker(new MarkerOptions()
@@ -459,8 +452,8 @@ public class ListDetailActivity extends AppCompatActivity implements
             currentLat = currentLocation.getLatitude();
         } else {
             Toast.makeText(this, R.string.failtoloadlocation, Toast.LENGTH_LONG).show();
-            currentLong = 37.577401;
-            currentLat = 126.989511;
+            currentLong = 126.989511;
+            currentLat = 37.577401;
         }
 //        double dist = distance(latitude, longitude, currentLat, currentLong, "meter");
 
@@ -664,7 +657,7 @@ public class ListDetailActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img_detail_like:
+            case R.id.item_like_layout:
                 if(thisAttraction.isLiked()){
                     ApiClient.getInstance().getApiService()
                             .cancelLike(MyApplication.APP_VERSION, new LikeDTO(Me.getInstance().getIdx(), attractionIdx))
@@ -673,8 +666,13 @@ public class ListDetailActivity extends AppCompatActivity implements
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
                                     if (response.body() != null) {
                                         Alert.makeText("좋아요 취소!");
-                                        likeImg.setImageResource(R.drawable.z_heart_empty_s);
+
+                                        likeImg.setImageResource(R.drawable.z_heart_image_s);
+                                        likeTv.setTextColor(getResources().getColor(R.color.white));
+                                        likeLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                                         thisAttraction.setLiked(false);
+
+
                                     } else {
                                         Alert.makeText("좋아요 취소 에러 발생" + response.errorBody().toString());
                                         try {
@@ -698,7 +696,9 @@ public class ListDetailActivity extends AppCompatActivity implements
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
                                     if (response.body() != null) {
                                         Alert.makeText("좋아요!");
-                                        likeImg.setImageResource(R.drawable.z_heart_image_s);
+                                        likeImg.setImageResource(R.drawable.z_heart_empty_s);
+                                        likeTv.setTextColor(getResources().getColor(R.color.pointedGrayColor));
+                                        likeLayout.setBackground(getDrawable(R.drawable.round_background_main_tabmenu));
                                         thisAttraction.setLiked(true);
                                     } else {
                                         Alert.makeText("좋아요 에러 발생" + response.errorBody().toString());
@@ -779,7 +779,7 @@ public class ListDetailActivity extends AppCompatActivity implements
                             });
                 }*/
                 break;
-            case R.id.img_detail_footprint:
+            case R.id.item_footprint_layout:
                 if(thisAttraction.isVisited()){
                     ApiClient.getInstance().getApiService()
                             .cancelVisit(MyApplication.APP_VERSION, new VisitDTO(Me.getInstance().getIdx(), attractionIdx))
@@ -789,7 +789,10 @@ public class ListDetailActivity extends AppCompatActivity implements
                                     if (response.body() != null) {
                                         Alert.makeText("방문한 것 취소!");
                                         visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+                                        foodprintTv.setTextColor(getResources().getColor(R.color.pointedGrayColor));
+                                        footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tabmenu));
                                         thisAttraction.setVisited(false);
+
                                     } else {
                                         Alert.makeText("방문 취소 에러 발생" + response.errorBody().toString());
                                         try {
@@ -813,8 +816,12 @@ public class ListDetailActivity extends AppCompatActivity implements
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
                                     if (response.body() != null) {
                                         Alert.makeText("방문!");
+
                                         visitImg.setImageResource(R.drawable.z_footprint_s);
+                                        foodprintTv.setTextColor(getResources().getColor(R.color.white));
+                                        footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                                         thisAttraction.setVisited(true);
+
                                     } else {
                                         Alert.makeText("방문 에러 발생" + response.errorBody().toString());
                                         try {

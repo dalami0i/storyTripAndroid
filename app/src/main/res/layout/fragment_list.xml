@@ -55,7 +55,7 @@
                         android:id="@+id/btn_mylocation"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/mylocation"
+                        android:src="@drawable/icon_gps"
                         android:scaleType="fitXY"
                         android:layout_gravity="end|top"
                         android:layout_marginTop="5dp"
@@ -176,13 +176,27 @@
                 android:id="@+id/btn_hidden_mylocation"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/mylocation_black"
+                android:src="@drawable/icon_gps"
                 android:scaleType="fitXY"
                 android:visibility="gone"
+                android:background="@color/pointColor"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"/>
+
+            <ImageView
+                android:id="@+id/btn_hidden_find"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/btn_serch"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:background="@color/colorAccent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="60dp"/>
 
 
             <android.support.design.widget.TabLayout

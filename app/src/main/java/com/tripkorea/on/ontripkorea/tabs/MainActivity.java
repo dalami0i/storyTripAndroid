@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
     public static SharedPreferences.Editor editor;
 
     String usinglanguage;
+    int language;
     Locale locale;
 
     static String weatherImg;
@@ -147,6 +148,23 @@ public class MainActivity extends BaseActivity {
         }
         usinglanguage = locale.getDisplayLanguage();
 
+        language = 0;
+        switch (usinglanguage){
+            case "한국어":
+                language = 1;
+                break;
+            case "中文":
+                language = 2;
+                break;
+            case "日本言":
+                language = 3;
+                break;
+            default:
+                language = 0;
+                break;
+
+        }
+
         currentTab = -1;
 
         editor.apply();
@@ -169,7 +187,7 @@ public class MainActivity extends BaseActivity {
     private void initViews() {
         ListItemFragment listItemFragment = new ListItemFragment();
         listItemFragment.listFragmentNewInstance(
-                MainActivity.this, totalList, foodList, attractionList, currentLat, currentLong
+                MainActivity.this, totalList, foodList, attractionList, currentLat, currentLong, language
         );
         listItemFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
             @Override
@@ -202,7 +220,7 @@ public class MainActivity extends BaseActivity {
 
                     ListItemFragment listItemFragment = new ListItemFragment();
                     listItemFragment.listFragmentNewInstance(
-                            MainActivity.this, totalList, foodList, attractionList, currentLat, currentLong
+                            MainActivity.this, totalList, foodList, attractionList, currentLat, currentLong, language
                     );
                     listItemFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
                         @Override
@@ -224,7 +242,7 @@ public class MainActivity extends BaseActivity {
                 case MyTabLayout.TAB_MAP:
                     MainMapFragment mainMapFragment = new MainMapFragment();
                     mainMapFragment.mainMapFragmentNewInstance(
-                            MainActivity.this, currentTab, attractionList, foodList);
+                            MainActivity.this, currentTab, attractionList, foodList, language);
                     mainMapFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
                         @Override
                         public void onNetWorkError() {
@@ -245,7 +263,7 @@ public class MainActivity extends BaseActivity {
 
                     GuideTabFragment guideTabFragment = new GuideTabFragment();
                     guideTabFragment.guideTabFragmentNewInstance(
-                            MainActivity.this, currentTab, attractionList);
+                            MainActivity.this, currentTab, attractionList, language);
                     guideTabFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
                         @Override
                         public void onNetWorkError() {

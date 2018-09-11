@@ -30,12 +30,14 @@ public class GuideTabFragment extends Fragment {
     RecyclerView guideMainRV;
     AttractionSimpleList guideList;
     ProgressDialog loadingGuide = null;
+    int language;
 
 
-    public Fragment guideTabFragmentNewInstance(MainActivity main, int lastTab, AttractionSimpleList guideList){
+    public Fragment guideTabFragmentNewInstance(MainActivity main, int lastTab, AttractionSimpleList guideList, int language){
         this.lastTab = lastTab;
         this.main = main;
         this.guideList = guideList;
+        this.language = language;
         return new GuideTabFragment();
 
     }

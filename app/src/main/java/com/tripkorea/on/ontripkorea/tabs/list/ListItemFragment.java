@@ -54,10 +54,11 @@ public class ListItemFragment extends Fragment{
     RecyclerView rvMainRecommendation;
     AppBarLayout mainAppbar;
     RelativeLayout underLayout;
-    ImageView btnMylocation;
+    ImageView btnMylocation, btnHiddenMyLocation, btnHiddenSearch;
     double lat;
     double lon;
     ExtractEditText mainSearch;
+    int language;
 
     final int CHANGE_FIND_LOCATION = 1024;
 
@@ -66,7 +67,7 @@ public class ListItemFragment extends Fragment{
 
     public Fragment listFragmentNewInstance(MainActivity main,
                                             AttractionSimpleList totalList, AttractionSimpleList foodList,AttractionSimpleList tourList,
-                                                 double lat, double lon){
+                                                 double lat, double lon, int language){
         this.main = main;
         listItemRecyclerViewAdapter.addContext(main);
         this.totalList = totalList;
@@ -75,6 +76,7 @@ public class ListItemFragment extends Fragment{
         this.tourList = tourList;
         currentLat = lat;
         currentLong = lon;
+        this.language = language;
         return new ListItemFragment();
     }
 
@@ -94,7 +96,7 @@ public class ListItemFragment extends Fragment{
         mainAppbar = view.findViewById(R.id.main_appbar);
         final RelativeLayout hiddenLayout = view.findViewById(R.id.layout_main_hidden);
         final TextView tvHiddenTitle = view.findViewById(R.id.id_title_bar);
-        final ImageView ivHiddenMylocation = view.findViewById(R.id.btn_hidden_mylocation);
+        btnHiddenMyLocation = view.findViewById(R.id.btn_hidden_mylocation);
         final TabLayout menuHiddenTablayout = view.findViewById(R.id.menu_hidden_tablayout);
         final RelativeLayout layoutMainRVlayout = view.findViewById(R.id.layout_main_rvlayout);
         underLayout = view.findViewById(R.id.layout_main_under);
@@ -102,6 +104,7 @@ public class ListItemFragment extends Fragment{
         rvMainRecommendation = view.findViewById(R.id.rv_recommend_list);
         listRV = view.findViewById(R.id.item_list);
         mainSearch = view.findViewById(R.id.edittext_main_search);
+        btnHiddenSearch = view.findViewById(R.id.btn_hidden_find);
 
 
 
@@ -115,7 +118,7 @@ public class ListItemFragment extends Fragment{
                     case"COLLAPSED":
                         hiddenLayout.setVisibility(View.VISIBLE);
                         tvHiddenTitle.setVisibility(View.VISIBLE);
-                        ivHiddenMylocation.setVisibility(View.VISIBLE);
+                        btnHiddenMyLocation.setVisibility(View.VISIBLE);
                         menuHiddenTablayout.setVisibility(View.VISIBLE);
                         boolean focus = menuHiddenTablayout.requestFocus();
                         new LogManager().LogManager("COLLAPSED","focus: "+focus);
@@ -172,7 +175,7 @@ public class ListItemFragment extends Fragment{
                         }
                         hiddenLayout.setVisibility(View.GONE);
                         tvHiddenTitle.setVisibility(View.GONE);
-                        ivHiddenMylocation.setVisibility(View.GONE);
+                        btnHiddenMyLocation.setVisibility(View.GONE);
                         menuHiddenTablayout.setVisibility(View.GONE);
                         RelativeLayout.LayoutParams idleParams = new RelativeLayout.LayoutParams
                                 (ViewGroup.LayoutParams.MATCH_PARENT,
@@ -185,7 +188,7 @@ public class ListItemFragment extends Fragment{
                     default:
                         hiddenLayout.setVisibility(View.GONE);
                         tvHiddenTitle.setVisibility(View.GONE);
-                        ivHiddenMylocation.setVisibility(View.GONE);
+                        btnHiddenMyLocation.setVisibility(View.GONE);
                         menuHiddenTablayout.setVisibility(View.GONE);
                         RelativeLayout.LayoutParams expandedParams = new RelativeLayout.LayoutParams
                                 (ViewGroup.LayoutParams.MATCH_PARENT,
@@ -288,9 +291,26 @@ public class ListItemFragment extends Fragment{
             }
         });
 
+        btnHiddenMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent getNewLocation = new Intent(main, ListMapViewActivity.class);
+                main.startActivityFromFragment(ListItemFragment.this, getNewLocation, CHANGE_FIND_LOCATION);
+            }
+        });
+
 
         mainSearch.setActivated(false);
         mainSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new LogManager().LogManager("Search","검색으로 이동");
+                Intent searchIntent = new Intent(main, SearchActivity.class);
+                main.startActivity(searchIntent);
+            }
+        });
+
+        btnHiddenSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new LogManager().LogManager("Search","검색으로 이동");
@@ -347,12 +367,12 @@ public class ListItemFragment extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        new LogManager().LogManager("ListItemFragment 위치값 전","위도: "+lon+" | 경도: "+lat);
+        new LogManager().LogManager("ListItemFragment 위치값 전","위도: "+lat+" | 경도: "+lon);
         if(resultCode == RESULT_OK ){
             switch (requestCode){
                 case CHANGE_FIND_LOCATION:
-                    lat = data.getDoubleExtra("lat",126.989511);
-                    lon = data.getDoubleExtra("lon",37.577401);
+                    lat = data.getDoubleExtra("lat",37.577401);
+                    lon = data.getDoubleExtra("lon",126.989511);
                     setTotals(lat, lon, 1);
                     new LogManager().LogManager("ListItemFragment","onActivityResult 진입");
 
@@ -360,7 +380,7 @@ public class ListItemFragment extends Fragment{
                     break;
             }
         }
-        new LogManager().LogManager("ListItemFragment 위치값 후","위도: "+lon+" | 경도: "+lat);
+        new LogManager().LogManager("ListItemFragment 위치값 후","위도: "+lat+" | 경도: "+lon);
 
     }
 
@@ -368,7 +388,7 @@ public class ListItemFragment extends Fragment{
     // TODO : 서버에서 주변 관광지 전체 정보 가져오기
     private void setTotals(final double lat,final double lon, final int page) {
         ApiClient.getInstance().getApiService()
-                .getAroundAttractions(MyApplication.APP_VERSION,lat, lon,4, page)
+                .getAroundAttractions(MyApplication.APP_VERSION,lat, lon, language, page)
                 .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
@@ -402,7 +422,7 @@ public class ListItemFragment extends Fragment{
     // TODO : 서버에서 주변 맛집 정보 가져오기
     private void setRestaurants(final double lat,final double lon, final int page) {
         ApiClient.getInstance().getApiService()
-                .getAroundRestaurants(MyApplication.APP_VERSION,lat, lon,4, page)
+                .getAroundRestaurants(MyApplication.APP_VERSION,lat, lon, language, page)
                 .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
@@ -435,7 +455,7 @@ public class ListItemFragment extends Fragment{
     // TODO : 서버에서 주변 관광지 정보 가져오기
     private void setTours(final double lat, final double lon, int page) {
         ApiClient.getInstance().getApiService()
-                .getAroundTours(MyApplication.APP_VERSION,lat, lon,4, page)
+                .getAroundTours(MyApplication.APP_VERSION,lat, lon, language, page)
                 .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
