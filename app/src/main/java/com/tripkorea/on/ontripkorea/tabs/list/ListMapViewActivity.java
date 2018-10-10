@@ -59,6 +59,7 @@ public class ListMapViewActivity extends AppCompatActivity implements
 
     static public ArrayList<AttrClient> aroundList = new ArrayList<>();
 
+    boolean changeLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +86,14 @@ public class ListMapViewActivity extends AppCompatActivity implements
                 currentLat = mMap.getCameraPosition().target.latitude;
                 currentLong = mMap.getCameraPosition().target.longitude;
                 Log.e("ListMapViewActivity","currentMapCenterLocation.setOnClickListener 위치 변경 맵기준: " + currentLong+" | "+currentLat);
+                changeLocation = true;
                 onBackPressed();
             }
         });
 
     }
+
+
     private void checkMyLocation(){
         checkLocationPermission();
         LocationManager locationManager = (LocationManager)
@@ -192,12 +196,16 @@ public class ListMapViewActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        Intent sendLocation = new Intent();
-        sendLocation.putExtra("lat",currentLat);
-        sendLocation.putExtra("lon",currentLong);
-        setResult(RESULT_OK,sendLocation);
-        Log.e("ListMapViewActivity","onBackPressed() 위치 전송 완료: " + currentLong+" | "+currentLat);
-        finish();
+        if(changeLocation) {
+            Intent sendLocation = new Intent();
+            sendLocation.putExtra("lat", currentLat);
+            sendLocation.putExtra("lon", currentLong);
+            setResult(RESULT_OK, sendLocation);
+            Log.e("ListMapViewActivity", "onBackPressed() 위치 전송 완료: " + currentLong + " | " + currentLat);
+            finish();
+        }else{
+            finish();
+        }
     }
 
     @Override
