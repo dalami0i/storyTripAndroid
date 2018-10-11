@@ -11,7 +11,7 @@ public class WifiCheck {
     public static final int WIFI_OFF = 0;
     public static final int WIFI_ON = 1;
 
-    public static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";
+    public static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";//http://clients3.google.com/generate_204
     public static int wificheck = 0;
 
     public static class CheckConnect extends Thread {
