@@ -21,6 +21,8 @@
     <color name="edit_hint">#A1887F</color>
     <color name="imgForeground">#908c8c8c</color>
     <color name="imgForegroundStrong">#308c8c8c</color>
+    <color name="facebookbackground">#4167b2</color>
+    <color name="naverbackground">#1dc800</color>
 
 
     <!--<color name="colorPrimary">#3F51B5</color>

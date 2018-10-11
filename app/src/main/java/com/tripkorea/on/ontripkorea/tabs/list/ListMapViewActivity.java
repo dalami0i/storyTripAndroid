@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +48,7 @@ public class ListMapViewActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     Location currentLocation;
     double currentLat, currentLong;
-    @BindView(R.id.iv_map_current_map)
-    ImageView currentMapCenterLocation;
+
     @BindView(R.id.tv_sendbacklocation)
     TextView sendBackBtn;
 
@@ -71,14 +69,6 @@ public class ListMapViewActivity extends AppCompatActivity implements
         mainChangeLocationMap.onCreate(savedInstanceState);
         mainChangeLocationMap.getMapAsync(this);
 
-        currentMapCenterLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentLat = mMap.getCameraPosition().target.latitude;
-                currentLong = mMap.getCameraPosition().target.longitude;
-                Log.e("ListMapViewActivity","currentMapCenterLocation.setOnClickListener 위치 변경 맵기준: " + currentLong+" | "+currentLat);
-            }
-        });
 
         sendBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,34 +8,38 @@ import android.os.Parcelable;
  */
 
 public class User implements Parcelable {
-    private int idx;            // DB에서의 index값
-    private String name;
-    private int mindAge;
-    private int nationCode;     // ex) 82(대한민국)  ref) https://ko.wikipedia.org/wiki/%EA%B5%AD%EC%A0%9C%EC%A0%84%ED%99%94_%EB%82%98%EB%9D%BC_%EB%B2%88%ED%98%B8
-    private String nationString;
-    private int sexCode;        // ex) 0(남성), 1(여성)
-    private int religionCode;   // ex) 0(기독교), 1(천주교), 2(불교), 3(힌두교) ....
-    private int serviceCode;   // 2 : Facebook 3 : Naver 4 : Google 5 : Kakaotalk
 
+
+    private int idx;
     private String id;
-    private String service;
-    private String profileAddr;
+    private String name;
+    private String profileImgAddr;
+    private int gender;     // ex) 0(남성), 1(여성)
+    private int age;
+    private int mindAge;
+    private int snsIdx;     // 2 : Facebook 3 : Naver 4 : Google 5 :
+    private int nationIdx;  // ex) 82(대한민국)  ref) https://ko.wikipedia.org/wiki/%EA%B5%AD%EC%A0%9C%EC%A0%84%ED%99%94_%EB%82%98%EB%9D%BC_%EB%B2%88%ED%98%B8
+    private String nationCode;
+    private int countryISO;
 
+//    private int religionCode;   // ex) 0(기독교), 1(천주교), 2(불교), 3(힌두교) ....
+//    private String service;
+//    private String profileImgAddr;
 
     public User(){}
 
     protected User(Parcel in) {
         idx = in.readInt();
-        name = in.readString();
-        mindAge = in.readInt();
-        nationCode = in.readInt();
-        nationString = in.readString();
-        sexCode = in.readInt();
-        religionCode = in.readInt();
-        serviceCode = in.readInt();
         id = in.readString();
-        service = in.readString();
-        profileAddr = in.readString();
+        name = in.readString();
+        profileImgAddr = in.readString();
+        gender = in.readInt();
+        age = in.readInt();
+        mindAge = in.readInt();
+        snsIdx = in.readInt();
+        nationIdx = in.readInt();
+        nationCode = in.readString();
+        countryISO = in.readInt();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -50,29 +54,46 @@ public class User implements Parcelable {
         }
     };
 
-    public int getServiceCode() {
-        return serviceCode;
+    public String getProfileImgAddr() {
+        return profileImgAddr;
     }
 
-    public void setServiceCode(int serviceCode) {
-        this.serviceCode = serviceCode;
+    public void setProfileImgAddr(String profileImgAddr) {
+        this.profileImgAddr = profileImgAddr;
     }
 
-    public String getNationString() {
-        return nationString;
+    public int getAge() {
+        return age;
     }
 
-    public void setNationString(String nationString) {
-        this.nationString = nationString;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public String getProfileAddr() {
-        return profileAddr;
+    public String getNationCode() {
+        return nationCode;
     }
 
-    public void setProfileAddr(String profileAddr) {
-        this.profileAddr = profileAddr;
+    public void setNationCode(String nationCode) {
+        this.nationCode = nationCode;
     }
+
+    public int getCountryISO() {
+        return countryISO;
+    }
+
+    public void setCountryISO(int countryISO) {
+        this.countryISO = countryISO;
+    }
+
+    public int getSnsIdx() {
+        return snsIdx;
+    }
+
+    public void setSnsIdx(int snsIdx) {
+        this.snsIdx = snsIdx;
+    }
+
 
     public String getId() {
         return id;
@@ -82,13 +103,6 @@ public class User implements Parcelable {
         this.id = id;
     }
 
-    public String getService() {
-        return service;
-    }
-
-    public void setService(String service) {
-        this.service = service;
-    }
 
     public int getIdx() {
         return idx;
@@ -114,29 +128,22 @@ public class User implements Parcelable {
         this.mindAge = mindAge;
     }
 
-    public int getNationCode() {
-        return nationCode;
+    public int getNationIdx() {
+        return nationIdx;
     }
 
-    public void setNationCode(int nationCode) {
-        this.nationCode = nationCode;
+    public void setNationIdx(int nationCode) {
+        this.nationIdx = nationIdx;
     }
 
-    public int getSexCode() {
-        return sexCode;
+    public int getGender() {
+        return gender;
     }
 
-    public void setSexCode(int sexCode) {
-        this.sexCode = sexCode;
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
-    public int getReligionCode() {
-        return religionCode;
-    }
-
-    public void setReligionCode(int religionCode) {
-        this.religionCode = religionCode;
-    }
 
     @Override
     public int describeContents() {
@@ -146,15 +153,15 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(idx);
-        dest.writeString(name);
-        dest.writeInt(mindAge);
-        dest.writeInt(nationCode);
-        dest.writeString(nationString);
-        dest.writeInt(sexCode);
-        dest.writeInt(religionCode);
-        dest.writeInt(serviceCode);
         dest.writeString(id);
-        dest.writeString(service);
-        dest.writeString(profileAddr);
+        dest.writeString(name);
+        dest.writeString(profileImgAddr);
+        dest.writeInt(gender);
+        dest.writeInt(age);
+        dest.writeInt(mindAge);
+        dest.writeInt(snsIdx);
+        dest.writeInt(nationIdx);
+        dest.writeString(nationCode);
+        dest.writeInt(countryISO);
     }
 }

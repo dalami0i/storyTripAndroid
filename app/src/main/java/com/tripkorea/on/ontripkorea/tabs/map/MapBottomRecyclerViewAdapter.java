@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.tabs.MainActivity;
 import com.tripkorea.on.ontripkorea.tabs.list.ListDetailActivity;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class MapBottomRecyclerViewAdapter extends RecyclerView.Adapter<MapBottomRecyclerViewAdapter.ViewHolder>{
 
     Context context;
+    GoogleMap mMap;
 
     public MapBottomRecyclerViewAdapter(){
 
@@ -36,6 +38,7 @@ public class MapBottomRecyclerViewAdapter extends RecyclerView.Adapter<MapBottom
 
     public void clearMapList(){ itemList.clear(); }
     public void addContext(MainActivity main){context = main;}
+    public void addGoogleMap(GoogleMap mMap){this.mMap = mMap;}
     public void addMapListView(AttractionSimple obj) {//, String link_content
         itemList.add(obj);
     }
@@ -50,9 +53,35 @@ public class MapBottomRecyclerViewAdapter extends RecyclerView.Adapter<MapBottom
         final AttractionSimple attraction = itemList.get(position);
         new LogManager().LogManager("지도 맵 바닥 아이템",attraction.getName());
         holder.itemImgName.setText(attraction.getName());
-        holder.itemTag1.setText("#"+attraction.getIdx());
-        holder.itemTag2.setText("#"+attraction.getIdx());
-        holder.itemTag3.setText("#"+attraction.getIdx());
+        String tmpTag;
+        if(attraction.getTagSet() != null && attraction.getTagSet().size() > 0){
+            for(int i=0; i<attraction.getTagSet().size(); i++) {
+                switch (i){
+                    case 0:
+                        tmpTag = "#" + attraction.getTagSet().get(i);
+                        holder.itemTag1.setText(tmpTag);
+                        holder.itemTag2.setVisibility(View.GONE);
+                        holder.itemTag3.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        tmpTag = "#" + attraction.getTagSet().get(i);
+                        holder.itemTag2.setText(tmpTag);
+                        holder.itemTag2.setVisibility(View.VISIBLE);
+                        holder.itemTag3.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        tmpTag = "#" + attraction.getTagSet().get(i);
+                        holder.itemTag3.setText(tmpTag);
+                        holder.itemTag3.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        }else{
+            String nameTag = "#"+attraction.getName();
+            holder.itemTag1.setText(nameTag);
+            holder.itemTag2.setVisibility(View.GONE);
+            holder.itemTag3.setVisibility(View.GONE);
+        }
 //        RequestOptions myOptions = new RequestOptions().override(diviceSizeW, 900);
         Glide.with(MyApplication.getContext())
                 .load(attraction.getThumnailAddr())

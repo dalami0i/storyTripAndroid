@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.around.detail;
 
 import android.content.Context;
@@ -14,9 +15,11 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.vo.youtube.YoutubeDetail;
 
+*/
 /**
  * Created by YangHC on 2018-06-18.
- */
+ *//*
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //유투브 링크 adapter
@@ -79,3 +82,4 @@ public class YoutubeItemRVAdapter extends RecyclerView.Adapter<YoutubeItemRVAdap
         return AroundDetailActivity.youtubeDetails.size();
     }
 }
+*/

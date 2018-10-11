@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.around.detail;
 
 import android.app.ProgressDialog;
@@ -63,9 +64,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by Edward Won on 2018-06-12.
- */
+//Created by Edward Won on 2018-06-12.
+
+
 
 public class AroundDetailMapActivity extends AppCompatActivity implements
         OnMapReadyCallback,
@@ -172,7 +173,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
         }
         new LogManager().LogManager("AroundDetailMapActivity","usinglanguage; "+usinglanguage);
         ApiClient.getInstance().getApiService()
-                .getTourDetail(MyApplication.APP_VERSION, attractionIdx, language, Me.getInstance().getIdx())
+                .getTourDetail(MyApplication.APP_VERSION, attractionIdx, language)
                 .enqueue(new Callback<AttractionDetail>() {
                     @Override
                     public void onResponse(Call<AttractionDetail> call, Response<AttractionDetail> response) {
@@ -186,8 +187,8 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
 //                        imgRvAdapter.addImgList(MainActivity.attrImgURLArrayList.get(i));
 //                    }
 //                }
-                                DetailedImageFragmentPagerAdapter detailedImageFragmentPagerAdapter
-                                        = new DetailedImageFragmentPagerAdapter(getSupportFragmentManager(), 3);
+                                com.tripkorea.on.ontripkorea.tabs.around.detail.DetailedImageFragmentPagerAdapter detailedImageFragmentPagerAdapter
+                                        = new com.tripkorea.on.ontripkorea.tabs.around.detail.DetailedImageFragmentPagerAdapter(getSupportFragmentManager(), 3);
 //                String[] images = thisAttraction.firstimage2.split(",");
                                 String thumnailAddr = seletedAttr.getThumnailAddr();
                                 detailedImageFragmentPagerAdapter.addDetailedImage(thumnailAddr);
@@ -224,7 +225,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
 
                             new LogManager().LogManager(seletedAttr.getName(),seletedAttr.isLiked()+" | checkAttraction.isLiked() "+seletedAttr.getIdx());
                             if(seletedAttr.isLiked()){
-                                likeImg.setImageResource(R.drawable.z_heart_image_s);
+                                likeImg.setImageResource(R.drawable.icon_heart_empty_image);
                             }else{
                                 likeImg.setImageResource(R.drawable.z_heart_empty_s);
                             }
@@ -233,7 +234,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
                             if(seletedAttr.isVisited()){
                                 visitImg.setImageResource(R.drawable.z_footprint_s);
                             }else{
-                                visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+                                visitImg.setImageResource(R.drawable.icon_footprint_s);
                             }
 
                             if(mMap != null) {
@@ -703,7 +704,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
                                     if (response.body() != null) {
                                         Alert.makeText("좋아요!");
-                                        likeImg.setImageResource(R.drawable.z_heart_image_s);
+                                        likeImg.setImageResource(R.drawable.icon_heart_empty_image);
                                         seletedAttr.setLiked(true);
                                     } else {
                                         Alert.makeText("좋아요 에러 발생" + response.errorBody().toString());
@@ -726,9 +727,9 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
                 //Glide.with(AroundDetailActivity.this).asDrawable().into(likeImg) == getResources().getDrawable(z_heart_empty_s)
                 //TODO: 토글버튼으로 대체 -> 이미지 일일이 변경할 필요 없음
                 //TODO: 현재 이미지가 무엇인지를 조건으로 주고있는데 이것보단 liked, visited같은 boolean 변수들을 두고 그것들을 조건으로 주는 것이 좋음
-                /*if (likeImg.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.z_heart_empty_s).getConstantState()) {
-                    likeImg.setImageResource(R.drawable.z_heart_image_s);
-//                    Glide.with(AroundDetailActivity.this).load(R.drawable.z_heart_image_s).into(likeImg);
+if (likeImg.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.z_heart_empty_s).getConstantState()) {
+                    likeImg.setImageResource(R.drawable.icon_heart_empty_image);
+//                    Glide.with(AroundDetailActivity.this).load(R.drawable.icon_heart_empty_image).into(likeImg);
                     Log.e("LIKE", "userIdx : " + Me.getInstance().getIdx() + ", " + attractionIdx);
 
                     ApiClient.getInstance().getApiService()
@@ -782,7 +783,8 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
                                     Alert.makeText(getResources().getString(R.string.network_error));
                                 }
                             });
-                }*/
+                }
+
                 break;
             case R.id.img_detail_footprint:
                 if(seletedAttr.isVisited()){
@@ -793,7 +795,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
                                 public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
                                     if (response.body() != null) {
                                         Alert.makeText("방문한 것 취소!");
-                                        visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+                                        visitImg.setImageResource(R.drawable.icon_footprint_s);
                                         seletedAttr.setVisited(false);
                                     } else {
                                         Alert.makeText("방문 취소 에러 발생" + response.errorBody().toString());
@@ -840,7 +842,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
                 InfoFragment.VISITED_LIST_CHANGED = true;
 
 //                if (visitImg.getDrawable().getConstantState()
-//                        == getResources().getDrawable(R.drawable.z_footprint_empty_s).getConstantState()) {
+//                        == getResources().getDrawable(R.drawable.icon_footprint_s).getConstantState()) {
 //                    visitImg.setImageResource(R.drawable.z_footprint_s);
 //                    ApiClient.getInstance().getApiService()
 //                            .visit(MyApplication.APP_VERSION, new VisitDTO(Me.getInstance().getIdx()
@@ -866,7 +868,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
 //                                }
 //                            });
 //                } else {
-//                    visitImg.setImageResource(R.drawable.z_footprint_empty_s);
+//                    visitImg.setImageResource(R.drawable.icon_footprint_s);
 //                    ApiClient.getInstance().getApiService()
 //                            .cancelVisit(MyApplication.APP_VERSION
 //                                    , new VisitDTO(Me.getInstance().getIdx(), attractionIdx))
@@ -912,7 +914,7 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
     }
 
 
-   /* @Override
+ @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 //        outState.putParcelableArrayList("likeList", (ArrayList<AttrClient>)MainActivity.likeEntities);
@@ -929,6 +931,8 @@ public class AroundDetailMapActivity extends AppCompatActivity implements
         aroundList = savedInstanceState.getParcelableArrayList("aroundList");
         seletedAttr = savedInstanceState.getParcelable("Attr");
 
-    }*/
+    }
+
 
 }
+*/

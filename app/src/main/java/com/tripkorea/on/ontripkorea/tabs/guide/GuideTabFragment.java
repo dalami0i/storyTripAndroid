@@ -19,9 +19,9 @@ import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleList;
 
-/**
- * Created by Edward Won on 2018-07-24.
- */
+///**
+// * Created by Edward Won on 2018-07-24.
+// */
 
 public class GuideTabFragment extends Fragment {
 

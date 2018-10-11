@@ -5,21 +5,12 @@ package com.tripkorea.on.ontripkorea.vo.dto;
  */
 
 public class LikeDTO {
-    private int userIdx;
     private int attractionIdx;
 
-    public LikeDTO(int userIdx, int attractionIdx) {
-        this.userIdx = userIdx;
+    public LikeDTO(int attractionIdx) {
         this.attractionIdx = attractionIdx;
     }
 
-    public int getUserIdx() {
-        return userIdx;
-    }
-
-    public void setUserIdx(int userIdx) {
-        this.userIdx = userIdx;
-    }
 
     public int getAttrIdx() {
         return attractionIdx;

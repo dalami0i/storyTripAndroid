@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.food;
 
 import android.os.Bundle;
@@ -29,9 +30,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+*/
 /**
  * Created by Edward Won on 2018-07-24.
- */
+ *//*
+
 
 public class PhotoFoodFragment extends Fragment {
 
@@ -143,3 +146,4 @@ public class PhotoFoodFragment extends Fragment {
         return view;
     }
 }
+*/

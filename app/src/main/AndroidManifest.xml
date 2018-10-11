@@ -15,7 +15,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/z_icon_k"
+        android:icon="@drawable/icon_stoury"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -40,7 +40,7 @@
             />
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.GungTheme">
 
@@ -52,7 +52,7 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".SplashActivity"
             android:theme="@style/Theme.GungTheme">
         </activity>
 
@@ -61,20 +61,7 @@
             android:theme="@style/Theme.GungTheme">
         </activity>
 
-        <activity
-            android:name=".tabs.around.detail.AroundDetailActivity"
-            android:theme="@style/Theme.GungTheme">
-        </activity>
 
-        <activity
-            android:name=".tabs.around.detail.AroundDetailedActivity"
-            android:theme="@style/Theme.GungTheme">
-        </activity>
-
-        <activity
-            android:name=".tabs.around.detail.AroundDetailMapActivity"
-            android:theme="@style/Theme.GungTheme">
-        </activity>
 
         <activity
             android:name=".tabs.guide.GuideActivity"
@@ -116,6 +103,12 @@
             android:name=".tabs.search.SearchActivity"
             android:theme="@style/Theme.GungTheme">
         </activity>
+
+        <activity
+            android:name=".tabs.mypage.ProfileEditActivity"
+            android:theme="@style/Theme.GungTheme">
+        </activity>
+
 
 
 

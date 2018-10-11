@@ -1,12 +1,16 @@
 package com.tripkorea.on.ontripkorea.retrofit.client;
 
 
-import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessasge;
+import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessage;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionDetail;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
 import com.tripkorea.on.ontripkorea.vo.toonguide.Toon;
+import com.tripkorea.on.ontripkorea.vo.user.LoginResponse;
+import com.tripkorea.on.ontripkorea.vo.user.LoginUser;
+import com.tripkorea.on.ontripkorea.vo.user.SignupResponsecode;
+import com.tripkorea.on.ontripkorea.vo.user.UpdateUser;
 import com.tripkorea.on.ontripkorea.vo.user.User;
 import com.tripkorea.on.ontripkorea.vo.voiceguide.Guide;
 import com.tripkorea.on.ontripkorea.vo.voiceguide.GuidePhoto;
@@ -20,33 +24,43 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    //로그인
+    //회원체크
+    @POST("/storytour/api/{version}/user/sign/isExistedAccount")
+    Call<SignupResponsecode> signupCheck(@Path("version") int version, @Body User user);
+    //회원가입
     @POST("/storytour/api/{version}/user/sign/up")
-    Call<ApiMessasge> signup(@Path("version") int version, @Body User user);
+    Call<SignupResponsecode> signup(@Path("version") int version, @Body User user);
+    //로그인
+    @POST("/storytour/api/{version}/user/sign/in")
+    Call<LoginResponse> signin(@Path("version") int version, @Body LoginUser user);
+    //회원정보수정
+    @PUT("/storytour/api/{version}/user/update")
+    Call<ApiMessage> updateUser(@Path("version") int version, @Body UpdateUser user);
 
     // 좋아요
     @POST("/storytour/api/{version}/user/like")
-    Call<ApiMessasge> like(@Path("version") int version, @Body LikeDTO likeDTO);
+    Call<ApiMessage> like(@Path("version") int version, @Body LikeDTO likeDTO);
     // 좋아요 해제
-    @HTTP(method = "POST", path = "/storytour/api/{version}/user/like/cancel", hasBody = true)
-    Call<ApiMessasge> cancelLike(@Path("version") int version, @Body LikeDTO likeDTO);
+    @HTTP(method = "DELETE", path = "/storytour/api/{version}/user/like/cancel", hasBody = true)
+    Call<ApiMessage> cancelLike(@Path("version") int version, @Body LikeDTO likeDTO);
     // 내 좋아요 리스트
-    @GET("/storytour/api/{version}/user/like/list/{userIdx}/{language}")
-    Call<List<AttractionSimple>> getMyLikeList(@Path("version") int version, @Path("userIdx") int userIdx, @Path("language") int languag);
+    @GET("/storytour/api/{version}/user/like/list/{language}")
+    Call<ArrayList<AttractionSimple>> getMyLikeList(@Path("version") int version, @Path("language") int languag);//, @Path("userIdx") int userIdx
 
      // 방문
     @POST("/storytour/api/{version}/user/visit")
-    Call<ApiMessasge> visit(@Path("version") int version,@Body VisitDTO likeDTO);
+    Call<ApiMessage> visit(@Path("version") int version, @Body VisitDTO likeDTO);
     // 방문 해제
-    @HTTP(method = "POST", path = "/storytour/api/{version}/user/visit/cancel", hasBody = true)
-    Call<ApiMessasge> cancelVisit(@Path("version") int version,@Body VisitDTO likeDTO);
+    @HTTP(method = "DELETE", path = "/storytour/api/{version}/user/visit/cancel", hasBody = true)
+    Call<ApiMessage> cancelVisit(@Path("version") int version, @Body VisitDTO likeDTO);
     // 내 방문 리스트
-    @GET("/storytour/api/{version}/user/visit/list/{userIdx}/{language}")
-    Call<List<AttractionSimple>> getMyVisitList(@Path("version") int version, @Path("userIdx") int userIdx, @Path("language") int languag);
+    @GET("/storytour/api/{version}/user/visit/list/{language}")///{userIdx}
+    Call<ArrayList<AttractionSimple>> getMyVisitList(@Path("version") int version, @Path("language") int languag);//, @Path("userIdx") int userIdx
 
 
     // 주변 교통정보 리스트
@@ -63,26 +77,16 @@ public interface ApiService {
     // 주변 전체 리스트
     @GET("/storytour/api/{version}/user/attr/attraction/dozens/{lat}/{lon}/{language}/{page}")
     Call<List<AttractionSimple>> getAroundAttractions(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("language") int language, @Path("page") int page);
-
-    // guide list for photo
-    @GET("/storytour/api/{version}/user/attr/new/guide/dozens/{lat}/{lon}/{size}/{page}")
-    Call <ArrayList<GuidePhoto>> getGuidePhotos(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("size") int size, @Path("page") int page);
-    // total list for photo
-    @GET("/storytour/api/{version}/user/attr/new/attraction/dozens/{lat}/{lon}/{size}/{page}")
-    Call<List<AttractionSimple>> getTotalPhotos(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon,@Path("size") int size, @Path("page") int page);
-    // restaurant list for photo
-    @GET("/storytour/api/{version}/user/attr/new/restaurant/dozens/{lat}/{lon}/{size}/{page}")
-    Call<List<AttractionSimple>> getRestaurantPhotos(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon,@Path("size") int size, @Path("page") int page);
-    // attraction list for photo
-    @GET("/storytour/api/{version}/user/attr/new/tour/dozens/{lat}/{lon}/{size}/{page}")
-    Call<List<AttractionSimple>> getTourPhotos(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("size") int size, @Path("page") int page);
+    // 메인 추천 리스트
+    @GET("/storytour/api/{version}/user/attr/rec/dozens/{language}")
+    Call<List<AttractionSimple>> getRecommendations(@Path("version") int version,  @Path("language") int language);
 
     //놀거리 상세 정보
-    @GET("/storytour/api/{version}/user/attr/tour/detail/{attractionIdx}/{language}/{userIdx}")
-    Call<AttractionDetail> getTourDetail(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language, @Path("userIdx") int userIdx);
+    @GET("/storytour/api/{version}/user/attr/tour/detail/{attractionIdx}/{language}")///{userIdx}
+    Call<AttractionDetail> getTourDetail(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);//, @Path("userIdx") int userIdx
     //먹거리 상세 정보
-    @GET("/storytour/api/{version}/user/attr/restaurant/detail/{attractionIdx}/{language}/{userIdx}")
-    Call<AttractionDetail> getFoodDetail(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language, @Path("userIdx") int userIdx);
+    @GET("/storytour/api/{version}/user/attr/restaurant/detail/{attractionIdx}/{language}")
+    Call<AttractionDetail> getFoodDetail(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);//, @Path("userIdx") int userIdx
 
 
     //어트랙션 보이스 가이드
@@ -100,7 +104,52 @@ public interface ApiService {
 
     //보이스가이드 로그 전송
     @POST("/storytour/api/{version}/logging/voiceGuide")
-    Call<ApiMessasge> voiceGuideLog (@Path("version") int version,@Body ArrayList<VoiceGuideLog> voiceGuideLogList);
+    Call<ApiMessage> voiceGuideLog (@Path("version") int version, @Body ArrayList<VoiceGuideLog> voiceGuideLogList);
+
+
+    //로그 보내기
+    //상세페이지 나가기
+    @GET("/storytour/api/{version}/log/attr/attaction/detail/close/{attractionIdx}/{language}")
+    Call <ApiMessage> exitDetailPage(@Path("version") int version, @Path("attractionIdx") int attractionIdx, @Path("language") int language);
+    //보이스 마커 터치
+    @GET("/storytour/api/{version}/log/voice/marker/{guideIdx}/{language}")
+    Call <ApiMessage> touchVoiceMarker(@Path("version") int version, @Path("guideIdx") int guideIdx, @Path("language") int language);
+    //보이스 재생
+    @GET("/storytour/api/{version}/log/voice/play/{guideIdx}/{language}")
+    Call <ApiMessage> playVoice(@Path("version") int version, @Path("guideIdx") int guideIdx, @Path("language") int language);
+    //보이스 정지
+    @GET("/storytour/api/{version}/log/voice/stop/{guideIdx}/{language}")
+    Call <ApiMessage> stopVoice(@Path("version") int version, @Path("guideIdx") int guideIdx, @Path("language") int language);
+    //보이스 페이지 종료
+    @GET("/storytour/api/{version}/log/voice/close/{guideIdx}/{language}")
+    Call <ApiMessage> exitVoice(@Path("version") int version, @Path("guideIdx") int guideIdx, @Path("language") int language);
+    //여행툰 마커 터치
+    @GET("/storytour/api/{version}/log/toon/marker/{guideIdx}/{language}")
+    Call <ApiMessage> touchToonMarker(@Path("version") int version, @Path("guideIdx") int guideIdx, @Path("language") int language);
+    //여행툰 보기
+    @GET("/storytour/api/{version}/log/toon/show/{guideIdx}/{language}")
+    Call <ApiMessage> watchToon(@Path("version") int version, @Path("guideIdx") int guideIdx, @Path("language") int language);
+    //여행툰 그만 보기
+    @GET("/storytour/api/{version}/log/toon/stop/{guideIdx}/{language}")
+    Call <ApiMessage> stopToon(@Path("version") int version, @Path("guideIdx") int guideIdx, @Path("language") int language);
+    //여행툰 그만 보기
+    @GET("/storytour/api/{version}/log/toon/stop/{guideIdx}/{language}")
+    Call <ApiMessage> exitToon(@Path("version") int version, @Path("guideIdx") int guideIdx, @Path("language") int language);
+
+
+    // guide list for photo
+    @GET("/storytour/api/{version}/user/attr/new/guide/dozens/{lat}/{lon}/{size}/{page}")
+    Call <ArrayList<GuidePhoto>> getGuidePhotos(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("size") int size, @Path("page") int page);
+    // total list for photo
+    @GET("/storytour/api/{version}/user/attr/new/attraction/dozens/{lat}/{lon}/{size}/{page}")
+    Call<List<AttractionSimple>> getTotalPhotos(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon,@Path("size") int size, @Path("page") int page);
+    // restaurant list for photo
+    @GET("/storytour/api/{version}/user/attr/new/restaurant/dozens/{lat}/{lon}/{size}/{page}")
+    Call<List<AttractionSimple>> getRestaurantPhotos(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon,@Path("size") int size, @Path("page") int page);
+    // attraction list for photo
+    @GET("/storytour/api/{version}/user/attr/new/tour/dozens/{lat}/{lon}/{size}/{page}")
+    Call<List<AttractionSimple>> getTourPhotos(@Path("version") int version, @Path("lat") double lat, @Path("lon") double lon, @Path("size") int size, @Path("page") int page);
+
 
 
 }

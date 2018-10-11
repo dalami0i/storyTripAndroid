@@ -2,7 +2,10 @@ package com.tripkorea.on.ontripkorea.tabs.map;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -12,8 +15,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
 import com.tripkorea.on.ontripkorea.tabs.MainActivity;
+import com.tripkorea.on.ontripkorea.tabs.list.ListDetailActivity;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
@@ -50,9 +53,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by YangHC on 2018-06-05.
- */
+///**
+// * Created by YangHC on 2018-06-05.
+// */
 
 public class MainMapFragment extends Fragment  implements
         OnMapReadyCallback,
@@ -63,20 +66,12 @@ public class MainMapFragment extends Fragment  implements
 
     MapView mainMap;
     ImageView currentMapViewCenter;
-    LocationManager locationManager;
 
     MainActivity main;
     int language;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     ProgressDialog loadingGuide = null;
-    static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";
-
-
-    //map
-//    private static VoiceGuide guideEntity;
-//    static ArrayList<Toon> toonEntities = new ArrayList<>();
-
     TabLayout mapTablayout;
 
     GoogleApiClient mGoogleApiClient;
@@ -87,20 +82,15 @@ public class MainMapFragment extends Fragment  implements
     ArrayList<Marker> markers = new ArrayList<>();
     AttractionSimpleList tourList;
     AttractionSimpleList foodList;
-
-    final MapBottomRecyclerViewAdapter mapBottomRecyclerViewAdapter
-            = new MapBottomRecyclerViewAdapter();
-
-
-//    private static VoiceGuideLocation locEntity;
-//    private List<Toon> toons = new ArrayList<>();
+    ViewPager mapViewPager;
+    MapTourBottomPagerAdapter mapTourBottomViewAdapter;
+    MapFoodBottomPagerAdapter mapFoodBottomViewAdapter;
 
     public OnNetworkErrorListener onNetworkErrorListener;
 
     public Fragment mainMapFragmentNewInstance(MainActivity main, int lastTab, AttractionSimpleList tourList, AttractionSimpleList foodList, int language){//GoogleMap mMap,
         this.lastTab = lastTab;
         this.main = main;
-        mapBottomRecyclerViewAdapter.addContext(main);
         this.tourList = tourList;
         this.foodList = foodList;
         this.language = language;
@@ -148,11 +138,6 @@ public class MainMapFragment extends Fragment  implements
 
     private void initViews(View view) {
         new LogManager().LogManager("메인맵프레그먼트","initViews 진입");
-        RecyclerView mapBottomRV = view.findViewById(R.id.rv_map_bottom);
-
-        LinearLayoutManager recommendLayoutManager
-                = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mapBottomRV.setLayoutManager(recommendLayoutManager);
 
         if(tourList == null || tourList.getItems().size() < 1){
             List<AttractionSimple> tmpList = new ArrayList<>();
@@ -174,13 +159,34 @@ public class MainMapFragment extends Fragment  implements
 
             tourList.setItems(tmpList);
         }
-        for(int i=0; i<tourList.getItems().size(); i++){
-            mapBottomRecyclerViewAdapter.addMapListView(tourList.getItems().get(i));
-        }
 
+        mapViewPager = view.findViewById(R.id.vp_map_bottom);
+        mapTourBottomViewAdapter = new MapTourBottomPagerAdapter(main.getSupportFragmentManager(),main,tourList);
+        mapFoodBottomViewAdapter = new MapFoodBottomPagerAdapter(main.getSupportFragmentManager(),main,foodList);
+        mapViewPager.setAdapter(mapTourBottomViewAdapter);
+        mapViewPager.setClipToPadding(false);
+        mapViewPager.setPadding(40,0,40,0);
+        mapViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {            }
 
+            @Override
+            public void onPageSelected(int position) {
+                switch (mapTablayout.getSelectedTabPosition()){
+                    case 0:
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(
+                                new LatLng(tourList.getItems().get(position).getLat(), tourList.getItems().get(position).getLon())));
+                        break;
+                    case 1:
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(
+                                new LatLng(foodList.getItems().get(position).getLat(), foodList.getItems().get(position).getLon())));
+                        break;
+                }
+            }
 
-        mapBottomRV.setAdapter(mapBottomRecyclerViewAdapter);
+            @Override
+            public void onPageScrollStateChanged(int state) {            }
+        });
 
         mapTablayout = view.findViewById(R.id.map_tablayout);
         mapTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -188,26 +194,29 @@ public class MainMapFragment extends Fragment  implements
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()){
                     case 0:
-                        mapBottomRecyclerViewAdapter.clearMapList();
-                        for(int i=0; i<tourList.getItems().size(); i++){
-                            mapBottomRecyclerViewAdapter.addMapListView(tourList.getItems().get(i));
-                        }
-                        mapBottomRecyclerViewAdapter.notifyDataSetChanged();
+                        mapTourBottomViewAdapter.changeList(tourList);
                         mapTablayout.getTabAt(mapTablayout.getSelectedTabPosition()).select();
                         mMap.clear();
-                        checkAround(tourList);
+                        Bitmap placeMarker = resizeMarker(((BitmapDrawable)getResources().getDrawable(R.drawable.icon_marker_place)).getBitmap());
+                        checkAround(tourList, placeMarker);
+                        mapTourBottomViewAdapter.notifyDataSetChanged();
+                        mapViewPager.setAdapter(mapTourBottomViewAdapter);
+
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(
                                 new LatLng(tourList.getItems().get(0).getLat(), tourList.getItems().get(0).getLon())));
                         break;
                     case 1:
-                        mapBottomRecyclerViewAdapter.clearMapList();
-                        for(int i=0; i<foodList.getItems().size(); i++){
-                            mapBottomRecyclerViewAdapter.addMapListView(foodList.getItems().get(i));
-                        }
-                        mapBottomRecyclerViewAdapter.notifyDataSetChanged();
+                        mapFoodBottomViewAdapter.changeList(foodList);
                         mapTablayout.getTabAt(mapTablayout.getSelectedTabPosition()).select();
                         mMap.clear();
-                        checkAround(foodList);
+                        Bitmap resMarker = resizeMarker(((BitmapDrawable)getResources().getDrawable(R.drawable.icon_marker_res)).getBitmap());
+                        int resizeWidth = 100;
+                        double aspectRatio = (double) resMarker.getHeight() / (double) resMarker.getWidth();
+                        int targetHeight = (int) (resizeWidth * aspectRatio);
+                        resMarker = Bitmap.createScaledBitmap(resMarker, resizeWidth, targetHeight, false);
+                        checkAround(foodList, resMarker);
+                        mapFoodBottomViewAdapter.notifyDataSetChanged();
+                        mapViewPager.setAdapter(mapFoodBottomViewAdapter);
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(
                                 new LatLng(foodList.getItems().get(0).getLat(), foodList.getItems().get(0).getLon())));
                         break;
@@ -227,6 +236,12 @@ public class MainMapFragment extends Fragment  implements
 
     }
 
+    private Bitmap resizeMarker(Bitmap marker){
+        int resizeWidth = 200;
+        double aspectRatio = (double) marker.getHeight() / (double) marker.getWidth();
+        int targetHeight = (int) (resizeWidth * aspectRatio);
+        return Bitmap.createScaledBitmap(marker, resizeWidth, targetHeight, false);
+    }
 
 
     private void checkMyLocation(){
@@ -256,40 +271,7 @@ public class MainMapFragment extends Fragment  implements
                     == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
                 mMap.setMyLocationEnabled(true);
-                /*locationManager = (LocationManager) main.getSystemService(Context.LOCATION_SERVICE);
-                Criteria criteria = new Criteria();
-                criteria.setAccuracy(Criteria.ACCURACY_FINE);
-                criteria.setPowerRequirement(Criteria.POWER_LOW);
-                locationManager.requestSingleUpdate(criteria, new android.location.LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        currentLat = location.getLatitude();
-                        currentLong = location.getLongitude();
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat, currentLong)));
 
-                        mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(currentLat, currentLong))
-                                .icon(BitmapDescriptorFactory.
-                                        fromBitmap(
-                                                ((BitmapDrawable)getResources().
-                                                        getDrawable(R.drawable.z_mycurrentlocation)).getBitmap())));
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-
-                    }
-                }, null);*/
             }else{
                 ActivityCompat.requestPermissions(main,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -297,7 +279,8 @@ public class MainMapFragment extends Fragment  implements
             }
         } else {
             buildGoogleApiClient();
-            checkAround(tourList);
+            Bitmap placeMarker = ((BitmapDrawable)getResources().getDrawable(R.drawable.icon_marker_place)).getBitmap();
+            checkAround(tourList, placeMarker);
         }
     }
 
@@ -324,7 +307,8 @@ public class MainMapFragment extends Fragment  implements
         new LogManager().LogManager("MainmapFragment","onMapReady");
         mMap = googleMap;
         checkLocationPermission();
-        checkAround(tourList);
+        Bitmap placeMarker = resizeMarker(((BitmapDrawable)getResources().getDrawable(R.drawable.icon_marker_place)).getBitmap());
+        checkAround(tourList, placeMarker);
         checkMyLocation();
 
 
@@ -347,22 +331,45 @@ public class MainMapFragment extends Fragment  implements
                 return false;
             }
         });
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                switch (mapTablayout.getSelectedTabPosition()){
+                    case 0:
+                        for(int i=0; i<tourList.getItems().size(); i++){
+                            if(marker.getTitle().equals(tourList.getItems().get(i).getName())){
+                                mapViewPager.setCurrentItem(i);
+                            }
+                        }
+                        break;
+                    case 1:
+                        for(int i=0; i<foodList.getItems().size(); i++){
+                            if(marker.getTitle().equals(foodList.getItems().get(i).getName())){
+                                mapViewPager.setCurrentItem(i);
+                            }
+                        }
+                        break;
+                }
+
+                return false;
+            }
+        });
         new LogManager().LogManager("mainMapFragment","지도완성");
         loadingGuide.dismiss();
 
     }
 
 
-    private void checkAround(AttractionSimpleList list){
+    private void checkAround(AttractionSimpleList list, Bitmap marker){
         Log.e("MainMapFragment","콘텐츠 몇 개? "+list.getItems().size());
         for(int i=0; i< list.getItems().size(); i++) {
             LatLng location =  new LatLng(list.getItems().get(i).getLat(), list.getItems().get(i).getLon());
             Marker tempMarker = mMap.addMarker(new MarkerOptions()
                     .position(location)
                     .title(list.getItems().get(i).getName())
-                    .alpha(0.5f)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                    .icon(BitmapDescriptorFactory.fromBitmap(marker))
             );//.icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_bg))
+
             markers.add(tempMarker);
         }
     }
@@ -436,42 +443,49 @@ public class MainMapFragment extends Fragment  implements
         new LogManager().LogManager("ListItemFragment 위치","upsideTabLayout.getSelectedTabPosition(): "+mapTablayout.getSelectedTabPosition());
         switch(mapTablayout.getSelectedTabPosition()){
             case 0:
-                mapBottomRecyclerViewAdapter.clearMapList();
+
+                mapTourBottomViewAdapter.clearMapList();
+                mapTourBottomViewAdapter.changeList(tourList);
                 mMap.clear();
                 markers.clear();
+                Bitmap placeMarker = resizeMarker(((BitmapDrawable)getResources().getDrawable(R.drawable.icon_marker_place)).getBitmap());
                 for(int i=0; i<tourList.getItems().size(); i++){
-                    mapBottomRecyclerViewAdapter.addMapListView(tourList.getItems().get(i));
                     LatLng location =  new LatLng(tourList.getItems().get(i).getLat(), tourList.getItems().get(i).getLon());
                     Marker tempMarker = mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(tourList.getItems().get(i).getName())
-                            .alpha(0.5f)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                            .icon(BitmapDescriptorFactory.fromBitmap(placeMarker))
                     );//.icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_bg))
                     markers.add(tempMarker);
                 }
-                mapBottomRecyclerViewAdapter.notifyDataSetChanged();
                 mapTablayout.getTabAt(mapTablayout.getSelectedTabPosition()).select();
+                mapTourBottomViewAdapter.notifyDataSetChanged();
+                mapViewPager.setAdapter(mapTourBottomViewAdapter);
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(
                         new LatLng(tourList.getItems().get(0).getLat(), tourList.getItems().get(0).getLon())));
                 break;
             case 1:
-                mapBottomRecyclerViewAdapter.clearMapList();
+                mapFoodBottomViewAdapter.clearMapList();
+                mapFoodBottomViewAdapter.changeList(foodList);
                 mMap.clear();
                 markers.clear();
+                Bitmap resMarker = resizeMarker(((BitmapDrawable)getResources().getDrawable(R.drawable.icon_marker_res)).getBitmap());
+                int resizeWidth = 100;
+                double aspectRatio = (double) resMarker.getHeight() / (double) resMarker.getWidth();
+                int targetHeight = (int) (resizeWidth * aspectRatio);
+                resMarker = Bitmap.createScaledBitmap(resMarker, resizeWidth, targetHeight, false);
                 for(int i=0; i<foodList.getItems().size(); i++){
-                    mapBottomRecyclerViewAdapter.addMapListView(foodList.getItems().get(i));
                     LatLng location =  new LatLng(foodList.getItems().get(i).getLat(), foodList.getItems().get(i).getLon());
                     Marker tempMarker = mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(foodList.getItems().get(i).getName())
-                            .alpha(0.5f)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resMarker))
                     );//.icon(BitmapDescriptorFactory.fromResource(R.drawable.z_marker_bg))
                     markers.add(tempMarker);
                 }
-                mapBottomRecyclerViewAdapter.notifyDataSetChanged();
                 mapTablayout.getTabAt(mapTablayout.getSelectedTabPosition()).select();
+                mapFoodBottomViewAdapter.notifyDataSetChanged();
+                mapViewPager.setAdapter(mapFoodBottomViewAdapter);
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(
                         new LatLng(foodList.getItems().get(0).getLat(), foodList.getItems().get(0).getLon())));
                 break;
@@ -492,24 +506,73 @@ public class MainMapFragment extends Fragment  implements
         mainMap.onPause();
     }
 
+
+
     @Override
     public void onInfoWindowClick(Marker marker) {
-        /*Toon tempToon = new Toon();
-        for(int i=0; i<toons.size(); i++){
-            if(marker.getTitle().equals(toons.get(i).getTitle())){
-                tempToon = toons.get(i);
-            }
+        switch (mapTablayout.getSelectedTabPosition()){
+            case 0:
+                for(int i=0; i<tourList.getItems().size(); i++){
+                    if(marker.getTitle().equals(tourList.getItems().get(i).getName())){
+                        Intent intent = new Intent(main, ListDetailActivity.class);
+                        intent.putExtra("attractionIdx",tourList.getItems().get(i).getIdx());
+                        main.startActivity(intent);
+                    }
+                }
+                break;
+            case 1:
+                for(int i=0; i<foodList.getItems().size(); i++){
+                    if(marker.getTitle().equals(foodList.getItems().get(i).getName())){
+                        Intent intent = new Intent(main, ListDetailActivity.class);
+                        intent.putExtra("attractionIdx",foodList.getItems().get(i).getIdx());
+                        main.startActivity(intent);
+                    }
+                }
+                break;
         }
-        new LogManager().LogManager("ToonFragment","인텐트 보내기 실행 전-tempToonSize: "+tempToon.getTitle()+"|");
-        new LogManager().LogManager("ToonFragment","인텐트 보내기 실행 전-tempToonSize: "+tempToon.getCartoonImageAddressList().size()+"|");
-        ToonImageEntity toonImageEntity = new ToonImageEntity();
-        toonImageEntity.setToonList(tempToon.getCartoonImageAddressList());
-        Intent showToonDetail = new Intent(main, ToonDetailImageActivity.class);
-        showToonDetail.putExtra("toons",toonImageEntity);
-        main.startActivity(showToonDetail);*/
+
     }
 
-   /* @Override
+
+}
+
+
+/*locationManager = (LocationManager) main.getSystemService(Context.LOCATION_SERVICE);
+                Criteria criteria = new Criteria();
+                criteria.setAccuracy(Criteria.ACCURACY_FINE);
+                criteria.setPowerRequirement(Criteria.POWER_LOW);
+                locationManager.requestSingleUpdate(criteria, new android.location.LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        currentLat = location.getLatitude();
+                        currentLong = location.getLongitude();
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat, currentLong)));
+
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(currentLat, currentLong))
+                                .icon(BitmapDescriptorFactory.
+                                        fromBitmap(
+                                                ((BitmapDrawable)getResources().
+                                                        getDrawable(R.drawable.z_mycurrentlocation)).getBitmap())));
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+
+                    }
+                }, null);*/
+
+/* @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("GuideFragment",guideEntities);
@@ -522,4 +585,17 @@ public class MainMapFragment extends Fragment  implements
             guideEntities = savedInstanceState.getParcelableArrayList("GuideFragment");
         }
     }*/
-}
+
+/*Toon tempToon = new Toon();
+        for(int i=0; i<toons.size(); i++){
+            if(marker.getTitle().equals(toons.get(i).getTitle())){
+                tempToon = toons.get(i);
+            }
+        }
+        new LogManager().LogManager("ToonFragment","인텐트 보내기 실행 전-tempToonSize: "+tempToon.getTitle()+"|");
+        new LogManager().LogManager("ToonFragment","인텐트 보내기 실행 전-tempToonSize: "+tempToon.getCartoonImageAddressList().size()+"|");
+        ToonImageEntity toonImageEntity = new ToonImageEntity();
+        toonImageEntity.setToonList(tempToon.getCartoonImageAddressList());
+        Intent showToonDetail = new Intent(main, ToonDetailImageActivity.class);
+        showToonDetail.putExtra("toons",toonImageEntity);
+        main.startActivity(showToonDetail);*/

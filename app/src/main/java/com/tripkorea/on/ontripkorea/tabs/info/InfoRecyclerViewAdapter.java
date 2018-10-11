@@ -1,7 +1,6 @@
 package com.tripkorea.on.ontripkorea.tabs.info;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tripkorea.on.ontripkorea.R;
-import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
 import com.tripkorea.on.ontripkorea.util.Coordinate;
 import com.tripkorea.on.ontripkorea.util.LocationDistance;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
@@ -71,9 +69,9 @@ public class InfoRecyclerViewAdapter extends RecyclerView.Adapter<InfoRecyclerVi
             public void onClick(View view) {
                 try {
                     int attractionIdx = thisAttraction.getIdx();
-                    Intent intent = new Intent(context, AroundDetailActivity.class);
+                    /*Intent intent = new Intent(context, AroundDetailActivity.class);
                     intent.putExtra("attractionIdx", attractionIdx);
-                    context.startActivity(intent);
+                    context.startActivity(intent);*/
                 } catch (NumberFormatException e) {
                     Toast.makeText(context, context.getString(R.string.transportation_clicked), Toast.LENGTH_LONG).show();
                 }

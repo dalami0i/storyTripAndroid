@@ -95,7 +95,7 @@
                                 android:id="@+id/img_detail_footprint"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/z_footprint_empty_s"
+                                android:src="@drawable/icon_footprint_s"
                                 android:layout_marginEnd="2dp"
                                 android:layout_marginTop="2dp" />
 

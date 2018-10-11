@@ -24,7 +24,6 @@ import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
-import com.tripkorea.on.ontripkorea.vo.user.Me;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -148,10 +147,10 @@ public class InfoFragment extends Fragment {
     // TODO : 서버에서 좋아요 관광지 정보 가져오기
     private void setLikeList() {
         ApiClient.getInstance().getApiService()
-                .getMyLikeList(MyApplication.APP_VERSION, Me.getInstance().getIdx(), language)
-                .enqueue(new Callback<List<AttractionSimple>>() {
+                .getMyLikeList(MyApplication.APP_VERSION, language)//Me.getInstance().getIdx(),
+                .enqueue(new Callback<ArrayList<AttractionSimple>>() {
                     @Override
-                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                    public void onResponse(Call<ArrayList<AttractionSimple>> call, Response<ArrayList<AttractionSimple>> response) {
                         if (response.body() != null) {
                             likeList = response.body();
                             likeRecyclerViewAdapter = new InfoRecyclerViewAdapter(likeList, getContext(), coordinate);
@@ -175,7 +174,7 @@ public class InfoFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
+                    public void onFailure(Call<ArrayList<AttractionSimple>> call, Throwable t) {
 
                     }
                 });
@@ -186,10 +185,10 @@ public class InfoFragment extends Fragment {
     // TODO : 서버에서 가봤아요 관광지 정보 가져오기
     private void setVisitedList() {
         ApiClient.getInstance().getApiService()
-                .getMyVisitList(MyApplication.APP_VERSION, Me.getInstance().getIdx(), language)
-                .enqueue(new Callback<List<AttractionSimple>>() {
+                .getMyVisitList(MyApplication.APP_VERSION, language)//, Me.getInstance().getIdx()
+                .enqueue(new Callback<ArrayList<AttractionSimple>>() {
                     @Override
-                    public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                    public void onResponse(Call<ArrayList<AttractionSimple>> call, Response<ArrayList<AttractionSimple>> response) {
                         if (response.body() != null) {
                             visitList = response.body();
                             visitRecyclerViewAdapter = new InfoRecyclerViewAdapter(visitList, getContext(), coordinate);
@@ -213,7 +212,7 @@ public class InfoFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
+                    public void onFailure(Call<ArrayList<AttractionSimple>> call, Throwable t) {
 
                     }
                 });
@@ -257,10 +256,10 @@ public class InfoFragment extends Fragment {
         if (LIKE_LIST_CHANGED) {
             //TODO: likeLIST 업데이트해주기
             ApiClient.getInstance().getApiService()
-                    .getMyLikeList(MyApplication.APP_VERSION, Me.getInstance().getIdx(), language)
-                    .enqueue(new Callback<List<AttractionSimple>>() {
+                    .getMyLikeList(MyApplication.APP_VERSION, language)//, Me.getInstance().getIdx()
+                    .enqueue(new Callback<ArrayList<AttractionSimple>>() {
                         @Override
-                        public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                        public void onResponse(Call<ArrayList<AttractionSimple>> call, Response<ArrayList<AttractionSimple>> response) {
                             if (response.body() != null) {
                                 likeList = response.body();
                                 if(likeRecyclerViewAdapter == null) likeRecyclerViewAdapter = new InfoRecyclerViewAdapter(likeList, getContext(), coordinate);
@@ -277,7 +276,7 @@ public class InfoFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
+                        public void onFailure(Call<ArrayList<AttractionSimple>> call, Throwable t) {
 
                         }
                     });
@@ -287,10 +286,10 @@ public class InfoFragment extends Fragment {
         if (VISITED_LIST_CHANGED) {
             //TODO: visitLIST 업데이트해주기
             ApiClient.getInstance().getApiService()
-                    .getMyVisitList(MyApplication.APP_VERSION, Me.getInstance().getIdx(), language)
-                    .enqueue(new Callback<List<AttractionSimple>>() {
+                    .getMyVisitList(MyApplication.APP_VERSION, language)//, Me.getInstance().getIdx()
+                    .enqueue(new Callback<ArrayList<AttractionSimple>>() {
                         @Override
-                        public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
+                        public void onResponse(Call<ArrayList<AttractionSimple>> call, Response<ArrayList<AttractionSimple>> response) {
                             if (response.body() != null) {
                                 visitList = response.body();
                                 if(visitRecyclerViewAdapter == null) visitRecyclerViewAdapter = new InfoRecyclerViewAdapter(visitList, getContext(), coordinate);
@@ -307,7 +306,7 @@ public class InfoFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
+                        public void onFailure(Call<ArrayList<AttractionSimple>> call, Throwable t) {
 
                         }
                     });

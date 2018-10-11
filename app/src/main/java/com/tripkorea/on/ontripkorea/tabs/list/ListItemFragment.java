@@ -8,10 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,35 +46,35 @@ import static android.app.Activity.RESULT_OK;
 public class ListItemFragment extends Fragment{
 
     MainActivity main;
-    AttractionSimpleList totalList, foodList, tourList, showList;
-    RecyclerView listRV;
-    double currentLat, currentLong;
+    AttractionSimpleList totalList, foodList, tourList, showList, recommendationList;
+//    RecyclerView listRV;
+    double currentLat, currentLon;
+    TabLayout menuHiddenTablayout;
     TabLayout upsideTabLayout;
     RecyclerView rvMainRecommendation;
     AppBarLayout mainAppbar;
     RelativeLayout underLayout;
     ImageView btnMylocation, btnHiddenMyLocation, btnHiddenSearch;
-    double lat;
-    double lon;
     ExtractEditText mainSearch;
+    ViewPager mainVP;
     int language;
 
     final int CHANGE_FIND_LOCATION = 1024;
 
-    final ListItemRecyclerViewAdapter listItemRecyclerViewAdapter
-            = new ListItemRecyclerViewAdapter();
+
 
     public Fragment listFragmentNewInstance(MainActivity main,
-                                            AttractionSimpleList totalList, AttractionSimpleList foodList,AttractionSimpleList tourList,
+                                            AttractionSimpleList totalList, AttractionSimpleList foodList,
+                                            AttractionSimpleList tourList, AttractionSimpleList recommendationList,
                                                  double lat, double lon, int language){
         this.main = main;
-        listItemRecyclerViewAdapter.addContext(main);
         this.totalList = totalList;
         showList = totalList;
         this.foodList = foodList;
         this.tourList = tourList;
+        this.recommendationList = recommendationList;
         currentLat = lat;
-        currentLong = lon;
+        currentLon = lon;
         this.language = language;
         return new ListItemFragment();
     }
@@ -97,14 +96,14 @@ public class ListItemFragment extends Fragment{
         final RelativeLayout hiddenLayout = view.findViewById(R.id.layout_main_hidden);
         final TextView tvHiddenTitle = view.findViewById(R.id.id_title_bar);
         btnHiddenMyLocation = view.findViewById(R.id.btn_hidden_mylocation);
-        final TabLayout menuHiddenTablayout = view.findViewById(R.id.menu_hidden_tablayout);
+        menuHiddenTablayout = view.findViewById(R.id.menu_hidden_tablayout);
         final RelativeLayout layoutMainRVlayout = view.findViewById(R.id.layout_main_rvlayout);
         underLayout = view.findViewById(R.id.layout_main_under);
         btnMylocation = view.findViewById(R.id.btn_mylocation);
         rvMainRecommendation = view.findViewById(R.id.rv_recommend_list);
-        listRV = view.findViewById(R.id.item_list);
         mainSearch = view.findViewById(R.id.edittext_main_search);
         btnHiddenSearch = view.findViewById(R.id.btn_hidden_find);
+        mainVP = view.findViewById(R.id.item_vp);
 
 
 
@@ -120,42 +119,12 @@ public class ListItemFragment extends Fragment{
                         tvHiddenTitle.setVisibility(View.VISIBLE);
                         btnHiddenMyLocation.setVisibility(View.VISIBLE);
                         menuHiddenTablayout.setVisibility(View.VISIBLE);
-                        boolean focus = menuHiddenTablayout.requestFocus();
-                        new LogManager().LogManager("COLLAPSED","focus: "+focus);
-                        new LogManager().LogManager("COLLAPSED","position: "+menuHiddenTablayout.getSelectedTabPosition());
-                        int a = menuHiddenTablayout.getVisibility();
-                        new LogManager().LogManager("COLLAPSED",a+" | getVisibility");
 
                         menuHiddenTablayout.clearOnTabSelectedListeners();
                         menuHiddenTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                             @Override
                             public void onTabSelected(TabLayout.Tab tab) {
-                                switch (tab.getPosition()){
-                                    case 0:
-                                        listItemRecyclerViewAdapter.clearList();
-                                        for(int i=0; i<totalList.getItems().size(); i++){
-                                            listItemRecyclerViewAdapter.addListView(totalList.getItems().get(i));
-                                        }
-                                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-                                        break;
-                                    case 1:
-                                        listItemRecyclerViewAdapter.clearList();
-                                        for(int i=0; i<tourList.getItems().size(); i++){
-                                            listItemRecyclerViewAdapter.addListView(tourList.getItems().get(i));
-                                        }
-                                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-
-                                        break;
-                                    case 2:
-                                        listItemRecyclerViewAdapter.clearList();
-                                        for(int i=0; i<foodList.getItems().size(); i++){
-                                            listItemRecyclerViewAdapter.addListView(foodList.getItems().get(i));
-                                        }
-                                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-                                        break;
-
-                                }
-
+                                mainVP.setCurrentItem(tab.getPosition());
                             }
 
 
@@ -165,13 +134,19 @@ public class ListItemFragment extends Fragment{
                             public void onTabReselected(TabLayout.Tab tab) {                            }
                         });
 
-                        menuHiddenTablayout.setScrollPosition(upsideTabLayout.getSelectedTabPosition(),0,true);
+                        int newPosition = upsideTabLayout.getSelectedTabPosition();
+                        menuHiddenTablayout.getTabAt(newPosition).select();
+                        menuHiddenTablayout.setScrollPosition(newPosition,0,true);
                         states[0] = state.name();
+
                         break;
 
                     case "IDLE":
+
                         if(states[0].equals("COLLAPSED")){
-                            upsideTabLayout.setScrollPosition(menuHiddenTablayout.getSelectedTabPosition(),0,true);
+                            newPosition = menuHiddenTablayout.getSelectedTabPosition();
+                            upsideTabLayout.getTabAt(newPosition).select();
+                            upsideTabLayout.setScrollPosition(newPosition,0,true);
                         }
                         hiddenLayout.setVisibility(View.GONE);
                         tvHiddenTitle.setVisibility(View.GONE);
@@ -182,6 +157,7 @@ public class ListItemFragment extends Fragment{
                                         ViewGroup.LayoutParams.WRAP_CONTENT);
                         idleParams.addRule(RelativeLayout.BELOW,hiddenLayout.getId());
                         layoutMainRVlayout.setLayoutParams(idleParams);
+
 
                         break;
 
@@ -196,6 +172,7 @@ public class ListItemFragment extends Fragment{
                         expandedParams.addRule(RelativeLayout.BELOW,hiddenLayout.getId());
                         layoutMainRVlayout.setLayoutParams(expandedParams);
                         states[0] = state.name();
+
                         break;
                 }
             }
@@ -209,77 +186,38 @@ public class ListItemFragment extends Fragment{
         rvMainRecommendation.setLayoutManager(recommendLayoutManager);
         ListRecommendedItemRecyclerViewAdapter listRecommendedItemRecyclerViewAdapter
                 = new ListRecommendedItemRecyclerViewAdapter(main);
-        for(int i=0; i<foodList.getItems().size(); i++){
-            listRecommendedItemRecyclerViewAdapter.addListView(foodList.getItems().get(i));
+        for(int i=0; i<recommendationList.getItems().size(); i++){
+            listRecommendedItemRecyclerViewAdapter.addListView(recommendationList.getItems().get(i));
         }
 
         rvMainRecommendation.setAdapter(listRecommendedItemRecyclerViewAdapter);
 
-
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-        LinearLayoutManager linkLayoutManager
-                = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.VERTICAL, false);
-        SnapHelper snapHelper = new PagerSnapHelper();
-        listRV.setLayoutManager(linkLayoutManager);
-//        snapHelper.attachToRecyclerView(photoFoodRV);
-
-
-        for(int i=0; i<showList.getItems().size(); i++){
-            listItemRecyclerViewAdapter.addListView(showList.getItems().get(i));
-        }
-
-        listRV.setAdapter(listItemRecyclerViewAdapter);
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
         upsideTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()){
-                    case 0:
-                        listItemRecyclerViewAdapter.clearList();
-                        for(int i=0; i<totalList.getItems().size(); i++){
-                            listItemRecyclerViewAdapter.addListView(totalList.getItems().get(i));
-                        }
-                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-
-                        break;
-                    case 1:
-                        listItemRecyclerViewAdapter.clearList();
-                        for(int i=0; i<tourList.getItems().size(); i++){
-                            listItemRecyclerViewAdapter.addListView(tourList.getItems().get(i));
-                        }
-                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-
-                        break;
-                    case 2:
-                        listItemRecyclerViewAdapter.clearList();
-                        for(int i=0; i<foodList.getItems().size(); i++){
-                            listItemRecyclerViewAdapter.addListView(foodList.getItems().get(i));
-                        }
-                        listItemRecyclerViewAdapter.notifyDataSetChanged();
-                        break;
-
-                }
+                mainVP.setCurrentItem(tab.getPosition());
             }
-
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
+            public void onTabUnselected(TabLayout.Tab tab) {            }
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) {            }
         });
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        int page = 1;
+
+        final ListPagerAdapter adapter
+                = new ListPagerAdapter (main.getSupportFragmentManager(), upsideTabLayout.getTabCount(),
+                currentLat, currentLon, language, page, main, totalList, tourList, foodList );
+
+        mainVP.setAdapter(adapter);
+        mainVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(upsideTabLayout));
+        mainVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(menuHiddenTablayout));
+
+
+
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -367,25 +305,24 @@ public class ListItemFragment extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        new LogManager().LogManager("ListItemFragment 위치값 전","위도: "+lat+" | 경도: "+lon);
+        new LogManager().LogManager("ListItemFragment 위치값 전","위도: "+currentLat+" | 경도: "+currentLon);
         if(resultCode == RESULT_OK ){
             switch (requestCode){
                 case CHANGE_FIND_LOCATION:
-                    lat = data.getDoubleExtra("lat",37.577401);
-                    lon = data.getDoubleExtra("lon",126.989511);
-                    setTotals(lat, lon, 1);
+                    currentLat = data.getDoubleExtra("lat",37.577401);
+                    currentLon = data.getDoubleExtra("lon",126.989511);
+                    setTotals(currentLat, currentLon, 1);
                     new LogManager().LogManager("ListItemFragment","onActivityResult 진입");
 
 
                     break;
             }
         }
-        new LogManager().LogManager("ListItemFragment 위치값 후","위도: "+lat+" | 경도: "+lon);
+        new LogManager().LogManager("ListItemFragment 위치값 후","위도: "+currentLat+" | 경도: "+currentLon);
 
     }
 
 
-    // TODO : 서버에서 주변 관광지 전체 정보 가져오기
     private void setTotals(final double lat,final double lon, final int page) {
         ApiClient.getInstance().getApiService()
                 .getAroundAttractions(MyApplication.APP_VERSION,lat, lon, language, page)
@@ -394,11 +331,11 @@ public class ListItemFragment extends Fragment{
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
                         new LogManager().LogManager("list엑티비티","settotal : "+lat+" | "+lon);
                         if (response.body() != null) {
+
                             totalList = new AttractionSimpleList();
                             totalList.setItems(response.body());
-                            new LogManager().LogManager("list엑티비티","settotal size: "+totalList.getItems().size());
+                            new LogManager().LogManager("list엑티비티 전체","settotal size: "+totalList.getItems().size());
                             setRestaurants(lat, lon, page);
-
                         } else {
                             if (response.errorBody() != null) {
                                 try {
@@ -413,13 +350,11 @@ public class ListItemFragment extends Fragment{
                     @Override
                     public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
                         Alert.makeText(getString(R.string.network_error));
-
                     }
                 });
     }
 
 
-    // TODO : 서버에서 주변 맛집 정보 가져오기
     private void setRestaurants(final double lat,final double lon, final int page) {
         ApiClient.getInstance().getApiService()
                 .getAroundRestaurants(MyApplication.APP_VERSION,lat, lon, language, page)
@@ -428,11 +363,11 @@ public class ListItemFragment extends Fragment{
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
                         new LogManager().LogManager("list엑티비티","setRestaurant : "+lat+" | "+lon);
                         if (response.body() != null) {
+
                             foodList = new AttractionSimpleList();
                             foodList.setItems(response.body());
-                            new LogManager().LogManager("list엑티비티","setRestaurant size: "+foodList.getItems().size());
+                            new LogManager().LogManager("list엑티비티 전체","setRestaurant size: "+foodList.getItems().size());
                             setTours(lat, lon, page);
-
                         } else {
                             if (response.errorBody() != null) {
                                 try {
@@ -447,12 +382,10 @@ public class ListItemFragment extends Fragment{
                     @Override
                     public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
                         Alert.makeText(getString(R.string.network_error));
-
                     }
                 });
     }
 
-    // TODO : 서버에서 주변 관광지 정보 가져오기
     private void setTours(final double lat, final double lon, int page) {
         ApiClient.getInstance().getApiService()
                 .getAroundTours(MyApplication.APP_VERSION,lat, lon, language, page)
@@ -461,10 +394,15 @@ public class ListItemFragment extends Fragment{
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
                         new LogManager().LogManager("list엑티비티","setTour : "+lat+" | "+lon);
                         if (response.body() != null) {
+
                             tourList = new AttractionSimpleList();
                             tourList.setItems(response.body());
-                            new LogManager().LogManager("list엑티비티","setTour size: "+tourList.getItems().size());
+                            new LogManager().LogManager("list엑티비티 전체","setTour size: "+tourList.getItems().size());
+                            MainActivity.totalList = totalList;
+                            MainActivity.attractionList = tourList;
+                            MainActivity.foodList = foodList;
                             listChange();
+
                         } else {
                             if (response.errorBody() != null) {
                                 try {
@@ -479,40 +417,25 @@ public class ListItemFragment extends Fragment{
                     @Override
                     public void onFailure(Call<List<AttractionSimple>> call, Throwable t) {
                         Alert.makeText(getString(R.string.network_error));
-
                     }
                 });
     }
 
     private void listChange(){
         new LogManager().LogManager("ListItemFragment 위치","upsideTabLayout.getSelectedTabPosition(): "+upsideTabLayout.getSelectedTabPosition());
-        switch(upsideTabLayout.getSelectedTabPosition()){
-            case 0:
-                listItemRecyclerViewAdapter.clearList();
-                for(int i=0; i<totalList.getItems().size(); i++){
-                    listItemRecyclerViewAdapter.addListView(totalList.getItems().get(i));
-                }
-                listItemRecyclerViewAdapter.notifyDataSetChanged();
-                upsideTabLayout.getTabAt(upsideTabLayout.getSelectedTabPosition()).select();
-                break;
-            case 1:
-                listItemRecyclerViewAdapter.clearList();
-                for(int i=0; i<tourList.getItems().size(); i++){
-                    listItemRecyclerViewAdapter.addListView(tourList.getItems().get(i));
-                }
-                listItemRecyclerViewAdapter.notifyDataSetChanged();
-                upsideTabLayout.getTabAt(upsideTabLayout.getSelectedTabPosition()).select();
-                break;
-            case 2:
-                listItemRecyclerViewAdapter.clearList();
-                for(int i=0; i<foodList.getItems().size(); i++){
-                    listItemRecyclerViewAdapter.addListView(foodList.getItems().get(i));
-                }
-                listItemRecyclerViewAdapter.notifyDataSetChanged();
-                upsideTabLayout.getTabAt(upsideTabLayout.getSelectedTabPosition()).select();
-                break;
-        }
+
+        final ListPagerAdapter adapter
+                = new ListPagerAdapter (main.getSupportFragmentManager(), upsideTabLayout.getTabCount(),
+                currentLat, currentLon, language, 1, main, totalList, tourList, foodList );
+        mainVP.setAdapter(adapter);
+        mainVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(upsideTabLayout));
+        mainVP.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(menuHiddenTablayout));
+
     }
+
+
+
+
 
 }
 
@@ -575,3 +498,58 @@ public class ListItemFragment extends Fragment{
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }*/
+
+   /*switch(position){
+            case 0:
+                if(!from.equals("each")){
+                    listTotalRecyclerViewAdapter.clearList();
+                    for(int i=0; i<totalList.getItems().size(); i++){
+                        listTotalRecyclerViewAdapter.addListView(totalList.getItems().get(i));
+                    }
+                }else{
+                    totalList.getItems().addAll(totalTempList.getItems());
+                    for(int i=0; i<totalList.getItems().size(); i++){
+                        listTotalRecyclerViewAdapter.addListView(totalList.getItems().get(i));
+                    }
+                }
+
+                listTotalRecyclerViewAdapter.notifyDataSetChanged();
+                upsideTabLayout.getTabAt(upsideTabLayout.getSelectedTabPosition()).select();
+                menuHiddenTablayout.getTabAt(menuHiddenTablayout.getSelectedTabPosition()).select();
+
+                break;
+            case 1:
+                if(!from.equals("each")){
+                    listTotalRecyclerViewAdapter.clearList();
+                    for(int i=0; i<tourList.getItems().size(); i++){
+                        listTotalRecyclerViewAdapter.addListView(tourList.getItems().get(i));
+                    }
+                }else{
+                    tourList.getItems().addAll(tourTempList.getItems());
+                    for(int i=0; i<tourList.getItems().size(); i++){
+                        listTotalRecyclerViewAdapter.addListView(tourList.getItems().get(i));
+                    }
+                }
+
+                listTotalRecyclerViewAdapter.notifyDataSetChanged();
+                upsideTabLayout.getTabAt(upsideTabLayout.getSelectedTabPosition()).select();
+                menuHiddenTablayout.getTabAt(menuHiddenTablayout.getSelectedTabPosition()).select();
+                break;
+            case 2:
+
+                if(!from.equals("each")){
+                    listTotalRecyclerViewAdapter.clearList();
+                    for(int i=0; i<foodList.getItems().size(); i++){
+                        listTotalRecyclerViewAdapter.addListView(foodList.getItems().get(i));
+                    }
+                }else{
+                    foodList.getItems().addAll(foodTempList.getItems());
+                    for(int i=0; i<foodList.getItems().size(); i++){
+                        listTotalRecyclerViewAdapter.addListView(foodList.getItems().get(i));
+                    }
+                }
+                listTotalRecyclerViewAdapter.notifyDataSetChanged();
+                upsideTabLayout.getTabAt(upsideTabLayout.getSelectedTabPosition()).select();
+                menuHiddenTablayout.getTabAt(menuHiddenTablayout.getSelectedTabPosition()).select();
+                break;
+        }*/

@@ -35,8 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
-                android:textSize="30sp"
-                android:text="Text"/>
+                android:textSize="30sp"/>
         </android.support.v7.widget.FitWindowsFrameLayout>
 
 

@@ -25,6 +25,25 @@ public class AttractionSimple implements Serializable, Parcelable{
     private String thumnailAddr2;
     private int type;
     private int guideType;
+    private boolean liked;
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    private ArrayList<String> tagSet = new ArrayList<>();
+
+    public ArrayList<String> getTagSet() {
+        return tagSet;
+    }
+
+    public void setTagSet(ArrayList<String> tagSet) {
+        this.tagSet = tagSet;
+    }
 
     public  AttractionSimple(){}
 
@@ -41,6 +60,7 @@ public class AttractionSimple implements Serializable, Parcelable{
         thumnailAddr2 = in.readString();
         type = in.readInt();
         guideType = in.readInt();
+        tagSet = in.readArrayList(this.getClass().getClassLoader());
     }
 
     @Override
@@ -57,6 +77,7 @@ public class AttractionSimple implements Serializable, Parcelable{
         dest.writeString(thumnailAddr2);
         dest.writeInt(type);
         dest.writeInt(guideType);
+        dest.writeList(tagSet);
     }
 
     @Override

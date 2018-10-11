@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/mypage_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/mypage_collapsing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:background="@color/white"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:elevation="10dp"
+                >
+
+                <ImageButton
+                    android:id="@+id/btn_mypage_setting"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/btn_setting"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:contentDescription="for setting" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/img_mypage_profile_pic"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    app:riv_corner_radius="10dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/btn_mypage_setting"
+                    android:src="@drawable/ic_non_profile_pic"
+                    android:scaleType="fitXY"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/layout_profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_below="@+id/btn_mypage_setting"
+                    android:layout_toEndOf="@+id/img_mypage_profile_pic">
+
+                    <TextView
+                        android:id="@+id/tv_mypage_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_mypage_update"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/btn_profile_edit"
+                        android:background="@null"
+                        android:contentDescription="for update profile" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_mypage_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/img_mypage_profile_pic"
+                    android:layout_below="@+id/layout_profile_name"/>
+
+                <View
+                    android:id="@+id/separator1"
+                    android:layout_width = "370dip"
+                    android:layout_height="1dip"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_below="@+id/tv_mypage_email"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/imgForeground"/>
+
+                <TextView
+                    android:id="@+id/tv_mytrace_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_below="@+id/separator1"
+                    android:textColor="@color/pointTextColor"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:text="@string/mypage_trace"/>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_map_mypage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd ="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center_horizontal"
+                    app:cardCornerRadius="20dp"
+                    android:layout_below="@+id/tv_mytrace_title">
+
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/map_mypage_footprint"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@drawable/round_background"
+                        app:mapType="normal"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_mypage_list"
+        android:layout_width="270dp"
+        android:layout_height="32dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/mypage_appbar"
+        app:tabIndicatorHeight="5dp"
+        app:tabSelectedTextColor="@color/gnbSelectedColor">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:paddingStart="20dp"
+            android:text="@string/mypage_like_title" />
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:text="@string/mypage_visited_title" />
+    </android.support.design.widget.TabLayout>
+
+
+    <View
+        android:id="@+id/separator2"
+        android:layout_width = "400dip"
+        android:layout_height="1dip"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/tab_mypage_list"
+        android:layout_centerHorizontal="true"
+        android:background="@color/imgForeground"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_mypage_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/separator2"/>
+
+</RelativeLayout>

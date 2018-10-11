@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.around;
 
 import android.content.Context;
@@ -29,9 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-///**
-// * Created by YangHC on 2018-06-11.
-// */
+
 
 public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecyclerViewAdapter.ViewHolder> {
     private List<AttractionSimple> findingList = new ArrayList<>();
@@ -53,7 +52,8 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
         this.coordinate = coordinate;
 
 
-        /*switch (tabPosition) {
+        */
+/*switch (tabPosition) {
             case 0:
                 for (int i = 0; i < resources.size(); i++) {
                     try {
@@ -84,7 +84,8 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
                 }
                 break;
 
-        }*/
+        }*//*
+
 //            findingList = resources;
     }
 
@@ -306,3 +307,4 @@ public class AroundRecyclerViewAdapter extends RecyclerView.Adapter<AroundRecycl
         return findingList.size();
     }
 }
+*/

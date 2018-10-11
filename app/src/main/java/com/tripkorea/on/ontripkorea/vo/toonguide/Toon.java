@@ -11,16 +11,17 @@ import java.util.List;
 
 public class Toon implements Parcelable{
     private int idx;
+    private int guideIdx;
     private int attractionIdx;
     private String title;
     private String description;
     private double lat;
     private double lon;
     private List<String> cartoonImageAddressList;
-    private String toonSouth;
-    private String toonNorth;
-    private String toonEast;
-    private String toonWest;
+    private double east;
+    private double west;
+    private double north;
+    private double south;
     private int checked;
     private String mapImgURL;
 
@@ -28,14 +29,15 @@ public class Toon implements Parcelable{
 
     protected Toon(Parcel in) {
         idx = in.readInt();
+        guideIdx = in.readInt();
         attractionIdx = in.readInt();
         title = in.readString();
         lat = in.readDouble();
         lon = in.readDouble();
-        toonSouth = in.readString();
-        toonNorth = in.readString();
-        toonEast = in.readString();
-        toonWest = in.readString();
+        east = in.readDouble();
+        west = in.readDouble();
+        north = in.readDouble();
+        south = in.readDouble();
         checked = in.readInt();
         mapImgURL = in.readString();
     }
@@ -43,14 +45,15 @@ public class Toon implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(idx);
+        dest.writeInt(guideIdx);
         dest.writeInt(attractionIdx);
         dest.writeString(title);
         dest.writeDouble(lat);
         dest.writeDouble(lon);
-        dest.writeString(toonSouth);
-        dest.writeString(toonNorth);
-        dest.writeString(toonEast);
-        dest.writeString(toonWest);
+        dest.writeDouble(east);
+        dest.writeDouble(west);
+        dest.writeDouble(north);
+        dest.writeDouble(south);
         dest.writeInt(checked);
         dest.writeString(mapImgURL);
     }
@@ -72,6 +75,14 @@ public class Toon implements Parcelable{
         }
     };
 
+    public int getGuideIdx() {
+        return guideIdx;
+    }
+
+    public void setGuideIdx(int guideIdx) {
+        this.guideIdx = guideIdx;
+    }
+
     public String getMapImgURL() {
         return mapImgURL;
     }
@@ -88,36 +99,36 @@ public class Toon implements Parcelable{
         this.checked = checked;
     }
 
-    public String getToonSouth() {
-        return toonSouth;
+    public double getEast() {
+        return east;
     }
 
-    public void setToonSouth(String toonSouth) {
-        this.toonSouth = toonSouth;
+    public void setEast(double east) {
+        this.east = east;
     }
 
-    public String getToonNorth() {
-        return toonNorth;
+    public double getWest() {
+        return west;
     }
 
-    public void setToonNorth(String toonNorth) {
-        this.toonNorth = toonNorth;
+    public void setWest(double west) {
+        this.west = west;
     }
 
-    public String getToonEast() {
-        return toonEast;
+    public double getNorth() {
+        return north;
     }
 
-    public void setToonEast(String toonEast) {
-        this.toonEast = toonEast;
+    public void setNorth(double north) {
+        this.north = north;
     }
 
-    public String getToonWest() {
-        return toonWest;
+    public double getSouth() {
+        return south;
     }
 
-    public void setToonWest(String toonWest) {
-        this.toonWest = toonWest;
+    public void setSouth(double south) {
+        this.south = south;
     }
 
     public int getIdx() {

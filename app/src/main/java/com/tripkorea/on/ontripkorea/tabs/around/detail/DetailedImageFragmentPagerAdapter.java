@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.around.detail;
 
 import android.support.v4.app.Fragment;
@@ -5,11 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.tripkorea.on.ontripkorea.tabs.info.DetailedImageListFragment;
+
 import java.util.ArrayList;
 
-/**
- * Created by YangHC on 2018-06-18.
- */
+//Created by YangHC on 2018-06-18.
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //디테일 상단 이미지를 위한 ViewPagerAdapter
@@ -50,3 +53,4 @@ public class DetailedImageFragmentPagerAdapter extends FragmentPagerAdapter {
         super.destroyItem(container, position, object);
     }
 }
+*/

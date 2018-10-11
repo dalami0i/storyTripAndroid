@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
+
 
 
     <ImageView
@@ -21,6 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/round_background_guide">
+
+
 
         <TextView
             android:id="@+id/tv_voice_title"
@@ -41,6 +42,24 @@
     </RelativeLayout>
 
     <include layout="@layout/bottomsheet_guide_voice"/>
+
+    <ImageView
+        android:id="@+id/guide_info_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/guide_information"/>
+
+    <CheckBox
+        android:id="@+id/chk_voice_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/white"
+        android:buttonTint="@color/white"
+        android:text="@string/do_not_show_again"/>
+
 
 
 </android.support.design.widget.CoordinatorLayout>

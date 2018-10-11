@@ -18,9 +18,9 @@ import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimple;
 import java.util.ArrayList;
 
 
-/**
- * Created by Edward Won on 2018-08-21.
- */
+///**
+// * Created by Edward Won on 2018-08-21.
+// */
 
 public class ListRecommendedItemRecyclerViewAdapter extends RecyclerView.Adapter<ListRecommendedItemRecyclerViewAdapter.ViewHolder>{
 
@@ -44,8 +44,15 @@ public class ListRecommendedItemRecyclerViewAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(ListRecommendedItemRecyclerViewAdapter.ViewHolder holder, int position) {
         final AttractionSimple attractionSimple = ltemList.get(position);
 
-        holder.recommededTitle.setText(attractionSimple.getName()+"");
-        holder.recommededTag.setText("#"+attractionSimple.getIdx());
+        holder.recommededTitle.setText(attractionSimple.getName());
+        String tmpTag;
+        if(attractionSimple.getTagSet() != null && attractionSimple.getTagSet().size() > 0){
+            tmpTag = "#" + attractionSimple.getTagSet().get(0);
+            holder.recommededTag.setText(tmpTag);
+        }else{
+            String nameTag = "#"+attractionSimple.getName();
+            holder.recommededTag.setText(nameTag);
+        }
 //        RequestOptions myOptions = new RequestOptions().override(diviceSizeW, 900);
         Glide.with(MyApplication.getContext())
                 .load(attractionSimple.getThumnailAddr())

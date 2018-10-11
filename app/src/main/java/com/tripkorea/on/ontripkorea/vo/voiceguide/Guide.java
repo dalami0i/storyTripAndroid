@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Guide implements Parcelable{
     private int idx;
+    private int guideIdx;
     private int attractionIdx;
     private String title;
     private String description;
@@ -19,16 +20,17 @@ public class Guide implements Parcelable{
     private double lon;
     private String voiceAddress;
     private List<GuideImage> guideImageList;
-    private String guideSouth;
-    private String guideNorth;
-    private String guideEast;
-    private String guideWest;
+    private double east;
+    private double west;
+    private double north;
+    private double south;
     private int checked;
 
     public Guide(){}
 
     protected Guide(Parcel in) {
         idx = in.readInt();
+        guideIdx = in.readInt();
         attractionIdx = in.readInt();
         title = in.readString();
         description = in.readString();
@@ -36,16 +38,17 @@ public class Guide implements Parcelable{
         lat = in.readDouble();
         lon = in.readDouble();
         voiceAddress = in.readString();
-        guideSouth = in.readString();
-        guideNorth = in.readString();
-        guideEast = in.readString();
-        guideWest = in.readString();
+        east = in.readDouble();
+        west = in.readDouble();
+        north = in.readDouble();
+        south = in.readDouble();
         checked = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(idx);
+        dest.writeInt(guideIdx);
         dest.writeInt(attractionIdx);
         dest.writeString(title);
         dest.writeString(description);
@@ -53,10 +56,10 @@ public class Guide implements Parcelable{
         dest.writeDouble(lat);
         dest.writeDouble(lon);
         dest.writeString(voiceAddress);
-        dest.writeString(guideSouth);
-        dest.writeString(guideNorth);
-        dest.writeString(guideEast);
-        dest.writeString(guideWest);
+        dest.writeDouble(east);
+        dest.writeDouble(west);
+        dest.writeDouble(north);
+        dest.writeDouble(south);
         dest.writeInt(checked);
     }
 
@@ -77,6 +80,14 @@ public class Guide implements Parcelable{
         }
     };
 
+    public int getGuideIdx() {
+        return guideIdx;
+    }
+
+    public void setGuideIdx(int guideIdx) {
+        this.guideIdx = guideIdx;
+    }
+
     public int getChecked() {
         return checked;
     }
@@ -85,36 +96,36 @@ public class Guide implements Parcelable{
         this.checked = checked;
     }
 
-    public String getGuideSouth() {
-        return guideSouth;
+    public double getEast() {
+        return east;
     }
 
-    public void setGuideSouth(String guideSouth) {
-        this.guideSouth = guideSouth;
+    public void setEast(double east) {
+        this.east = east;
     }
 
-    public String getGuideNorth() {
-        return guideNorth;
+    public double getWest() {
+        return west;
     }
 
-    public void setGuideNorth(String guideNorth) {
-        this.guideNorth = guideNorth;
+    public void setWest(double west) {
+        this.west = west;
     }
 
-    public String getGuideEast() {
-        return guideEast;
+    public double getNorth() {
+        return north;
     }
 
-    public void setGuideEast(String guideEast) {
-        this.guideEast = guideEast;
+    public void setNorth(double north) {
+        this.north = north;
     }
 
-    public String getGuideWest() {
-        return guideWest;
+    public double getSouth() {
+        return south;
     }
 
-    public void setGuideWest(String guideWest) {
-        this.guideWest = guideWest;
+    public void setSouth(double south) {
+        this.south = south;
     }
 
     public int getIdx() {

@@ -25,16 +25,18 @@ import java.util.ArrayList;
 public class SearchedRecyclerViewAdapter extends RecyclerView.Adapter<SearchedRecyclerViewAdapter.ViewHolder>{
 
     SearchActivity context;
+    ArrayList<AttractionSimple> itemList = new ArrayList<>();
 
     public SearchedRecyclerViewAdapter(Context context){
         this.context = (SearchActivity) context;
     }
 
-    ArrayList<AttractionSimple> ltemList = new ArrayList<>();
 
+    public void clearList(){ itemList.clear();}
     public void addListView(AttractionSimple obj) {//, String link_content
-        ltemList.add(obj);
+        itemList.add(obj);
     }
+
     @Override
     public SearchedRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_searched_item, parent, false));
@@ -42,12 +44,38 @@ public class SearchedRecyclerViewAdapter extends RecyclerView.Adapter<SearchedRe
 
     @Override
     public void onBindViewHolder(SearchedRecyclerViewAdapter.ViewHolder holder, int position) {
-        final AttractionSimple attractionSimple = ltemList.get(position);
+        final AttractionSimple attractionSimple = itemList.get(position);
 
-        holder.tvSearchedTitle.setText(attractionSimple.getName()+"");
-        holder.tvSearchedTag1.setText("#"+attractionSimple.getIdx());
-        holder.tvSearchedTag2.setText("#"+attractionSimple.getIdx());
-        holder.tvSearchedTag3.setText("#"+attractionSimple.getIdx());
+        String tmpTitle = attractionSimple.getName();
+        holder.tvSearchedTitle.setText(tmpTitle);
+        String tmpTag = "";
+        if(attractionSimple.getTagSet() != null && attractionSimple.getTagSet().size() > 0){
+            for(int i=0; i<attractionSimple.getTagSet().size(); i++) {
+                switch (i){
+                    case 0:
+                        tmpTag = "#" + attractionSimple.getTagSet().get(i);
+                        holder.tvSearchedTag1.setText(tmpTag);
+                        holder.tvSearchedTag2.setVisibility(View.GONE);
+                        holder.tvSearchedTag3.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        tmpTag = "#" + attractionSimple.getTagSet().get(i);
+                        holder.tvSearchedTag2.setText(tmpTag);
+                        holder.tvSearchedTag2.setVisibility(View.VISIBLE);
+                        holder.tvSearchedTag3.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        tmpTag = "#" + attractionSimple.getTagSet().get(i);
+                        holder.tvSearchedTag3.setText(tmpTag);
+                        holder.tvSearchedTag3.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        }else{
+            holder.tvSearchedTag1.setText("#"+attractionSimple.getName());
+            holder.tvSearchedTag2.setVisibility(View.GONE);
+            holder.tvSearchedTag3.setVisibility(View.GONE);
+        }
 //        RequestOptions myOptions = new RequestOptions().override(diviceSizeW, 900);
         Glide.with(MyApplication.getContext())
                 .load(attractionSimple.getThumnailAddr())
@@ -67,7 +95,7 @@ public class SearchedRecyclerViewAdapter extends RecyclerView.Adapter<SearchedRe
 
     @Override
     public int getItemCount() {
-        return ltemList.size();
+        return itemList.size();
     }
 
 

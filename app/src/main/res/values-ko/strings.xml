@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="splash_subtext">나만의 맞춤 여행</string>
-
+    <string name="app_name">STOURY</string>
     <string name="welcome_text">반갑습니다, </string>
     <string name="exit_text">앱을 종료하시겠습니까?</string>
     <string name="exit_quit_text">나가기</string>
     <string name="exit_cancel_text">취소</string>
+    <string name="do_not_show_again">다시보지 않기</string>
+
+    <string name="get_location_permission">Stoury에서 위치정보에 대한 접근을 요청 드립니다.(주변 정보에 대한 추천을 위해 위치정보가 필요합니다.)</string>
+    <string name="get_location_permission_yes">넵, 알겠습니다</string>
+    <string name="get_location_permission_no">아니오, 거절합니다.</string>
+    <string name="get_location_request_again">Stoury는 위치정보를 기반으로 추천을 하는 앱입니다. 앱 권한 부여를 위해 재시작을 제발 부탁 드려요.</string>
+    <string name="inform_turnedoff_location_function">GPS기능이 꺼져 있습니다. 디폴트 위치값으로 앱에 접속합니다.</string>
 
     <string name="right_arrow">◀</string>
     <string name="left_arrow">▶</string>
@@ -14,24 +21,12 @@
     <string name="home_tab">홈</string>
     <string name="map_tab">지도</string>
     <string name="intro_tab">소개</string>
-    <string name="guide_tab">음성 가이드</string>
-    <string name="toon_tab">가이드툰</string>
-    <string name="around_tab">주변 찾기</string>
+    <string name="guide_tab">가이드</string>
     <string name="info_tab">마이 페이지</string>
-    <string name="food_tab">맛집</string>
-    <string name="attraction_tab">놀거리</string>
 
     <string name="dialogyestitle">나가기</string>
-    <string name="around_tab_transportaion">대중교통</string>
-    <string name="around_tab_food">맛집</string>
-    <string name="around_tab_attraction">놀거리</string>
     <string name="from_changdeokgung">창덕궁에서 </string>
 
-    <string name="menu_show_btn">보이기 ▼</string>
-    <string name="menu_close_btn">감추기 ▲</string>
-    <string name="transportation_menu_title">대중교통 정보</string>
-    <string name="food_menu_title">Food\&amp;Cafe Around here</string>
-    <string name="attraction_menu_title">Attraction Around here</string>
     <string name="detail_wish">가고싶어요</string>
     <string name="detail_like">좋아요</string>
     <string name="detail_visit">가봤어요</string>
@@ -43,6 +38,7 @@
     <string name="detail_day_off">쉬는 날</string>
     <string name="detail_operating_hour">운영 시간</string>
     <string name="detail_fee">요금 안내</string>
+    <string name="detail_map">지도</string>
     <string name="detail_youtubelink_title">유투브</string>
     <string name="detail_con_desc">         세부 설명     </string>
     <string name="detail_rating_best">여기 좋아요!</string>
@@ -53,7 +49,68 @@
     <string name="youtube_img_later">/mqdefault.jpg</string>
     <string name="youtube_connect">https://m.youtube.com/watch?v=</string>
 
-    <string name="wrong_access">잘못된 접근 입니다.</string>
+    <string name="main_title">당신의 맞춤여행, 어디로 가고 싶은신가요?</string>
+    <string name="edittext_main_search_hint">가고 싶은 곳을 찾아 보세요</string>
+    <string name="main_first_tab">전체</string>
+    <string name="main_second_tab">관광지</string>
+    <string name="main_third_tab">음식점</string>
+
+    <string name="map_first_tab">놀거리</string>
+    <string name="map_second_tab">먹거리</string>
+
+    <string name="detail_tag">비오는 날</string>
+    <string name="detail_top_location">경복궁 5번 출구</string>
+    <string name="detail_top_bizhour_title">영업시간</string>
+    <string name="detail_top_bizhour_detail">09:00~18:00</string>
+    <string name="detail_top_dayoff_title">휴무일</string>
+    <string name="detail_top_dayoff_detail">화요일</string>
+    <string name="detail_top_rating_title">평점</string>
+    <string name="detail_top_rating_detail">평가 없음</string>
+    <string name="detail_titleindetail">상세정보</string>
+    <string name="detail_entrance_fee">입장료</string>
+    <string name="detail_menu">메뉴</string>
+
+    <string name="kakao_login">Kakao 임시 버튼</string>
+    <string name="login_chk_auto">자동 로그인</string>
+
+    <string name="sendbacklocation">위치 설정 완료</string>
+
+    <string name="search_title">검색</string>
+    <string name="edittext_main_search">찾고 싶은 위치/관광지/음식점을 검색하세요</string>
+    <string name="btn_search_list_location">위치</string>
+    <string name="btn_search_list_category">카테고리</string>
+    <string name="btn_search_list_tag">태그</string>
+    <string name="recommend_tag_title">추천 단어</string>
+    <string name="search_tag_show1">만두</string>
+    <string name="search_tag_show2">비빔밥</string>
+    <string name="search_tag_show3">삼겹살</string>
+    <string name="search_tag_show4">짜장면</string>
+    <string name="search_tag_show5">김치찌개</string>
+    <string name="search_tag_show6">스시</string>
+    <string name="search_tag_show7">떡볶이</string>
+    <string name="search_tag_show8">김밥</string>
+    <string name="search_tag_show9">라면</string>
+    <string name="search_tag_show10">햄버거</string>
+    <string name="recommend_location_title">인기 장소</string>
+    <string name="search_location_show1">홍대</string>
+    <string name="search_location_show2">신촌</string>
+    <string name="search_location_show3">종로</string>
+    <string name="search_location_show4">동대문</string>
+    <string name="search_location_show5">광화문</string>
+    <string name="search_location_show6">강남</string>
+    <string name="search_location_show7">건대입구</string>
+    <string name="search_location_show8">이화여대</string>
+    <string name="search_location_show9">인사동</string>
+    <string name="search_location_show10">이태원</string>
+
+
+    <string name="dialog_cancel">취소</string>
+    <string name="dialog_exit">종료</string>
+
+    <string name="mypage_trace">나의 발자취</string>
+    <string name="mypage_like_title">좋아요</string>
+    <string name="mypage_visited_title">방문했어요</string>
+
     <string name="image_select_toast">리뷰 감사합니다.</string>
     <string name="transportation_clicked">대중교통은 상세페이지가 없습니다.</string>
 
@@ -78,28 +135,7 @@
     <string name="tab_near_building">해당 건물 근처에서 tab을 눌러 주세요.</string>
     <string name="securedWifi">다시 한 번 시도해 주세요.(인증이 필요한 인터넷 이용 시, 인증을 진행해 주세요.)</string>
 
-    <!--<string name="title_activity_maps">리얼, 창덕궁</string>-->
-    <string name="app_name">Story Tour</string>
-    <string name="menuclick">메뉴 click!</string>
-    <string name="more">좀 더 많은 이야기는 여기를 클릭해 주세요</string>
-    <!--<![CDATA[<font color="red">여기</font>]]>-->
-    <string name="name">Name</string>
-    <string name="desc">Desc</string>
-    <string name="firstScreen">첫화면</string>
-    <string name="menufaq">이용 방법</string>
-    <string name="homepage">홈페이지</string>
-    <string name="menugps">GPS 가이드</string>
-    <string name="menucha">캐릭터 가이드</string>
-    <string name="menumap">지도 가이드</string>
-    <string name="gpstoast">위치정보 권한을 허용해 주세요.</string>
-    <string name="homepageready">홈페이지 준비 중 입니다</string>
-    <string name="pressaudiobtn">Audio를 재생해 주세요</string>
-    <string name="pressplaybtn">플레이 버튼을 누르세요</string>
-    <string name="tothemap">지도로</string>
-    <string name="onmapreadytoast">인터넷을 연결하면 Image와 Audio 가이드의 이용가능합니다.</string>
-    <string name="distancefirst">창덕궁 매표소까지의 거리가 \t</string>
-    <string name="distancesecond">km 입니다. 창덕궁에서만 전체 서비스를 이용할 수 있습니다.(직선거리 기준)</string>
-    <string name="next">_이미지를 좌우로 넘겨보세요</string>
+
 
     <string name="pop">GPS와 데이터를 켜면 현재 위치를 확인할 수 있습니다.</string>
     <string name="checkWeather">지금 창덕궁 날씨는?\n여기 클릭!</string>
@@ -114,57 +150,6 @@
     <string name="snow">눈온\n다아</string>
     <string name="waitWifi">아직 인터넷 연결이 되지 않았어요</string>
     <string name="requireInternet">인터넷에 연결해 주세요.</string>
-    <string name="faqIntroduce"> \n \n \t 안녕하세요, Real창덕궁 입니다. \n \n  \t Real, 창덕궁은 모바일 앱을 통해 창덕궁을 쉽게 즐기자라는 생각으로 만든 앱입니다. 창덕궁 안에서 모든 서비스의 이용이 가능합니다. 창덕궁에서 친절한 설명을 가이드를 따라다닐 필요도 없이 무료로 이용할 수 있습니다. 창덕궁을 방문한다면 꼭 이용해봐주세요!\n</string>
-    <string name="faqgps"> \n \n \t GPS 가이드는 GPS에 기반하여 가이드를 받을 수 있는 서비스입니다. 가이드로 들어간 후 창덕궁으로 이동하면 첫번째 이미지와 같이 지도가 나옵니다. 이후 창덕궁 내에서 돌아다니다보면 두번째에서처럼 특정 장소에 대한 설명으로 넘어가는 팝업창을 볼 수 있습니다. 이를 클릭하여 가이드 받을 수 있습니다. 또한 좌측에 숨겨진 메뉴를 통해 지금까지 확인한 장소의 스토리를 다시 확인할 수도 있습니다.\n</string>
-    <string name="faqcharac"> \n \n \t 캐릭터 가이드는 캐릭터 이미지가 가이드를 하는 서비스입니다. 가이드로 들어간 후 창덕궁으로 이동하면 첫번째 이미지와 같이 지도가 나옵니다. 이후 창덕궁 내에서 돌아다니다보면 두번째에서처럼 특정 장소에서 마커가 뜨는데, 이를 클릭하여 가이드를 이용할 수 있습니다. 또한 좌측에 숨겨진 메뉴를 통해 지금까지 확인한 장소의 스토리를 다시 확인할 수도 있습니다.\n</string>
-    <string name="drawer_open">열려라 참깨</string>
-    <string name="drawer_close">닫혀라 참깨</string>
-    <string name="faqintro">Real 창덕궁은 어떤 서비스인가요?</string>
-    <string name="faqlistfirst">GPS 가이드는 무엇이며 어떻게 사용하나요?</string>
-    <string name="faqlistfirstimagef">창덕궁 진입시 화면</string>
-    <string name="faqlistfirstimages">팝업창 화면</string>
-    <string name="faqlistsecondimages">마커 화면</string>
-    <string name="faqlistfirstimaget">슬라이드 화면</string>
-    <string name="faqlistsecond">캐릭터 가이드는 무엇이며 어떻게 사용하나요?</string>
-    <string name="faqlistthirdimagef">첫 화면</string>
-    <string name="faqlistthirdimages">인터넷 연결 전 메시지</string>
-    <string name="faqlistthirdimaget">정상적인 날씨 조회</string>
-    <string name="faqweather">\n \n \t 첫 화면 상단을 누르면 창덕궁의 현재 날씨를 알 수 있어요. 가운데 사진처럼 메시지가 뜬다면 아직 인터넷에 연결되지 않은 것이니 Real,창덕궁을 이용하기 위해 인터넷에 연결해 주세요.\n </string>
-    <string name="faqlistthird">첫 화면에서 창덕궁 날씨 확인이 가능하다구요?</string>
-    <string name="faqlistforth">가이드에서 화면에 아무것도 뜨지 않습니다. 어떻게 해야 하나요?</string>
-    <string name="faqnomap"> \n \n \t 가이드의 지도는 구글서비스를 활용합니다. 따라서 인터넷이 연결되지 않으면 원활하게 지도 이미지를 보기 어렵습니다. 가이드 이용에 참고해 주세요.\n</string>
-    <string name="faqlistforthimage">아무것도 뜨지 않는 가이드 화면</string>
-    <string name="changintro">\n \t 창덕궁에 입장하기 전에 먼저 창덕궁의 전반에 대해 먼저 알아보도록 해요. 조선에는 5대 궁이 있었습니다. 조선의 건립과 함께 지어진 조선의 법궁 경복궁을 비롯하여 창덕궁, 창경궁, 덕수궁, 경희궁을 조선의 5대 궁이라고 합니다. 궁궐의 건물의 언급에서 한국 현대사에 대한 언급이 불가피한데 일제강점기와 한국전쟁은 궁의 건물 입장에서는 중요한 사건이었습니다. 수 많은 건물들이 훼손되었으니까요. 그 와중에 가장 잘 보존되어 있는 궁이 바로 이 창덕궁입니다. 또한 많은 사람들이 경복궁의 중요성과 함께 조선시대 당시에도 경복궁이 많이 사용된 것으로 알고 있지만, 실제로는 임진왜란 이후 불타서 없어져 활용이 되지 못했던 것은 물론 조선 초기에도 창덕궁을 이용하는 경우도 있어 실제 조선시대 전반에서 가장 많이 사용된 궁은 바로 이 창덕궁입니다. 특히 조선초기에 지어졌음에도 가장 근대적 시기까지 사용되어 역사적 가치가 높게 인정되어 1997년 유네스코가 세계문화유산으로 지정하기도 했습니다.아는 만큼 보이니, 창덕궁을 방문한다면 이 앱과 함께 해보세요!\n \n\n\n\n</string>
-    <string name="ticketinfo">입장료 안내</string>
-    <string name="operatinginfo">티켓 판매 및 창덕궁 운영 시간</string>
-    <string name="secretinfo">후원 가이드 운영 시간</string>
-    <string name="transinfo">교통 안내</string>
-    <string name="changaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_00_intro.wav</string>
-    <string name="donaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_01_donhwa.wav</string>
-    <string name="geumaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_02_geumcheon.wav</string>
-    <string name="jinaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_03_jinseon.wav</string>
-    <string name="inmunyardaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_04_sadarimadang.wav</string>
-    <string name="inmunaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_05_injeongmun.wav</string>
-    <string name="inyardaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_06_injeongmadang.wav</string>
-    <string name="inaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_07_injeongjeon.wav</string>
-    <string name="seonaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_08_seonjeong.wav</string>
-    <string name="heeaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_09_heejeong.wav</string>
-    <string name="heebackaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_09_heejeong_back.wav</string>
-    <string name="daeaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_10_daejo.wav</string>
-    <string name="sooaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_11_soora.wav</string>
-    <string name="gyeongaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_12_gyeonghoon.wav</string>
-    <string name="seongaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_13_seongjeong.wav</string>
-    <!--<string name="seongyakaudioaddress">http://hanculture.org/wp-content/uploads/2016/10/kcdg_fv.mp3</string>-->
-    <string name="nakaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_14_nakseon.wav</string>
-    <string name="seokaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_15_seokbok.wav</string>
-    <string name="okaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_16_okdang.wav</string>
-    <string name="gyuaudioaddress">http://13.209.77.103:8080/resources/images/kor/ch_k_17_gyujang.wav</string>
-    <string name="dialogtomaintitle">메인 화면 이동</string>
-    <string name="dialogtomain">메인 화면으로 이동 시, 확인한 창덕궁 리스트는 초기화 됩니다. 메인으로 이동하시겠습니까?</string>
-    <string name="dialogtomainyes">감사했습니다</string>
-    <string name="dialogtomaincancel">계속해서 즐겁게 이용하세요!</string>
-
-
 
     <string name="image_explain_voice_btn">음성가이드 버튼</string>
     <string name="image_explain_toon_btn">가이드툰 버튼</string>
@@ -173,7 +158,9 @@
     <string name="naver_login_failed">Naver 로그인에 실패하였습니다. 다시 로그인 하거나 인터넷 연결 상태를 확인해 주세요.</string>
     <string name="login_failed">로그인에 실패 하였습니다. 다시 로그인 해 주세요.</string>
 
+    <string name="like_no_history">아직 좋아요를 누른적이 없네요. 가고 싶은 곳을 한 번에 모아보세요!</string>
+    <string name="visit_no_history">아직 방문한 곳을 누른 적이 없네요. 다녀온 곳을 도장찍어 보세요!</string>
 
-
+    <string name="willbeupdate">업데이트 예정</string>
 
 </resources>

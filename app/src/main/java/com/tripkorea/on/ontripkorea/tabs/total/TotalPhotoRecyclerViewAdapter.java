@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.total;
 
 import android.content.Context;
@@ -21,9 +22,11 @@ import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleListSet;
 
 import java.util.List;
 
-///**
+//*/
+/**
 // * Created by YangHC on 2018-06-18.
-// */
+// *//*
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //voice guide 이미지를 위한 RecyclerView
@@ -198,4 +201,4 @@ public class TotalPhotoRecyclerViewAdapter extends RecyclerView.Adapter<TotalPho
             return VIEW_TYPE_EVEN;
         }
     }
-}
+}*/

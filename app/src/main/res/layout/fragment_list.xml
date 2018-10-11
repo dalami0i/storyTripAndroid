@@ -49,12 +49,12 @@
                         android:layout_marginTop="50dp"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:text="당신의 맞춤여행, 어디로 가고 싶으세요?"/>
+                        android:text="@string/main_title"/>
 
                     <ImageView
                         android:id="@+id/btn_mylocation"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:src="@drawable/icon_gps"
                         android:scaleType="fitXY"
                         android:layout_gravity="end|top"
@@ -67,8 +67,8 @@
                         android:layout_height="40dp"
                         android:layout_marginTop="130dp"
                         android:layout_marginBottom="10dp"
-                        android:hint="가고 싶은 관광지의 이름을 검색해 보세요"
-                        android:textSize="10sp"
+                        android:hint="@string/edittext_main_search_hint"
+                        android:textSize="12sp"
                         android:layout_gravity="center_horizontal"
                         android:textAlignment="center"
                         android:elevation="7dp"
@@ -101,7 +101,8 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="20dp"
                         android:paddingEnd="10dp"
-                        android:text="추천장소"
+                        android:textAlignment="center"
+                        android:text="@string/main_first_tab"
                         />
 
                     <android.support.design.widget.TabItem
@@ -109,14 +110,16 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:text="관광지" />
+                        android:textAlignment="center"
+                        android:text="@string/main_second_tab" />
 
                     <android.support.design.widget.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:text="맛집"/>
+                        android:textAlignment="center"
+                        android:text="@string/main_third_tab"/>
 
 
                 </android.support.design.widget.TabLayout>
@@ -142,8 +145,9 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             >
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/item_list"
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/item_vp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -151,8 +155,14 @@
                 android:layout_marginTop="20dp"
                 android:elevation="15dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-        </RelativeLayout>
 
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/layout_main_hidden"
@@ -163,23 +173,22 @@
 
             <TextView
                 android:id="@+id/id_title_bar"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="40dp"
                 android:visibility="gone"
                 android:layout_centerHorizontal="true"
                 android:padding="20dp"
                 android:textSize="20sp"
-                android:text="story Tour"/>
+                android:text="@string/main_subtext"/>
 
             <ImageView
                 android:id="@+id/btn_hidden_mylocation"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/icon_gps"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/icon_gps_black"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                android:background="@color/pointColor"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
@@ -192,11 +201,12 @@
                 android:src="@drawable/btn_serch"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                android:background="@color/colorAccent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="60dp"/>
+
+
 
 
             <android.support.design.widget.TabLayout
@@ -215,7 +225,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
                     android:paddingEnd="10dp"
-                    android:text="추천장소"
+                    android:text="@string/main_first_tab"
                     />
 
                 <android.support.design.widget.TabItem
@@ -223,21 +233,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:text="관광지" />
+                    android:text="@string/main_second_tab" />
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:text="맛집"/>
+                    android:text="@string/main_third_tab"/>
 
             </android.support.design.widget.TabLayout>
+
         </RelativeLayout>
 
+    </android.support.v7.widget.CardView>
 
 
-
-    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

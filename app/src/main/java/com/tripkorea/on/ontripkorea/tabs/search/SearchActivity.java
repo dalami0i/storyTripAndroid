@@ -105,6 +105,8 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
 
     String locationQuery;
 
+    SearchedRecyclerViewAdapter searchedmRecyclerViewAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,12 +193,30 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
             public void onClick(View v) {
                 if(rlUnder.getVisibility() == View.VISIBLE ) changeView();
                 seaerchedPage = 1;
-                search();
+                search(seaerchedPage);
                 new LogManager().LogManager("서치엑티비티","search() 실행");
             }
         });
 
         searchedRVSet();
+
+        rvSearched.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+
+                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int itemTotalCount = recyclerView.getAdapter().getItemCount() - 1;
+
+//                new LogManager().LogManager("listRV.addOnScrollListener","lastVisibleItemPosition: "+lastVisibleItemPosition+" | itemTotalCount: "+itemTotalCount);
+                if (lastVisibleItemPosition == itemTotalCount) {
+                    new LogManager().LogManager("SearchActivity","rvSearched.addOnScrollListener");
+                    search(seaerchedPage);
+
+                }
+            }
+        });
     }
 
 
@@ -212,44 +232,58 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
         marginLayoutParams.setMargins(10,10,10,10);
         layoutSearchTop.setLayoutParams(expandedParams);
         etvSearch.setBackground(getDrawable(R.drawable.round_background_detail_tag));
-        linearLayoutList.setVisibility(View.VISIBLE);
+//        linearLayoutList.setVisibility(View.VISIBLE);
         btnLocation.setOnClickListener(listListener);
         btnCategory.setOnClickListener(listListener);
         btnTag.setOnClickListener(listListener);
         rlUnder.setVisibility(View.GONE);
-        RelativeLayout.LayoutParams btnFindParams = new RelativeLayout.LayoutParams(100,100);
+        RelativeLayout.LayoutParams btnFindParams = new RelativeLayout.LayoutParams(60,60);
         btnFindParams.addRule(RelativeLayout.ALIGN_PARENT_START);
-        marginLayoutParams.setMargins(10,0,10,0);
+        btnFindParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        marginLayoutParams.setMargins(10,20,10,20);
         btnFind.setLayoutParams(btnFindParams);
+        btnFind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(rlUnder.getVisibility() == View.VISIBLE ) changeView();
+                seaerchedPage = 1;
+                search(seaerchedPage);
+                new LogManager().LogManager("서치엑티비티","search() 실행");
+            }
+        });
     }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if(rlUnder.getVisibility() == View.VISIBLE ) changeView();
         seaerchedPage = 1;
-        search();
+        search(seaerchedPage);
         new LogManager().LogManager("서치엑티비티","search() 실행");
         return true;
     }
 
-    private void search(){
+    private void search(final int page){
         searchProgress = ProgressDialog.show(SearchActivity.this, "","Search...", true);
         dialogShowing = true;
         searchQuery = etvSearch.getText().toString();
+        new LogManager().LogManager("서치액","language: "+language+" | page: "+page+" | lat: "+lat+" | lon: "+lon+" | searchQuery: "+searchQuery
+                                    +" | categoryQuery: "+categoryQuery+" | tagQuery: "+tagQuery);
         ApiClient.getInstance().getApiService()
-                .search(MyApplication.APP_VERSION,language, seaerchedPage, lat, lon, searchQuery, categoryQuery, tagQuery)
+                .search(MyApplication.APP_VERSION,language, page, lat, lon, searchQuery, categoryQuery, tagQuery)
                 .enqueue(new Callback<List<AttractionSimple>>() {
                     @Override
                     public void onResponse(Call<List<AttractionSimple>> call, Response<List<AttractionSimple>> response) {
                         if (response.body() != null) {
                             searchedList = response.body();
-
+                            new LogManager().LogManager("서치액","검색결과-searchedList size: "+searchedList.size());
                             if(dialogShowing&&searchProgress.isShowing()) {
                                 searchProgress.dismiss();
                                 new LogManager().LogManager("서치엑티비티","서치 성공 끝");
                                 dialogShowing = false;
                             }
-                            searchedRVSet();
+                            if(page == 1) searchedRVSet();
+                            else moreSearch();
+                            seaerchedPage++;
                         } else {
                             if (response.errorBody() != null) {
                                 try {
@@ -284,13 +318,19 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
         LinearLayoutManager searchedLayoutManager
                 = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.VERTICAL, false);
         rvSearched.setLayoutManager(searchedLayoutManager);
-        SearchedRecyclerViewAdapter searchedmRecyclerViewAdapter
-                = new SearchedRecyclerViewAdapter(SearchActivity.this);
+        searchedmRecyclerViewAdapter = new SearchedRecyclerViewAdapter(SearchActivity.this);
         for(int i=0; i<searchedList.size(); i++){
             searchedmRecyclerViewAdapter.addListView(searchedList.get(i));
         }
 
         rvSearched.setAdapter(searchedmRecyclerViewAdapter);
+    }
+
+    private void moreSearch(){
+        for(int i=0; i<searchedList.size(); i++){
+            searchedmRecyclerViewAdapter.addListView(searchedList.get(i));
+        }
+        searchedmRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     View.OnClickListener listListener = new View.OnClickListener() {

@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.around;
 
 import android.content.Context;
@@ -234,10 +235,12 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                             Log.e("ROUTES", "size : "+aroundRouteList.size());
                             totalList.addAll(aroundRoutes);
 
-                            /*for(AttractionSimple aroundRoute : aroundRoutes)
+                            */
+/*for(AttractionSimple aroundRoute : aroundRoutes)
                             {
                                 Log.e("ROUTES", aroundRoute.getName());
-                            }*/
+                            }*//*
+
                             aroundRouteRecyclerViewAdapter.notifyDataSetChanged();
 
                         }
@@ -274,9 +277,11 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                             Log.e("RESTAURANTS", "size : " + restaurantList.size());
                             totalList.addAll(restaurantList);
 
-                            /*for (AttractionSimple restaurant : restaurants) {
+                            */
+/*for (AttractionSimple restaurant : restaurants) {
                                 Log.e("RESTAURANTS", restaurant.getName());
-                            }*/
+                            }*//*
+
                             aroundRestaurantsRecyclerViewAdapter.notifyDataSetChanged();
                             checkAround(mMap);
                         } else {
@@ -313,9 +318,11 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
                             Log.e("TOURS", "size : " + tourList.size());
                             totalList.addAll(tourList);
 
-                            /*for (AttractionSimple restaurant : restaurants) {
+                            */
+/*for (AttractionSimple restaurant : restaurants) {
                                 Log.e("TOURS", restaurant.getName());
-                            }*/
+                            }*//*
+
                             aroundToursRecyclerViewAdapter.notifyDataSetChanged();
                             checkAround(mMap);
                         } else {
@@ -628,3 +635,4 @@ public class AroundFragment extends Fragment implements OnMapReadyCallback, Loca
         }
     }
 }
+*/

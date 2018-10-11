@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -26,24 +24,21 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
 import com.tripkorea.on.ontripkorea.R;
 import com.tripkorea.on.ontripkorea.tabs.guide.GuideTabFragment;
-import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
 import com.tripkorea.on.ontripkorea.tabs.list.ListItemFragment;
 import com.tripkorea.on.ontripkorea.tabs.map.MainMapFragment;
+import com.tripkorea.on.ontripkorea.tabs.mypage.MyPageFragment;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.BaseActivity;
 import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.util.MyTabLayout;
 import com.tripkorea.on.ontripkorea.util.OnNetworkErrorListener;
-import com.tripkorea.on.ontripkorea.vo.attraction.Attraction;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleList;
 import com.tripkorea.on.ontripkorea.vo.user.Me;
 import com.tripkorea.on.ontripkorea.vo.user.User;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -66,71 +61,58 @@ public class MainActivity extends BaseActivity {
     int language;
     Locale locale;
 
-    static String weatherImg;
-    static String weatherCel;
     ImageView nowW;
     TextView celcius;
     TextView nowWeather;
-    private MediaPlayer click;
 
     static int currentTab;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private GoogleMap mMap;
     public GoogleApiClient mGoogleApiClient;
-    Location currentLocation;
-    double currentLat, currentLong;
+    double currentLat, currentLon;
     static int attractionPage;
 
-//    private ArrayList<GuidePhoto> guideList = new ArrayList<>();
-    private ArrayList<Attraction> itemListOnMap = new ArrayList<>();
-    private AttractionSimpleList foodList;
-    private AttractionSimpleList attractionList;
-    private AttractionSimpleList totalList;
+    public static AttractionSimpleList foodList;
+    public static AttractionSimpleList attractionList;
+    public static AttractionSimpleList totalList;
+    private AttractionSimpleList recommendations;
 
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Log.e("GIT","VERSION_A");
-
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo("com.tripkorea.on.ontripkorea", PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
 
         Intent intent = getIntent();
-//        Bundle bundle = intent.getExtras();
-//        guideList = bundle.getParcelableArrayList("guides");
-        totalList = intent.getParcelableExtra("totals");
-        foodList = intent.getParcelableExtra("foods");
-        attractionList = intent.getParcelableExtra("attraction");
-        User user = intent.getParcelableExtra("user");
+        recommendations = intent.getParcelableExtra("recommendations");
+        user = intent.getParcelableExtra("user");
         currentLat = intent.getDoubleExtra("lat", 37.579108);
-        currentLong = intent.getDoubleExtra("lon",126.990957);
-        attractionPage = intent.getIntExtra("page",1);
+        currentLon = intent.getDoubleExtra("lon", 126.990957);
+        attractionPage = intent.getIntExtra("page", 1);
+
+       /* if(savedInstanceState != null){
+            Bundle bundle = savedInstanceState.getBundle("savedList");
+            totalList = bundle.getParcelable("totals");
+            foodList = bundle.getParcelable("foods");
+            attractionList = bundle.getParcelable("attraction");
+            user = bundle.getParcelable("user");
+            currentLat = bundle.getDouble("lat");
+            currentLon = bundle.getDouble("lon");
+            attractionPage = bundle.getInt("page");
+        }else {
+
+        }*/
 
         new LogManager().LogManager("메인엑티비티","foodList.getItems().size(): "+foodList.getItems().size());
         new LogManager().LogManager("메인엑티비티","attractionList.getItems().size(): "+attractionList.getItems().size());
-//        new LogManager().LogManager("메인엑티비티","totalList.getItems().size(): "+totalList.getItems().size());
+        new LogManager().LogManager("메인엑티비티","totalList.getItems().size(): "+totalList.getItems().size());
+        new LogManager().LogManager("메인엑티비티","recommendations.getItems().size(): "+recommendations.getItems().size());
 
-        String welcomeMessage;
-        if(user != null) {
-            welcomeMessage = getResources().getString(R.string.welcome_text) + user.getName() + " | " + user.getId();
-        }else{
-            welcomeMessage = getResources().getString(R.string.welcome_text) + Me.getInstance().getName();
-        }
+        String welcomeMessage = getResources().getString(R.string.welcome_text) + Me.getInstance().getName();
         Alert.makeText(welcomeMessage);
 
         //////////////////////////////////////////////////////////////////////////sj
@@ -186,8 +168,9 @@ public class MainActivity extends BaseActivity {
 
     private void initViews() {
         ListItemFragment listItemFragment = new ListItemFragment();
+
         listItemFragment.listFragmentNewInstance(
-                MainActivity.this, totalList, foodList, attractionList, currentLat, currentLong, language
+                MainActivity.this, totalList, foodList, attractionList, recommendations, currentLat, currentLon, language
         );
         listItemFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
             @Override
@@ -220,7 +203,7 @@ public class MainActivity extends BaseActivity {
 
                     ListItemFragment listItemFragment = new ListItemFragment();
                     listItemFragment.listFragmentNewInstance(
-                            MainActivity.this, totalList, foodList, attractionList, currentLat, currentLong, language
+                            MainActivity.this, totalList, foodList, attractionList, recommendations, currentLat, currentLon, language
                     );
                     listItemFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
                         @Override
@@ -280,12 +263,10 @@ public class MainActivity extends BaseActivity {
                     lastTab = tab;
 
                     break;
-                case MyTabLayout.TAB_INFO:
-                    InfoFragment infoFragment = new InfoFragment();
-                    infoFragment.infoFragment(MainActivity.this, currentTab);
-                    fragment = infoFragment;
-                    currentTab = MyTabLayout.TAB_INFO;
-                    infoFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
+                case MyTabLayout.TAB_MY_PAGE:
+                    MyPageFragment myPageFragment = new MyPageFragment();
+                    myPageFragment.mypageFragmentNewInstance( MainActivity.this, language );
+                    myPageFragment.setOnNetworkErrorListener(new OnNetworkErrorListener() {
                         @Override
                         public void onNetWorkError() {
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.requireInternet), Toast.LENGTH_LONG).show();
@@ -296,6 +277,8 @@ public class MainActivity extends BaseActivity {
                             }
                         }
                     });
+                    fragment = myPageFragment;
+                    currentTab = MyTabLayout.TAB_MY_PAGE;
                     lastTab = tab;
                     break;
             }
@@ -319,42 +302,6 @@ public class MainActivity extends BaseActivity {
         ft.replace(framId, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
-
-//        ApiClient.getInstance()
-//                .getApiService()
-//                .updateLocation(MyApplication.APP_VERSION, )
-//                .enqueue(new Callback<ApiMessasge>() {
-//                    @Override
-//                    public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
-//                        if(response.body().getCode()==1) {
-//                            Log.e("LOCATION", "SEND");
-//                        }else {
-//                            Log.e("LOCATION", "SEND_ERROR");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ApiMessasge> call, Throwable t) {
-//                        Log.e("LOCATION", "SEND_FAIL");
-//                    }
-//                });
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState);
-        totalList = savedInstanceState.getParcelable("totals");
-        foodList = savedInstanceState.getParcelable("foods");
-        attractionList = savedInstanceState.getParcelable("attractions");
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putParcelable("totals",totalList);
-        outState.putParcelable("foods",foodList);
-        outState.putParcelable("attractions",attractionList);
     }
 
     @Override
@@ -382,13 +329,7 @@ public class MainActivity extends BaseActivity {
                 }).create().show();
     }
 
-
-
-
-
-
     protected synchronized void buildGoogleApiClient() {
-//        )Log.e("빌드에이피아이","비이이이이이틀");
         mGoogleApiClient = new GoogleApiClient.Builder(MyApplication.getContext())
                 .addApi(LocationServices.API)
                 .build();
@@ -403,14 +344,6 @@ public class MainActivity extends BaseActivity {
                     android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
-
-//                mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-//                    @Override
-//                    public boolean onMyLocationButtonClick() {
-//
-//                        return false;
-//                    }
-//                });
             }else{
                 ActivityCompat.requestPermissions(this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -418,16 +351,63 @@ public class MainActivity extends BaseActivity {
             }
         } else {
             buildGoogleApiClient();
-//            mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-//                @Override
-//                public boolean onMyLocationButtonClick() {
-//
-//                    return false;
-//                }
-//            });
+        }
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        totalList = savedInstanceState.getParcelable("totals");
+        foodList = savedInstanceState.getParcelable("foods");
+        attractionList = savedInstanceState.getParcelable("attractions");
+        recommendations = savedInstanceState.getParcelable("recommendations");
+        currentLat = savedInstanceState.getDouble("lat");
+        currentLon = savedInstanceState.getDouble("lon");
+        attractionPage = savedInstanceState.getInt("page");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelable("totals",totalList);
+        outState.putParcelable("foods",foodList);
+        outState.putParcelable("attractions",attractionList);
+        outState.putParcelable("recommendations",recommendations);
+        outState.putDouble("lat",currentLat);
+        outState.putDouble("lon",currentLon);
+        outState.putInt("page",attractionPage);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("onActivityResult",requestCode + " - " + resultCode );
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment != null) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
 
 
+
+
+
+
+
 }
+
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo("com.tripkorea.on.ontripkorea", PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }

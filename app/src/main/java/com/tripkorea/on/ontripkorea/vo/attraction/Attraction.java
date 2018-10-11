@@ -1,6 +1,7 @@
 package com.tripkorea.on.ontripkorea.vo.attraction;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class Attraction implements Serializable{
     private List<String> tagList;
     private int idx;
     private String name;
-    private String dayoff;
+    private String holiday;
     private String category;
     private double score;
     private String tel;
@@ -29,13 +30,49 @@ public class Attraction implements Serializable{
     private String subway;
     private String homepage;
     private String thumnailAddr;
+    private String operationTime;
+    private String useTime;
+    private String menu;
+    private ArrayList<String> tagSet = new ArrayList<>();
 
-    public String getDayoff() {
-        return dayoff;
+    public ArrayList<String> getTagSet() {
+        return tagSet;
     }
 
-    public void setDayoff(String dayoff) {
-        this.dayoff = dayoff;
+    public void setTagSet(ArrayList<String> tagSet) {
+        this.tagSet = tagSet;
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
+    }
+
+    public String getOperationTime() {
+        return operationTime;
+    }
+
+    public void setOperationTime(String operationTime) {
+        this.operationTime = operationTime;
+    }
+
+    public String getUseTime() {
+        return useTime;
+    }
+
+    public void setUseTime(String useTime) {
+        this.useTime = useTime;
+    }
+
+    public String getHoliday() {
+        return holiday;
+    }
+
+    public void setHoliday(String holiday) {
+        this.holiday = holiday;
     }
 
     public String getSubway() {

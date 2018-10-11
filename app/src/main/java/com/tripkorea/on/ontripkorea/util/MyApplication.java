@@ -16,6 +16,7 @@ import com.kakao.auth.KakaoSDK;
 import com.tripkorea.on.ontripkorea.BuildConfig;
 import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
 import com.tripkorea.on.ontripkorea.retrofit.client.NaverApiClient;
+import com.tripkorea.on.ontripkorea.vo.user.LoginResponse;
 import com.tsengvn.typekit.Typekit;
 
 /**
@@ -25,6 +26,7 @@ import com.tsengvn.typekit.Typekit;
 public class MyApplication extends MultiDexApplication {
     public static int APP_VERSION;
     public static boolean WILL_BE_DESTROYED = false;
+    public static LoginResponse me;
     private static Context context; //Edward added 2018.06.11
 
     private static volatile MyApplication instance = null;
@@ -104,13 +106,13 @@ public class MyApplication extends MultiDexApplication {
         // 로그인 시 사용 될, Session의 옵션 설정을 위한 인터페이스 입니다.
         @Override
         public ISessionConfig getSessionConfig() {
-            new LogManager().LogManager("카톡 로그인", "KakaoSDKAdapter getSessionConfig");
+            new LogManager().LogManager("Myapplication 카톡 로그인", "KakaoSDKAdapter getSessionConfig");
             return new ISessionConfig() {
 
                 // 로그인 시에 인증 타입을 지정합니다.
                 @Override
                 public AuthType[] getAuthTypes() {
-                    new LogManager().LogManager("카톡 로그인", "KakaoSDKAdapter getAuthTypes");
+                    new LogManager().LogManager("Myapplication 카톡 로그인", "KakaoSDKAdapter getAuthTypes");
                 /*KAKAO_TALK;*/
 
                     // Auth Type
@@ -129,7 +131,7 @@ public class MyApplication extends MultiDexApplication {
                 // true로 지정할 경우, 로그인 웹뷰의 onPuase()와 onResume()에 타이머를 설정해야 합니다.
                 @Override
                 public boolean isUsingWebviewTimer() {
-                    new LogManager().LogManager("카톡 로그인", "KakaoSDKAdapter isUsingWebviewTimer");
+                    new LogManager().LogManager("Myapplication 카톡 로그인", "KakaoSDKAdapter isUsingWebviewTimer");
                     return false;
 
                 }
@@ -138,7 +140,7 @@ public class MyApplication extends MultiDexApplication {
                 // 로그인 시 토큰을 저장할 때의 암호화 여부를 지정합니다.
                 @Override
                 public boolean isSecureMode() {
-                    new LogManager().LogManager("카톡 로그인", "KakaoSDKAdapter isSecureMode");
+                    new LogManager().LogManager("Myapplication 카톡 로그인", "KakaoSDKAdapter isSecureMode");
                     return false;
 
                 }
@@ -148,7 +150,7 @@ public class MyApplication extends MultiDexApplication {
                 // 값을 지정하지 않을 경우, ApprovalType.INDIVIDUAL 값으로 사용됩니다.
                 @Override
                 public ApprovalType getApprovalType() {
-                    new LogManager().LogManager("카톡 로그인", "KakaoSDKAdapter getApprovalType");
+                    new LogManager().LogManager("Myapplication 카톡 로그인", "KakaoSDKAdapter getApprovalType");
                     return ApprovalType.INDIVIDUAL;
 
                 }
@@ -157,7 +159,7 @@ public class MyApplication extends MultiDexApplication {
                 // 로그인 웹뷰에서 email 입력 폼의 데이터를 저장할 지 여부를 지정합니다.
                 @Override
                 public boolean isSaveFormData() {
-                    new LogManager().LogManager("카톡 로그인", "KakaoSDKAdapter isSaveFormData");
+                    new LogManager().LogManager("Myapplication 카톡 로그인", "KakaoSDKAdapter isSaveFormData");
                     return true;
 
                 }
@@ -170,7 +172,7 @@ public class MyApplication extends MultiDexApplication {
         // Application이 가지고 있는 정보를 얻기 위한 인터페이스 입니다.
         @Override
         public IApplicationConfig getApplicationConfig() {
-            new LogManager().LogManager("카톡 로그인", "KakaoSDKAdapter getApplicationConfig");
+            new LogManager().LogManager("Myapplication 카톡 로그인", "KakaoSDKAdapter getApplicationConfig");
             return new IApplicationConfig() {
 
                 @Override

@@ -3,14 +3,15 @@ package com.tripkorea.on.ontripkorea;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -45,21 +46,21 @@ import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 import com.tripkorea.on.ontripkorea.retrofit.client.ApiClient;
-import com.tripkorea.on.ontripkorea.retrofit.client.NaverApiClient;
-import com.tripkorea.on.ontripkorea.retrofit.message.ApiMessasge;
-import com.tripkorea.on.ontripkorea.tabs.MainActivity;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.InternetTotalCheck;
 import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionSimpleList;
-import com.tripkorea.on.ontripkorea.vo.user.NaverResponse;
-import com.tripkorea.on.ontripkorea.vo.user.NaverUser;
+import com.tripkorea.on.ontripkorea.vo.user.LoginResponse;
+import com.tripkorea.on.ontripkorea.vo.user.LoginUser;
+import com.tripkorea.on.ontripkorea.vo.user.Me;
+import com.tripkorea.on.ontripkorea.vo.user.SignupResponsecode;
 import com.tripkorea.on.ontripkorea.vo.user.User;
-import com.tripkorea.on.ontripkorea.vo.voiceguide.GuidePhoto;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import okhttp3.MediaType;
@@ -77,25 +78,19 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
 
-    private AttractionSimpleList foodList;
-    private AttractionSimpleList attractionList;
 
     private FirebaseAuth mAuth;
 
     private GoogleSignInClient mGoogleSignInClient;
     private CallbackManager callbackManager;
 
-//    LoginButton facebookLogin;
 
     public static OAuthLogin mOAuthLoginModule;
     OAuthLoginButton mOAuthLoginButton;
 
-//    private com.kakao.usermgmt.LoginButton kakaoLogin;
     private SessionCallBack mKakaoCallback;
 
-//    EditText et_id, et_pw;
     CheckBox chk_auto;
-//    Button btn_signup, btn_login;
 
     SharedPreferences setting;
     SharedPreferences.Editor editor;
@@ -105,13 +100,14 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog loginProgress = null;
     boolean dialogShowing = false;
 
-    User loginUser;
     String usinglanguage;
 
     Locale locale;
+    double lat, lon;
+    int page;
+    private AttractionSimpleList recommendations;
 
-    private ArrayList<GuidePhoto> guideList = new ArrayList<>();
-
+    boolean isFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,11 +116,18 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
+        TextView logoTxt = findViewById(R.id.txt_splash_logo);
+        TextView logo2Txt = findViewById(R.id.txt_splash_logo2);
+
+        Typeface geBody = Typeface.createFromAsset(getAssets(), "fonts/GeBody.ttf");
+        logoTxt.setTypeface(geBody);
+        logo2Txt.setTypeface(geBody);
+
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        guideList = bundle.getParcelableArrayList("guides");
-        foodList = intent.getParcelableExtra("foods");
-        attractionList = intent.getParcelableExtra("attraction");
+        lat = intent.getDoubleExtra("lat",37.579108);
+        lon = intent.getDoubleExtra("lon",126.990957);
+        recommendations = intent.getParcelableExtra("recommendations");
+        page = intent.getIntExtra("page",1);
 
         new LogManager().LogManager("LoginActivity", "---------------------------");
 
@@ -150,17 +153,19 @@ public class LoginActivity extends AppCompatActivity {
 
             switch (setting.getString("Service","")){
                 case"Facebook":
-//                    new LogManager().LogManager("auto login","Facebook");
+                    new LogManager().LogManager("auto login","Facebook");
                     loginProgress = ProgressDialog.show(LoginActivity.this, "", setting.getString("Service","")+" Login...", true);
                     dialogShowing = true;
                     User user = new User();
                     user.setName(setting.getString("Nickname",""));
-                    user.setProfileAddr(setting.getString("Photo",""));
+                    user.setProfileImgAddr(setting.getString("ProfileImgAddr",""));
                     user.setId(setting.getString("ID",""));
-                    oAuthLogin(user, "Facebook");
+                    user.setSnsIdx(2);
+                    isFirst = false;
+                    oAuthLogin(user);
                     break;
                 case"Google":
-//                    new LogManager().LogManager("auto login","Google");
+                    new LogManager().LogManager("auto login","Google");
                     loginProgress = ProgressDialog.show(LoginActivity.this, "",setting.getString("Service","")+ " Login...", true);
                     dialogShowing = true;
                     if(InternetTotalCheck.checkInternet()) {
@@ -171,8 +176,9 @@ public class LoginActivity extends AppCompatActivity {
                         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
                         mAuth = FirebaseAuth.getInstance();
                         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-//            new LogManager().LogManager("인텐트 전송","전송됨");
+                        new LogManager().LogManager("인텐트 전송","전송됨");
                         startActivityForResult(signInIntent, RC_SIGN_IN);
+                        isFirst = false;
                     }else{
                         Toast.makeText(MyApplication.getContext(),R.string.internet_failed,Toast.LENGTH_LONG).show();
                         loginProgress.dismiss();
@@ -180,21 +186,20 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                 case"Naver":
-//                    new LogManager().LogManager("auto login","Naver");
+                    new LogManager().LogManager("auto login","Naver");
                     loginProgress = ProgressDialog.show(LoginActivity.this, "",setting.getString("Service","")+ " Login...", true);
                     dialogShowing = true;
                     mOAuthLoginModule = OAuthLogin.getInstance();
                     mOAuthLoginModule.init(this, getString(R.string.naver_key), getString(R.string.naver_secret_key), "StoryTour");
                     mOAuthLoginModule.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);
+                    isFirst = false;
                     break;
                 case"Kakao":
-//                    new LogManager().LogManager("auto login","Kakao");
+                    new LogManager().LogManager("auto login","Kakao");
                     loginProgress = ProgressDialog.show(LoginActivity.this, "", setting.getString("Service","")+" Login...", true);
                     dialogShowing = true;
                     setKakao();
-                    break;
-                default:
-
+                    isFirst = false;
                     break;
 
 
@@ -210,7 +215,7 @@ public class LoginActivity extends AppCompatActivity {
         googleSigninBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                new LogManager().LogManager("사인인 버튼 클릭","클릭됨");
+                new LogManager().LogManager("사인인 버튼 클릭","클릭됨");
                 loginProgress = ProgressDialog.show(LoginActivity.this, "", "Google Login...", true);
                 dialogShowing = true;
                 signIn();
@@ -220,48 +225,12 @@ public class LoginActivity extends AppCompatActivity {
         loginFacebook();
 
         setNaver();
-
-        Button kakaoAccountLogin;
-        kakaoAccountLogin = findViewById(R.id.temp_kakao_login);
-        kakaoAccountLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setKakao();
-            }
-        });
-
-        /*mOAuthLoginModule = OAuthLogin.getInstance();
-        mOAuthLoginModule.init(
-                LoginActivity.this
-                ,loginUser.getId()
-                ,loginUser.getProfileAddr()
-                ,loginUser.getName()
-                //,OAUTH_CALLBACK_INTENT
-                // SDK 4.1.4 버전부터는 OAUTH_CALLBACK_INTENT변수를 사용하지 않습니다.
-        );
-        naverLogin = findViewById(R.id.buttonOAuthLoginImg);
-        naverLogin.setOAuthLoginHandler(mOAuthNaverLoginHandler);
-        naverLogin.setBgResourceId(R.drawable.z_naver_login);*/
+        mKakaoCallback = new SessionCallBack();
+        Session.getCurrentSession().addCallback(mKakaoCallback);
 
 
 
-//        kakaoLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                new LogManager().LogManager("카톡 로그인","버튼 클릭111");
-//                Session session = Session.getCurrentSession();
-//                session.addCallback(new SessionCallBack());
-//                session.open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);
-//                new LogManager().LogManager("카톡 로그인","버튼 클릭222");
-//                requestMe();
-////                mKakaoCallback = new SessionCallBack();
-////                com.kakao.auth.Session.getCurrentSession().addCallback(mKakaoCallback);
-////                com.kakao.auth.Session.getCurrentSession().checkAndImplicitOpen();
-////
-////                com.kakao.auth.Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN, LoginActivity.this);
-//            }
-//        });
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -271,28 +240,18 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-        /*try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.e("MY KEY HASH:",
-                        Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
 
-        } catch (NoSuchAlgorithmException e) {
-
-        }*/
 
     }
 
     private void setKakao(){
         mKakaoCallback = new SessionCallBack();
+        new LogManager().LogManager("LoginActivity","kakao clicked");
         Session.getCurrentSession().addCallback(mKakaoCallback);
         Session.getCurrentSession().checkAndImplicitOpen();
     }
+
+
 
     private void setNaver() {
         mOAuthLoginModule = OAuthLogin.getInstance();
@@ -311,38 +270,60 @@ public class LoginActivity extends AppCompatActivity {
         mOAuthLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
 //        mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
     }
+    User naverUser;
+    JSONObject result;
     private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
         @Override
         public void run(boolean success) {
-            if (success) {
-                String accessToken = mOAuthLoginModule.getAccessToken(LoginActivity.this);
-                String refreshToken = mOAuthLoginModule.getRefreshToken(LoginActivity.this);
-                long expiresAt = mOAuthLoginModule.getExpiresAt(LoginActivity.this);
-                String tokenType = mOAuthLoginModule.getTokenType(LoginActivity.this);
 
-//                new LogManager().LogManager("네이버 로그인: accessToken",accessToken);
-//                new LogManager().LogManager("네이버 로그인: refreshToken",refreshToken);
-                NaverApiClient.getInstance()
-                        .getNaverApiService()
-                        .getPersonalInfo("Bearer "+accessToken)
-                        .enqueue(new retrofit2.Callback<NaverResponse>() {
-                            @Override
-                            public void onResponse(Call<NaverResponse> call, Response<NaverResponse> response) {
-                                if(response.body() != null){
-                                    NaverUser user = response.body().getResponse();
-                                    User naverUser = new User();
-                                    naverUser.setId(user.getEmail());
-                                    naverUser.setName(user.getNickname());
-                                    naverUser.setProfileAddr(user.getProfile_image());
-                                    oAuthLogin(naverUser,"Naver");
+            if (success) {
+
+                new Thread(){
+                    public void run(){
+                        String accessToken = mOAuthLoginModule.getAccessToken(LoginActivity.this);
+                        String refreshToken = mOAuthLoginModule.getRefreshToken(LoginActivity.this);
+                        long expiresAt = mOAuthLoginModule.getExpiresAt(LoginActivity.this);
+                        String tokenType = mOAuthLoginModule.getTokenType(LoginActivity.this);
+
+                        String data  = mOAuthLoginModule.requestApi(LoginActivity.this, accessToken, "https://openapi.naver.com/v1/nid/me");
+                        try{
+                            result = new JSONObject(data);
+                            new LogManager().LogManager("네이버 로그인 회신 데이터",result.toString());
+                            naverUser = new User();
+                            naverUser.setId(result.getJSONObject("response").getString("id"));
+                            naverUser.setName(result.getJSONObject("response").getString("nickname"));
+                            naverUser.setProfileImgAddr(result.getJSONObject("response").getString("profile_image"));
+                            //profile_image, email
+//                                    naverUser.setProfileAddr(user.getProfile_image());
+                            naverUser.setSnsIdx(3);
+                            oAuthLogin(naverUser);
+
+                        }catch (JSONException e){
+                            if(naverUser.getName()==null) {
+                                try {
+                                    naverUser.setName("네이버 유저: " + result.getJSONObject("response").getString("id"));
+                                } catch (JSONException e1) {
+                                    new LogManager().LogManager("네이버로그인 JSONException 에러", e.toString());
+                                    if (dialogShowing && loginProgress.isShowing()) {
+                                        loginProgress.dismiss();
+                                        dialogShowing = false;
+                                    }
                                 }
                             }
-
-                            @Override
-                            public void onFailure(Call<NaverResponse> call, Throwable t) {
-
+                            naverUser.setSnsIdx(3);
+                            oAuthLogin(naverUser);
+                        }catch (Exception e){
+                            new LogManager().LogManager("네이버로그인 에러",e.toString());
+                            if(dialogShowing  && loginProgress.isShowing()){
+                                loginProgress.dismiss();
+                                dialogShowing = false;
                             }
-                        });
+                        }
+                    }
+                }.start();
+
+
+
             } else {
                 new LogManager().LogManager("네이버 로그인","fail");
                 String errorCode = mOAuthLoginModule.getLastErrorCode(LoginActivity.this).getCode();
@@ -350,10 +331,34 @@ public class LoginActivity extends AppCompatActivity {
                 new LogManager().LogManager("네이버 로그인","fail: "+errorCode+" | "+errorDesc);
                 Toast.makeText(LoginActivity.this, "errorCode:" + errorCode
                         + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
+                if(dialogShowing  && loginProgress.isShowing()){
+                    loginProgress.dismiss();
+                    dialogShowing = false;
+                }
             }
         };
     };
+/*NaverApiClient.getInstance()
+                        .getNaverApiService()
+                        .getPersonalInfo("Bearer "+accessToken)
+                        .enqueue(new retrofit2.Callback<NaverResponse>() {
+                            @Override
+                            public void onResponse(Call<NaverResponse> call, Response<NaverResponse> response) {
+                                if(response.body() != null){
+                                    NaverResponse naverResponse = response.body();
+                                    NaverUser user = response.body().getResponse();
 
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<NaverResponse> call, Throwable t) {
+                                if(dialogShowing && loginProgress.isShowing()){
+                                    loginProgress.dismiss();
+                                    dialogShowing = false;
+                                }
+                            }
+                        });*/
 
 
 
@@ -396,7 +401,14 @@ public class LoginActivity extends AppCompatActivity {
                         if(task.isComplete() && task.isSuccessful()){
                             Toast.makeText(LoginActivity.this,"Facebook Login Success",Toast.LENGTH_LONG).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            oAuthLogin(user, "Facebook");
+                            User userData = new User();
+                            userData.setId(user.getEmail());
+                            userData.setSnsIdx(2);
+                            userData.setName(user.getDisplayName());
+                            /*if(user.getPhotoUrl() != null) {
+                                userData.setProfileImgAddr(user.getPhotoUrl().toString());
+                            }*/
+                            oAuthLogin(userData);
                         }else if(task.isComplete() && !task.isSuccessful()){
                             Toast.makeText(LoginActivity.this,"Facebook Login task end but failed",Toast.LENGTH_LONG).show();
                             loginProgress.dismiss();
@@ -423,19 +435,40 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
         new LogManager().LogManager("onActivityResult","호출됨");
+        new LogManager().LogManager("onActivityResult","resultCode: "+resultCode);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 //        callbackManager.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            new LogManager().LogManager("if (requestCode == RC_SIGN_IN)","task.toString(): "+task.toString());
+            new LogManager().LogManager("if (requestCode == RC_SIGN_IN)","task.isSuccessful(): "+task.isSuccessful());
+            new LogManager().LogManager("if (requestCode == RC_SIGN_IN)","task.isComplete(): "+task.isComplete());
+
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 new LogManager().LogManager("onActivityResult 토큰 메서드 호출","호출됨");
+                new LogManager().LogManager("onActivityResult 토큰 메서드 호출","account.getDisplayName(): "+account.getDisplayName());
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                new LogManager().LogManager(TAG, "Google sign in failed"+e.toString());
+                if(task.getException() != null) {
+                    new LogManager().LogManager("if (requestCode == RC_SIGN_IN)", "task.getException().toString(): " + task.getException().toString());
+                    new LogManager().LogManager("if (requestCode == RC_SIGN_IN)", "task.getException().getLocalizedMessage(): " + task.getException().getLocalizedMessage());
+                    new LogManager().LogManager("if (requestCode == RC_SIGN_IN)", "task.getException().getMessage(): " + task.getException().getMessage());
+                    new LogManager().LogManager("if (requestCode == RC_SIGN_IN)", "task.getException(): " + task.getException());
+                }
+                new LogManager().LogManager(TAG, "Google sign in failed : "+e.toString());
+                new LogManager().LogManager(TAG, "Google sign in failed : e.getStatusCode()"+e.getStatusCode());
+                new LogManager().LogManager(TAG, "Google sign in failed : e.getCause()"+e.getCause());
+                new LogManager().LogManager(TAG, "Google sign in failed : e.getLocalizedMessage()"+e.getLocalizedMessage());
+                new LogManager().LogManager(TAG, "Google sign in failed : e.getMessage()"+e.getMessage());
+                new LogManager().LogManager(TAG, "Google sign in failed : e.getStatusMessage()"+e.getStatusMessage());
                 Alert.makeText(getString(R.string.google_login_failed));
+                if(loginProgress.isShowing()){
+                    loginProgress.dismiss();
+                    dialogShowing= false;
+                }
                 // [START_EXCLUDE]
 //                oAuthLogin(null);
                 // [END_EXCLUDE]
@@ -446,8 +479,8 @@ public class LoginActivity extends AppCompatActivity {
 
     // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        new LogManager().LogManager(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
+        new LogManager().LogManager(TAG, "firebaseAuthWithGoogle:"+" acct.getDisplayName(): "+acct.getDisplayName());
+        new LogManager().LogManager(TAG, "firebaseAuthWithGoogle:"+" acct.getPhotoUrl(): "+acct.getPhotoUrl());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -459,12 +492,25 @@ public class LoginActivity extends AppCompatActivity {
 //                            new LogManager().LogManager(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 //                            new LogManager().LogManager("로그인 메서드 직전","거의 다옴");
-                            oAuthLogin(user, "Google");
+                            User userData = new User();
+                            userData.setId(user.getEmail());
+                            userData.setSnsIdx(4);
+                            userData.setName(user.getDisplayName());
+                            new LogManager().LogManager(TAG, "firebaseAuthWithGoogle:"+" user.getDisplayName(): "+user.getDisplayName());
+                            new LogManager().LogManager(TAG, "firebaseAuthWithGoogle:"+" user.getPhotoUrl(): "+user.getPhotoUrl());
+                            if(user.getPhotoUrl() != null) {
+                                userData.setProfileImgAddr(user.getPhotoUrl().toString());
+                            }
+                            oAuthLogin(userData);
                         } else {
                             // If sign in fails, display a message to the user.
                             new LogManager().LogManager(TAG, "signInWithCredential:failure"+ task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                            if(loginProgress.isShowing()){
+                                loginProgress.dismiss();
+                                dialogShowing= false;
+                            }
 //                            oAuthLogin(null);
                         }
 
@@ -480,128 +526,170 @@ public class LoginActivity extends AppCompatActivity {
     private void signIn() {
         if(InternetTotalCheck.checkInternet()) {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            new LogManager().LogManager("인텐트 전송","전송됨");
+            new LogManager().LogManager("LoginActivity signIn()","인텐트 전송 전송됨");
             startActivityForResult(signInIntent, RC_SIGN_IN);
         }else{
             Toast.makeText(MyApplication.getContext(),R.string.internet_failed,Toast.LENGTH_LONG).show();
+            if(loginProgress.isShowing()){
+                loginProgress.dismiss();
+                dialogShowing= false;
+            }
         }
 
     }
     // [END signin]
 
 
-
-
-    private void oAuthLogin(FirebaseUser user, String service){
-        new LogManager().LogManager(service+" 로그인 메서드","shared preference saved");
-        if(user != null) {
-            if(chk_auto.isChecked()){
-                new LogManager().LogManager(service+ " 로그인 메서드","shared oAuthLogin checked");
-                editor.putString("Nickname",user.getDisplayName());
-                editor.putString("Service",service);
-                editor.putString("ID",user.getEmail());
-                editor.putBoolean("autoLogin",true);
-                editor.putString("Photo", user.getPhotoUrl().toString());
-                editor.commit();
-            }
-            int serviceCode = 1;
-            switch(service){
-                case "Facebook":
-                    serviceCode = 2;
-                    break;
-                case "Google":
-                    serviceCode = 4;
-                    break;
-                case "Naver":
-                    serviceCode = 3;
-                    break;
-                case "Kakao":
-                    serviceCode = 5;
-                    break;
-            }
-            User user1 = new User();
-            user1.setName(user.getDisplayName());
-            user1.setId(user.getEmail());
-            user1.setService(service);
-            user1.setServiceCode(serviceCode);
-            user1.setNationString(usinglanguage);
-            user1.setProfileAddr(user.getPhotoUrl().toString());
-//                new AsyncTaskOauthLogin().execute(user1);
-            throwIntent(user1);
-//                new LogManager().LogManager("oAuthLogin",user1.getProfileAddr()+"/////////////");
-
-        }else{
-            Alert.makeText(getString(R.string.google_login_failed));
+    private void oAuthLogin(@NonNull  User user){
+        if(!loginProgress.isShowing() && !dialogShowing){
+            dialogShowing = true;
+            loginProgress = ProgressDialog.show(LoginActivity.this, "", "Stoury Login...", true);
         }
-    }
-
-    private void oAuthLogin(@NonNull  User user, String service){
-        new LogManager().LogManager(service+ " 로그인 메서드","shared preference saved");
+        new LogManager().LogManager("로그인엑티비티","oAuthLogin  user.getId(): "+user.getId()
+                +" | user.getName(): "+user.getName()
+                +" | user.getProfileImgAddr(): "+user.getProfileImgAddr());
+        String serviceCode ="";
+        switch(user.getSnsIdx()){
+            case 2:
+                serviceCode = "Facebook";
+                break;
+            case 4:
+                serviceCode = "Google";
+                break;
+            case 3:
+                serviceCode = "Naver";
+                break;
+            case 5:
+                serviceCode = "Kakao";
+                break;
+        }
+        new LogManager().LogManager(serviceCode+ " 로그인 메서드","shared preference saved");
 //        new LogManager().LogManager("oAuthLogin id: ",user.getId());
 //        new LogManager().LogManager("oAuthLogin name: ",user.getName());
 //        new LogManager().LogManager("oAuthLogin photo: ",user.getProfileAddr());
         if(chk_auto.isChecked()){
-            new LogManager().LogManager(service+ " 로그인 메서드","shared oAuthLogin checked");
-            editor.putString("Nickname",user.getName());
-            editor.putString("Service",service);
+            new LogManager().LogManager(user.getSnsIdx()+ " 로그인 메서드","shared oAuthLogin checked");
+            if(user.getName() != null) {
+                editor.putString("Nickname", user.getName());
+            }
+            if(user.getProfileImgAddr() != null){
+                editor.putString("ProfileImgAddr", user.getProfileImgAddr());
+            }
+            editor.putString("Service",serviceCode);
             editor.putString("ID",user.getId());
-            editor.putString("Photo", user.getProfileAddr());
+//            editor.putString("Photo", user.getProfileAddr());
             editor.putBoolean("autoLogin",true);
             editor.commit();
         }
-        int serviceCode = 1;
-        switch(service){
-            case "Facebook":
-                serviceCode = 2;
-                break;
-            case "Google":
-                serviceCode = 4;
-                break;
-            case "Naver":
-                serviceCode = 3;
-                break;
-            case "Kakao":
-                serviceCode = 5;
-                break;
+//        sendLogin(user);
+        if(isFirst) {
+            sendSignup(user);
+        }else{
+            sendLogin(user);
         }
-        User user1 = new User();
-        user1.setName(user.getName());
-        user1.setServiceCode(serviceCode);
-        user1.setId(user.getId());
-        user1.setService(service);
-        user1.setNationString(usinglanguage);
-        user1.setProfileAddr(user.getProfileAddr());
-//                new AsyncTaskOauthLogin().execute(user1);
-        throwIntent(user1);
-//                new LogManager().LogManager("oAuthLogin",user1.getProfileAddr()+"/////////////");
 
     }
 
-    public void throwIntent(User user){
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        new LogManager().LogManager("throwIntent | Userid()", user.getId()+"/////////////");
-        new LogManager().LogManager("throwIntent | UserProfile()",user.getProfileAddr()+"/////////////");
-        if(user.getId().length() > 0){
-            new LogManager().LogManager("user in Login", user.getId());
-            intent.putExtra("user",user);
+    public void sendSignup(final User user){
+        new LogManager().LogManager("LoginActivity","sendSignup user.getId(): "+user.getId()
+                +"| user.getName(): "+user.getName()
+                +"| user.getProfileImgAddr(): "+user.getProfileImgAddr());
+        ApiClient.getInstance().getApiService()
+                .signup(MyApplication.APP_VERSION, user)
+                .enqueue(new Callback<SignupResponsecode>() {
+                    @Override
+                    public void onResponse(Call<SignupResponsecode> call, Response<SignupResponsecode> response) {
+                        if (response.body() != null) {
+                            sendLogin(user);
+                        } else {
+                            if (response.errorBody() != null) {
+                                try {
+                                    Log.e("스엑티비티 sendSignup", "error : " + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SignupResponsecode> call, Throwable t) {
+                        Alert.makeText(getString(R.string.network_error));
+
+                    }
+                });
+    }
+
+    public void sendLogin(final User user){
+
+        LoginUser loginUser = new LoginUser();
+        loginUser.setId(user.getId());
+        loginUser.setSnsIdx(user.getSnsIdx());
+        String pw = user.getSnsIdx()+user.getId()+user.getSnsIdx();
+        loginUser.setPasswd(pw);
+        new LogManager().LogManager("LoginActivity","sendLogin user.getId(): "+user.getId()
+                +" | user.getSnsIdx(): "+user.getSnsIdx() + " | pw: "+pw);
+        ApiClient.getInstance().getApiService()
+                .signin(MyApplication.APP_VERSION, loginUser)
+                .enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.body() != null) {
+                            LoginResponse loginResponse = response.body();
+                            if(loginResponse.getMessage().equals("Success")){
+
+                                Me.instance.setUserIdx(loginResponse.getUserIdx());
+                                Me.instance.setId(loginResponse.getId());
+                                Me.instance.setName(loginResponse.getName());
+                                if(loginResponse.getProfileImgAddr() != null){
+                                    Me.instance.setProfileImgAddr(loginResponse.getProfileImgAddr());
+                                }
+                                new LogManager().LogManager("LoginActivity","sendLogin loginResponse.getName(): "+loginResponse.getName()
+                                        +"Me.instance.getName(): "+ Me.instance.getName());
+
+                                throwIntent(loginResponse);
+                            }else{
+                                Alert.makeText("Login failed. Please try again.");
+                                if(loginProgress != null && loginProgress.isShowing()) loginProgress.dismiss();
+                            }
+
+                        } else {
+                            if (response.errorBody() != null) {
+                                try {
+                                    Log.e("스엑티비티 sendLogin", "error : " + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        Alert.makeText(getString(R.string.network_error));
+
+                    }
+                });
+    }
+
+
+
+    public void throwIntent(LoginResponse loginResponse){
+        Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+        new LogManager().LogManager("throwIntent | loginResponse.getId()", loginResponse.getId()+"/////////////");
+        if(loginResponse.getId().length() > 0){
+            new LogManager().LogManager("user in Login", loginResponse.getId());
+            intent.putExtra("user",loginResponse);
         }else{
             Alert.makeText(getString(R.string.login_failed));
         }
-        Bundle bundle = new Bundle();
+        intent.putExtra("lat",lat);
+        intent.putExtra("lon",lon);
+        intent.putExtra("page",page);
+        intent.putExtra("recommendations",recommendations);
+        intent.putExtra("user",loginResponse);
 
-        bundle.putParcelableArrayList("guides",guideList);
-        intent.putExtras(bundle);
-        intent.putExtra("foods",foodList);
-        intent.putExtra("attraction",attractionList);
-        intent.putExtra("user",user);
 
-//        else{
-//            Log.e("user in Login", "admin");
-//            user.userid = "admin";
-//            intent.putExtra("user",user);
-//        }
-
-        sendLogin(user);
         startActivity(intent);
         finish();
         if(dialogShowing&&loginProgress.isShowing()) {
@@ -611,33 +699,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void sendLogin(User user){
-        ApiClient.getInstance().getApiService()
-                .signup(MyApplication.APP_VERSION, user)
-                .enqueue(new Callback<ApiMessasge>() {
-                    @Override
-                    public void onResponse(Call<ApiMessasge> call, Response<ApiMessasge> response) {
-                        if (response.body() != null) {
-                            int resultCode = response.body().getCode();
 
-                        } else {
-                            if (response.errorBody() != null) {
-                                try {
-                                    Log.e("스엑티비티 Tours", "error : " + response.errorBody().string());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiMessasge> call, Throwable t) {
-                        Alert.makeText(getString(R.string.network_error));
-
-                    }
-                });
-    }
 
 
 
@@ -646,9 +708,19 @@ public class LoginActivity extends AppCompatActivity {
 
     public class SessionCallBack implements ISessionCallback {
 
+        boolean firstKakaoLogin;
+
         // 로그인에 성공한 상태
         @Override
-        public void onSessionOpened() {            requestMe();        }
+        public void onSessionOpened() {
+            new LogManager().LogManager("카록 로그인","onSessionOpened()");
+            if(!dialogShowing && loginProgress == null) {
+                loginProgress = ProgressDialog.show(LoginActivity.this, "", "Kakao Login...", true);
+                dialogShowing = true;
+                firstKakaoLogin = true;
+            }
+            requestMe();
+        }
 
         // 로그인에 실패한 상태
         @Override
@@ -664,39 +736,54 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
                     new LogManager().LogManager("카톡 로그인","SessionCallBack onSessionClosed"+ errorResult.getErrorMessage());
+                    if(dialogShowing && loginProgress.isShowing() && firstKakaoLogin){
+                        dialogShowing = false;
+                        loginProgress.dismiss();
+                        firstKakaoLogin = false;
+                    }
                 }
                 // 회원이 아닌 경우,
                 @Override
                 public void onNotSignedUp() {
                     new LogManager().LogManager("카톡 로그인","SessionCallBack onNotSignedUp");
+                    if(dialogShowing && loginProgress.isShowing()){
+                        dialogShowing = false;
+                        loginProgress.dismiss();
+                    }
                 }
                 // 사용자정보 요청에 성공한 경우,
                 @Override
                 public void onSuccess(UserProfile userProfile) {
                     new LogManager().LogManager("카톡 로그인","SessionCallBack 성공");
-                    String nickname = userProfile.getNickname();
+                    String nickname = userProfile.getNickname().trim();
                     String email = userProfile.getEmail();
                     String profileImagePath = userProfile.getProfileImagePath();
                     String thumnailPath = userProfile.getThumbnailImagePath();
                     String UUID = userProfile.getUUID();
                     long id = userProfile.getId();
 
-                    Log.e("Profile : ", nickname + "");
-                    Log.e("Profile : ", email + "");
-                    Log.e("Profile : ", profileImagePath  + "");
-                    Log.e("Profile : ", thumnailPath + "");
-                    Log.e("Profile : ", UUID + "");
-                    Log.e("Profile : ", id + "");
+                    Log.e("Profile : ", "nickname: "+nickname + "");
+                    Log.e("Profile : ", "email: "+email + "");
+                    Log.e("Profile : ", "profileImagePath: "+profileImagePath  + "");
+                    Log.e("Profile : ", "thumnailPath: "+thumnailPath + "");
+                    Log.e("Profile : ", "UUID: "+UUID + "");
+                    Log.e("Profile : ", "id: "+id + "");
 
                     User user = new User();
                     user.setId(id+"");
                     user.setName(nickname);
-                    user.setProfileAddr(thumnailPath);
+                    user.setProfileImgAddr(thumnailPath);
+                    user.setSnsIdx(5);
+
                     new LogManager().LogManager("kakao User id: ",user.getId());
                     new LogManager().LogManager("kakao User name: ",user.getName());
-                    new LogManager().LogManager("kakao User pic",user.getProfileAddr());
 
-                    oAuthLogin(user, "Kakao");
+                    if(dialogShowing && loginProgress.isShowing()){
+                        dialogShowing = false;
+                        loginProgress.dismiss();
+                    }
+
+                    oAuthLogin(user);
 
 
                 }
@@ -704,6 +791,10 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(ErrorResult errorResult) {
                     new LogManager().LogManager("카톡 로그인","SessionCallBack onFailure"+errorResult.getErrorMessage());
+                    if(dialogShowing && loginProgress.isShowing()){
+                        dialogShowing = false;
+                        loginProgress.dismiss();
+                    }
                 }
 
             });
@@ -713,7 +804,70 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    /*private class SessionCallback implements ISessionCallback {
+
+
+
+}
+
+ /*try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("MY KEY HASH:",
+                        Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }*/
+
+/*Button kakaoAccountLogin;
+        kakaoAccountLogin = findViewById(R.id.temp_kakao_login);
+        kakaoAccountLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setKakao();
+            }
+        });*/
+
+        /*mOAuthLoginModule = OAuthLogin.getInstance();
+        mOAuthLoginModule.init(
+                LoginActivity.this
+                ,loginUser.getId()
+                ,loginUser.getProfileAddr()
+                ,loginUser.getName()
+                //,OAUTH_CALLBACK_INTENT
+                // SDK 4.1.4 버전부터는 OAUTH_CALLBACK_INTENT변수를 사용하지 않습니다.
+        );
+        naverLogin = findViewById(R.id.buttonOAuthLoginImg);
+        naverLogin.setOAuthLoginHandler(mOAuthNaverLoginHandler);
+        naverLogin.setBgResourceId(R.drawable.z_naver_login);*/
+
+
+
+//        kakaoLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                new LogManager().LogManager("카톡 로그인","버튼 클릭111");
+//                Session session = Session.getCurrentSession();
+//                session.addCallback(new SessionCallBack());
+//                session.open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);
+//                new LogManager().LogManager("카톡 로그인","버튼 클릭222");
+//                requestMe();
+////                mKakaoCallback = new SessionCallBack();
+////                com.kakao.auth.Session.getCurrentSession().addCallback(mKakaoCallback);
+////                com.kakao.auth.Session.getCurrentSession().checkAndImplicitOpen();
+////
+////                com.kakao.auth.Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN, LoginActivity.this);
+//            }
+//        });
+
+
+/*private class SessionCallback implements ISessionCallback {
 
         @Override
         public void onSessionOpened() {
@@ -747,7 +901,7 @@ public class LoginActivity extends AppCompatActivity {
 //        et_pw.setText("");
     }*/
 
-    // [START on_start_check_user]
+// [START on_start_check_user]
 //    @Override
 //    public void onStart() {
 //        super.onStart();
@@ -755,7 +909,7 @@ public class LoginActivity extends AppCompatActivity {
 //        FirebaseUser currentUser = mAuth.getCurrentUser();
 //        oAuthLogin(currentUser);
 //    }
-    // [END on_start_check_user]
+// [END on_start_check_user]
 
 
     /*View.OnClickListener login = new View.OnClickListener(){
@@ -781,6 +935,3 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     };*/
-
-
-}

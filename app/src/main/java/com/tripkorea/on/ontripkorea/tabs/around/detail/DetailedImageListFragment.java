@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.around.detail;
 
 import android.os.Bundle;
@@ -18,9 +19,10 @@ import com.tripkorea.on.ontripkorea.R;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * Created by YangHC on 2018-06-18.
- */
+
+
+//Created by YangHC on 2018-06-18.
+
 
 public class DetailedImageListFragment extends Fragment {
     private String detailedImgAddr;
@@ -100,3 +102,4 @@ public class DetailedImageListFragment extends Fragment {
         super.onDestroyView();
     }
 }
+*/

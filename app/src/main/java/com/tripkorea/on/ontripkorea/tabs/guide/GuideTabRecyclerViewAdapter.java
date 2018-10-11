@@ -64,7 +64,7 @@ public class GuideTabRecyclerViewAdapter extends RecyclerView.Adapter<GuideTabRe
         final AttractionSimple guideItem = guidePoster.get(position);
         Log.e("Total onBindViewHolder", position + " | " + guideItem.getThumnailAddr());
         new LogManager().LogManager("guideItem.getName(): ",guideItem.getName());
-        new LogManager().LogManager("guideItem.getIdx(): ",guideItem.getIdx()+"");
+        new LogManager().LogManager("guideItem.getIdx(): ",guideItem.getIdx()+" | guideItem.getGuideType(): "+guideItem.getGuideType());
 
         Locale locale;
         //사용자 언어 확인
@@ -75,6 +75,9 @@ public class GuideTabRecyclerViewAdapter extends RecyclerView.Adapter<GuideTabRe
         }
 
         String usinglanguage = locale.getDisplayLanguage();
+        Glide.with(MyApplication.getContext())
+                .load(R.drawable.guide_intro_cartoon_ko)
+                .into(holder.ivMainGuide);
 
         switch(guideItem.getGuideType() ){
             case 1000:
@@ -114,12 +117,12 @@ public class GuideTabRecyclerViewAdapter extends RecyclerView.Adapter<GuideTabRe
                 switch(guideItem.getGuideType() ){
                     case 1000:
                         Intent toonIntent = new Intent(context, GuideActivity.class);
-                        toonIntent.putExtra("guideIdx",guideItem.getIdx());
+                        toonIntent.putExtra("attrIdx",guideItem.getIdx());
                         context.startActivity(toonIntent);
                         break;
                     case 2000:
                         Intent voicdIntent = new Intent(context, VoiceGuideActivity.class);
-                        voicdIntent.putExtra("guideIdx",guideItem.getIdx());
+                        voicdIntent.putExtra("attrIdx",guideItem.getIdx());
                         context.startActivity(voicdIntent);
                         break;
                 }

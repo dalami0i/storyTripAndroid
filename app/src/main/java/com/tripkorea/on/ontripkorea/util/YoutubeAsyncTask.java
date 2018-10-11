@@ -2,12 +2,10 @@ package com.tripkorea.on.ontripkorea.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.tripkorea.on.ontripkorea.tabs.around.detail.AroundDetailActivity;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttrClient;
 import com.tripkorea.on.ontripkorea.vo.youtube.YoutubeItems;
 
@@ -83,8 +81,8 @@ public class YoutubeAsyncTask extends AsyncTask<String, Void,String> {
                 if (response.isSuccessful()) {
                     YoutubeItems items = gson.fromJson(responsedMessage, YoutubeItems.class);
 //                    Log.e("YoutubeAsyncTask",items.items.get(0).snippet.title);
-                    AroundDetailActivity.youtubeDetails.add(items.items.get(0).snippet);
-                    AroundDetailActivity.youtubeDetails.get(AroundDetailActivity.youtubeDetails.size()-1).youtubeKey = strings[0];
+//                    AroundDetailActivity.youtubeDetails.add(items.items.get(0).snippet);
+//                    AroundDetailActivity.youtubeDetails.get(AroundDetailActivity.youtubeDetails.size()-1).youtubeKey = strings[0];
 
 //                for(int i=0; i<MainActivity.totalArrayList.size(); i++){
 //                    if(strings[0].equals(MainActivity.totalArrayList.get(i).contentID)){
@@ -117,9 +115,9 @@ public class YoutubeAsyncTask extends AsyncTask<String, Void,String> {
     protected void onPostExecute(String detail) {
         super.onPostExecute(detail);
 
-        Intent intent = new Intent(context, AroundDetailActivity.class);
+        /*Intent intent = new Intent(context, AroundDetailActivity.class);
         intent.putExtra("attraction", attrClient);
-        context.startActivity(intent);
+        context.startActivity(intent);*/
         loginProgress.dismiss();
 
     }

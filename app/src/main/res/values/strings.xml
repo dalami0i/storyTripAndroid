@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="splash_subtext">Customised my trip</string>
+    <string name="app_name" >STOURY</string>
+    <string name="splash_title1" translatable="false" templateMergeStrategy="preserve">STORY</string>
+    <string name="splash_title2" translatable="false" templateMergeStrategy="preserve">TOUR</string>
+    <string name="main_subtext" translatable="false" templateMergeStrategy="preserve">stoury</string>
+    <string name="nextline" translatable="false" templateMergeStrategy="preserve">n</string>
 
     <string name="welcome_text">Welcome, </string>
     <string name="exit_text">Are you sure you want to quit?</string>
     <string name="exit_quit_text">Quit</string>
     <string name="exit_cancel_text">Cancel</string>
+    <string name="do_not_show_again">Do not show again</string>
+
+    <string name="get_location_permission">Do you agree with give a location permission for recommendation location? (No will finish the application)</string>
+    <string name="get_location_permission_yes">Yes</string>
+    <string name="get_location_permission_no">No</string>
+    <string name="get_location_request_again">This application needs location information. Please restart this app and grant a permission.</string>
+    <string name="inform_turnedoff_location_function">Your GPS turned off, so it connected with default location.</string>
 
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyCFaWAvd4HXG13DHhEX6KRPanWfpVit9yM</string><!--희찬?? AIzaSyAay6YKMaDsB9KgvlB4HY6-x-x03FsqetY  내꺼: AIzaSyCFaWAvd4HXG13DHhEX6KRPanWfpVit9yM |  AIzaSyCALj5E5NL6dn9WQsDARdCA0xKkPheBm80  |  AIzaSyCYoF9Vr5DThwXm651rbJ1U0XfPOBlocMI | AIzaSyCFaWAvd4HXG13DHhEX6KRPanWfpVit9yM-->
     <!--AIzaSyCKnPvppC9UxzX0pirap6kkOWnBn0LNzDo-->
+    <!--<string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAmAhvC-bF66kL04sc5xToPRnzXLASqIIw</string>-->
+
     <string name="facebook_key" translatable="false" templateMergeStrategy="preserve">165093227569630</string>
     <string name="naver_key" translatable="false" templateMergeStrategy="preserve">jiBZC2isRuydbd_tswoS</string>
     <string name="naver_secret_key" translatable="false" templateMergeStrategy="preserve">q_Rj4pkg9x</string>
     <string name="kakao_native_key" translatable="false" templateMergeStrategy="preserve">9ef00032d197f13b6f1dd48d9cc4072b</string>
 
 
-    <string name="serverip">http://13.125.83.183:</string><!-- 13.125.83.183 13.209.61.27 -->
-    <string name="SERVER_CONTENT_TOTAL">/mylittleseoul/changFoodSelect?</string>
+    <string name="serverip" translatable="false" templateMergeStrategy="preserve">http://13.125.83.183:</string><!-- 13.125.83.183 13.209.61.27 -->
+    <string name="SERVER_CONTENT_TOTAL" translatable="false" templateMergeStrategy="preserve">/mylittleseoul/changFoodSelect?</string>
 
     <string name="right_arrow">◀</string>
     <string name="left_arrow">▶</string>
     <string name="failtoloadlocation">Fail to get your location. Just it will service based on standard location.</string>
-    <string name="internet_failed">Internet was disconnected. Update will be failed</string>
+    <string name="internet_failed" translatable="false" templateMergeStrategy="preserve">Internet was disconnected. Update will be failed</string>
     <string name="google_login_failed">Google Login failed. Try again or Check your internet connection.</string>
     <string name="naver_login_failed">Naver Login failed. Try again or Check your internet connection.</string>
     <string name="login_failed">Login error, Please login again</string>
@@ -30,27 +44,15 @@
     <string name="map_tab">map</string>
     <string name="intro_tab">intro</string>
     <string name="guide_tab">guide</string>
-    <string name="toon_tab">toon</string>
-    <string name="around_tab">around</string>
     <string name="info_tab">my page</string>
-    <string name="food_tab">food</string>
-    <string name="attraction_tab">attraction</string>
 
     <string name="dialogyestitle">Exit</string>
-    <string name="around_tab_transportaion">Transportation</string>
-    <string name="around_tab_food">Food\&amp;Cafe</string>
-    <string name="around_tab_attraction">Other attractions</string>
     <string name="from_changdeokgung">From Changdeokgung </string>
 
-    <string name="menu_show_btn">Show ▼</string>
-    <string name="menu_close_btn">Close ▲</string>
-    <string name="transportation_menu_title">Public Transportation From here</string>
-    <string name="food_menu_title">Food\&amp;Cafe Around here</string>
-    <string name="attraction_menu_title">Attraction Around here</string>
     <string name="detail_wish">Wish to visit</string>
     <string name="detail_like">I liked</string>
     <string name="detail_visit">I visited</string>
-    <string name="detail_guidebtn">Guide</string>
+    <string name="detail_guidebtn" translatable="false" templateMergeStrategy="preserve">Guide</string>
     <string name="detail_title">Title</string>
     <string name="detail_address">Address</string>
     <string name="detail_transportation">Transportation</string>
@@ -59,19 +61,84 @@
     <string name="detail_day_off">Day Off</string>
     <string name="detail_operating_hour">Operating Hour</string>
     <string name="detail_fee">Fee</string>
+    <string name="detail_map">Map</string>
     <string name="detail_youtubelink_title">Youtube link</string>
     <string name="detail_con_desc">         Item description.     </string>
     <string name="detail_rating_best">This was Goood!</string>
     <string name="detail_rating_mid">Not bad</string>
     <string name="detail_rating_low">Not recommend</string>
 
-    <string name="wrong_access">Wrong access</string>
     <string name="image_select_toast">Thank you for your review</string>
     <string name="transportation_clicked">This item has not detailed page.</string>
 
     <string name="youtube_img_former">https://img.youtube.com/vi/</string>
     <string name="youtube_img_later">/mqdefault.jpg</string>
     <string name="youtube_connect">https://m.youtube.com/watch?v=</string>
+
+    <string name="main_title">Which place do you want to visit?</string>
+    <string name="edittext_main_search_hint">Find your tour location</string>
+    <string name="main_first_tab">All</string>
+    <string name="main_second_tab">Tour</string>
+    <string name="main_third_tab">Food</string>
+
+    <string name="map_first_tab">Attractions</string>
+    <string name="map_second_tab">Restaurants</string>
+
+    <string name="detail_tag">rainy day</string>
+    <string name="detail_top_location">Gyeongbokgung exit 5</string>
+    <string name="detail_top_bizhour_title">Biz hour</string>
+    <string name="detail_top_bizhour_detail">09:00~18:00</string>
+    <string name="detail_top_dayoff_title">Day off</string>
+    <string name="detail_top_dayoff_detail">Tuesdays</string>
+    <string name="detail_top_rating_title">Rate</string>
+    <string name="detail_top_rating_detail">not rated</string>
+    <string name="detail_titleindetail">Details</string>
+    <string name="detail_entrance_fee">Fee</string>
+    <string name="detail_menu">Menu</string>
+
+    <string name="kakao_login">Kakao temp button</string>
+    <string name="login_chk_auto">Auto login</string>
+
+    <string name="sendbacklocation">Location setting</string>
+
+    <string name="search_title">Search</string>
+    <string name="edittext_main_search">Find your attraction/restaurant/region</string>
+    <string name="btn_search_list_location">Location</string>
+    <string name="btn_search_list_category">Category</string>
+    <string name="btn_search_list_tag">tag</string>
+    <string name="recommend_tag_title">Recommended word</string>
+    <string name="search_tag_show1">Mandu(Korean dumpling)</string>
+    <string name="search_tag_show2">Bibimbap</string>
+    <string name="search_tag_show3">Samgyeobsal(pork belly)</string>
+    <string name="search_tag_show4">Jjajangmyeon(Black noodle)</string>
+    <string name="search_tag_show5">Kimchi Jjigae(Kimchi stew)</string>
+    <string name="search_tag_show6">Sushi</string>
+    <string name="search_tag_show7">Ttukbokki</string>
+    <string name="search_tag_show8">Kimbap</string>
+    <string name="search_tag_show9">Ramen</string>
+    <string name="search_tag_show10">Hamburger</string>
+    <string name="recommend_location_title">Popular place</string>
+    <string name="search_location_show1">Hongdae Univ.</string>
+    <string name="search_location_show2">Sinchon</string>
+    <string name="search_location_show3">Jongno</string>
+    <string name="search_location_show4">Dongdaemun</string>
+    <string name="search_location_show5">Gwanghwamun</string>
+    <string name="search_location_show6">Gangnam</string>
+    <string name="search_location_show7">Konkuk Univ.</string>
+    <string name="search_location_show8">Ihwa Univ.</string>
+    <string name="search_location_show9">Insadong</string>
+    <string name="search_location_show10">Itawon</string>
+
+
+    <string name="thistime_default" translatable="false" templateMergeStrategy="preserve">0:00</string>
+
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_exit">Exit</string>
+
+    <string name="mypage_trace">My trace</string>
+    <string name="mypage_like_title">Liked</string>
+    <string name="mypage_visited_title">Visited</string>
+
 
 
     <string name="admission_title">Admission</string>
@@ -96,26 +163,7 @@
     <string name="tab_near_building">Please tab again around near this building</string>
     <string name="securedWifi">Please try again if it is connected to internet</string>
 
-    <string name="app_name">Story Tour</string>
-    <string name="menuclick">Menu click!</string>
-    <string name="more">Click here for more stories</string>
-    <string name="name">Name</string>
-    <string name="desc">Desc</string>
-    <string name="firstScreen">Home</string>
-    <string name="menufaq">How to use</string>
-    <string name="homepage">Homepage</string>
-    <string name="menugps">GPS guide</string>
-    <string name="menucha">Character guide</string>
-    <string name="menumap">Map guide</string>
-    <string name="gpstoast">Please give GPS permission for Real, Changdeokgung</string>
-    <string name="homepageready">Homepage is in prepare</string>
-    <string name="pressaudiobtn">Play the Audio</string>
-    <string name="pressplaybtn">Press the play button</string>
-    <string name="tothemap">Move to map</string>
-    <string name="onmapreadytoast">When you connect internet, you can get images with audio guide.</string>
-    <string name="distancefirst">It is \t</string>
-    <string name="distancesecond">km from Changdeokgung. You can use guide service in Changdeokgung.</string>
-    <string name="next">_Please slide image to left side</string>
+
 
     <string name="pop">You can get current location if you turn on GPS and internet.</string>
     <string name="checkWeather">How is the weather at Changdeokgung?\nClick here!</string>
@@ -131,61 +179,29 @@
 
     <string name="waitWifi">It is not connected internet, now</string>
     <string name="requireInternet">Please connect Internet</string>
-    <string name="faqIntroduce"> \n \n \t Hi, this is Real, Changdeokgung. \n \n  \t This application made to enjoy Changdeokgung with mobile for every visitor. You can use all of service in this application at Changdeokgung. You do not need to follow anybody with kind guide and FREE! If you are trying to visit Changdeokgung, please use Real, Changdeokgung!\n</string>
-    <string name="faqgps"> \n \n \t You can use GPS guide based on GPS which check your mobile location. When you are getting in Changdeokgung, you can see first image and you will also see second image if you move around.  You can enjoy a story to click the pop-up message. Also you can check attraction and story again what you have seen at left hidden drawer menu. \n</string>
-    <string name="faqcharac"> \n \n \t Character guide will guide you with korean character. When you are getting in Changdeokgung, you can see first image and you will also see second image with marker if you move around.  You can enjoy a story to click the marker. Also you can check attraction and story again what you have seen at left hidden drawer menu.\n</string>
-    <string name="drawer_open">Open, hit it!</string>
-    <string name="drawer_close">Close, hit it!</string>
-    <string name="faqintro">What is Real Changdeokgung?</string>
-    <string name="faqlistfirst">What is the GPS Guide and how I can use it?</string>
-    <string name="faqlistfirstimagef">When you getting in a gung</string>
-    <string name="faqlistfirstimages">Pop-up image</string>
-    <string name="faqlistsecondimages">Marker image</string>
-    <string name="faqlistfirstimaget">Slide-menu image</string>
-    <string name="faqlistsecond">What is the Character Guide and how I can use it?</string>
-    <string name="faqlistthirdimagef">First Screen</string>
-    <string name="faqlistthirdimages">Message before connecting internet</string>
-    <string name="faqlistthirdimaget">Checked weather image</string>
-    <string name="faqweather">\n \n \t You can check weather Changdeokgung at now to click a cloud with question mark. If you get a message like center image, you need to connect internet.\n </string>
-    <string name="faqlistthird">I did not know that I can check present weather at Changdeokgung?</string>
-    <string name="faqlistforth">I have check guide service, but I can not see anything. What should I do?</string>
-    <string name="faqnomap"> \n \n \t This application get a map from Google Service. So if your mobile did not get internet, it is hard to use a guide. However there is free Wifi at Changdeokgung. How about connect that Wifi?\n</string>
-    <string name="faqlistforthimage">Screen with nothing</string>
-    <string name="changintro">\n \t Before to know Changdeokgung, we need to know Choseon dynasty which continued 500 years. Choseon dynasty was established in 1392. Although Gyeongbokgung was constructed first, however Changdeokgung was used more because Gyeongbokgung was set on fire after Japanese invasion in 1592. Changdeokgung is well preserved than other Korean palace. That is why UNESCO listed this palace as World Heritage in 1997. Changdeokgung could be separated as two part PalaceBuildingArea and SecretGarden. You need about an hour to look around  for each part, especially you should follow guide at SecretGarden which means you are not allowed self-guide at SecretGarden. However you can do self-guide in PalaceBuildingArea with this application. This application show you images and related story which make your trip rich. Just turn on one of guide mode(GPS or Character gudie) and walk around. The application let you know with vibration.\n \n\n\n\n</string>
-    <string name="ticketinfo">Admission Fees</string>
-    <string name="operatinginfo">Ticket sales and Operating hours</string>
-    <string name="secretinfo">SecretGarden tour hours</string>
-    <string name="transinfo">Transfortation information</string>
 
-    <string name="changaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_00_intro.wav</string>
-    <string name="donaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_01_donhwa.wav</string>
-    <string name="geumaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_02_geumcheon.wav</string>
-    <string name="jinaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_03_jinseon.wav</string>
-    <string name="inmunyardaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_04_sadarimadang.wav</string>
-    <string name="inmunaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_05_injeongmun.wav</string>
-    <string name="inyardaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_06_injeongmadang.wav</string>
-    <string name="inaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_07_injeongjeon.wav</string>
-    <string name="seonaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_08_seonjeong.wav</string>
-    <string name="heeaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_09_heejeong.wav</string>
-    <string name="heebackaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_09_heejeong_back.wav</string>
-    <string name="daeaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_10_daejo.wav</string>
-    <string name="sooaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_11_soora.wav</string>
-    <string name="gyeongaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_12_gyeonghoon.wav</string>
-    <string name="seongaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_13_seongjeong.wav</string>
-    <!--<string name="seongyakaudioaddress">http://hanculture.org/wp-content/uploads/2016/10/kcdg_fv.mp3</string>-->
-    <string name="nakaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_14_nakseon.wav</string>
-    <string name="seokaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_15_seokbok.wav</string>
-    <string name="okaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_16_okdang.wav</string>
-    <string name="gyuaudioaddress">http://13.209.77.103:8080/resources/images/eng/ch_e_17_gyujang.wav</string>
-    <string name="dialogtomaintitle">Move to main</string>
-    <string name="dialogtomain">When you move to main, checked list will be clear. Do you want to move to main?</string>
-    <string name="dialogtomainyes">Thank you</string>
-    <string name="dialogtomaincancel">Keep enjoy this app.</string>
 
-    <string name ="network_error">Network error!\nCheck network status.</string>
+
+    <string name ="network_error" translatable="false" templateMergeStrategy="preserve">Network error!\nCheck network status.</string>
 
     <string name="image_explain_voice_btn">Button for voice guide</string>
     <string name="image_explain_toon_btn">Button for guide-toon</string>
 
+    <string name="like_no_history">There is no like item list. Please check the like it on the list to take in one place to check the list.</string>
+    <string name="visit_no_history">There is no visited item list. If you visited some place, please press visit button to memorize your trip.</string>
+
+
+    <string name="geum_around" translatable="false" templateMergeStrategy="preserve">126.990136	126.989828	37.578336	37.578535</string>
+    <string name="jin_around" translatable="false" templateMergeStrategy="preserve">126.990484	126.990235	37.578348	37.578572</string>
+    <string name="inmunyard_around" translatable="false" templateMergeStrategy="preserve">126.991493	126.990737	37.578889	37.579239</string>
+    <string name="inmun_around" translatable="false" templateMergeStrategy="preserve">126.991435	126.990864	37.57856	37.57882</string>
+    <string name="inyard_around" translatable="false" templateMergeStrategy="preserve">126.991354	126.990823	37.578747	37.579303</string>
+    <string name="in_around" translatable="false" templateMergeStrategy="preserve">126.991266	126.990888	37.579269	37.579356</string>
+    <string name="seon_around" translatable="false" templateMergeStrategy="preserve">126.991831	126.991555	37.579289	37.579725</string>
+    <string name="hee_around" translatable="false" templateMergeStrategy="preserve">126.992448	126.991839	37.579266	37.579831</string>
+    <string name="dae_around" translatable="false" templateMergeStrategy="preserve">126.992537	126.992204	37.57989	37.580101</string>
+    <string name="nak_around" translatable="false" templateMergeStrategy="preserve">126.993542	126.993126	37.578455	37.578757</string>
+
+    <string name="willbeupdate">will be updated</string>
 
 </resources>

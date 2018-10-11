@@ -1,3 +1,4 @@
+/*
 package com.tripkorea.on.ontripkorea.tabs.around.detail;
 
 import android.content.Context;
@@ -40,9 +41,11 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+*/
 /**
  * Created by Edward Won on 2018-06-12.
- */
+ *//*
+
 
 public class AroundDetailedActivity extends AppCompatActivity implements
         OnMapReadyCallback,
@@ -406,7 +409,8 @@ public class AroundDetailedActivity extends AppCompatActivity implements
         super.onUserLeaveHint();
     }
 
-   /* @Override
+   */
+/* @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 //        outState.putParcelableArrayList("likeList", (ArrayList<AttrClient>)MainActivity.likeEntities);
@@ -423,6 +427,8 @@ public class AroundDetailedActivity extends AppCompatActivity implements
         aroundList = savedInstanceState.getParcelableArrayList("aroundList");
         seletedAttr = savedInstanceState.getParcelable("Attr");
 
-    }*/
+    }*//*
+
 
 }
+*/

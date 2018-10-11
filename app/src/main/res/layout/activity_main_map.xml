@@ -17,25 +17,29 @@
         app:mapType="normal"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/iv_map_current_map"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:layout_gravity="end|top"
-        android:src="@drawable/mylocation_black"/>
+        android:src="@drawable/mylocation_black"/>-->
 
     <TextView
         android:id="@+id/tv_sendbacklocation"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         android:layout_marginBottom="10dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:background="@drawable/round_background"
+        android:background="@drawable/round_background_main_tab_selected"
         android:textAlignment="center"
-        android:text="현재 지도 기준으로 추천 결과 다시 보기"
+        android:textColor="@color/white"
+        android:text="@string/sendbacklocation"
         android:textSize="12sp"/>
 
 

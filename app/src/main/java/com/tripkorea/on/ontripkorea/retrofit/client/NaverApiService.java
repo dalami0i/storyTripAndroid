@@ -9,7 +9,6 @@ import retrofit2.http.POST;
 
 public interface NaverApiService {
 
-    //보이스가이드 로그 전송
     @POST("me")
     Call<NaverResponse> getPersonalInfo(@Header("Authorization") String AccessToken);
 
