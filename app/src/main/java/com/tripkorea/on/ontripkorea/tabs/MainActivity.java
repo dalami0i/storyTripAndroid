@@ -357,6 +357,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
+        new LogManager().LogManager("MainActivity","onRestoreInstanceState");
         totalList = savedInstanceState.getParcelable("totals");
         foodList = savedInstanceState.getParcelable("foods");
         attractionList = savedInstanceState.getParcelable("attractions");
@@ -369,6 +370,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
+        new LogManager().LogManager("MainActivity","onSaveInstanceState");
         outState.putParcelable("totals",totalList);
         outState.putParcelable("foods",foodList);
         outState.putParcelable("attractions",attractionList);
@@ -378,6 +380,15 @@ public class MainActivity extends BaseActivity {
         outState.putInt("page",attractionPage);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
