@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="500dp"
+    android:orientation="vertical"
+    android:background="@drawable/round_background_dialog"
+    android:weightSum="10">
+
+    <TextView
+        android:id="@+id/tv_review_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="Review"/>
+
+    <TextView
+        android:id="@+id/tv_review_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:textSize="12sp"
+        android:textAlignment="center"
+        android:text="Please help other traveler to leave a review"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#AAAAAA" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:id="@+id/btn_review_like"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:onClick="onClick">
+            <ImageView
+                android:id="@+id/iv_review_like"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/icon_good_off"/>
+
+            <TextView
+                android:id="@+id/tv_review_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_review_like"
+                android:layout_centerHorizontal="true"
+                android:text="I like it"/>
+            
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_review_soso"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:onClick="onClick">
+            <ImageView
+                android:id="@+id/iv_review_soso"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/icon_fine_off"/>
+
+            <TextView
+                android:id="@+id/tv_review_soso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_review_soso"
+                android:layout_centerHorizontal="true"
+                android:text="Not bad"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_review_hate"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:onClick="onClick">
+            <ImageView
+                android:id="@+id/iv_review_hate"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/icon_bad_off"/>
+
+            <TextView
+                android:id="@+id/tv_review_hate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_review_hate"
+                android:layout_centerHorizontal="true"
+                android:text="Terrible!!"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/ed_review"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:textSize="13sp"
+        android:hint="Please leave a review"/>
+
+    <Button
+        android:id="@+id/btn_leave_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_background_editprofile_button"
+        android:onClick="onClick"
+        android:text="Leave a review"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+</LinearLayout>

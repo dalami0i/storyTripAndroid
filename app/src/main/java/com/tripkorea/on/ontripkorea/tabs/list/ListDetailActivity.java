@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -22,6 +24,7 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,6 +51,7 @@ import com.tripkorea.on.ontripkorea.tabs.info.InfoFragment;
 import com.tripkorea.on.ontripkorea.util.Alert;
 import com.tripkorea.on.ontripkorea.util.LogManager;
 import com.tripkorea.on.ontripkorea.util.MyApplication;
+import com.tripkorea.on.ontripkorea.util.ReviewDialog;
 import com.tripkorea.on.ontripkorea.vo.attraction.AttractionDetail;
 import com.tripkorea.on.ontripkorea.vo.dto.LikeDTO;
 import com.tripkorea.on.ontripkorea.vo.dto.VisitDTO;
@@ -134,7 +138,9 @@ public class ListDetailActivity extends AppCompatActivity implements
 
     int language;
 
-
+    private boolean isLiked;
+    private boolean isSoso;
+    private boolean isHate;
 
 
     @Override
@@ -340,7 +346,7 @@ public class ListDetailActivity extends AppCompatActivity implements
                             new LogManager().LogManager(thisAttraction.getName(),thisAttraction.isVisited()+" | checkAttraction.isVisited() "+thisAttraction.getIdx());
 
                             if(thisAttraction.isVisited()){
-                                visitImg.setImageResource(R.drawable.z_footprint_s);
+                                visitImg.setImageResource(R.drawable.icon_visit_on);
                                 foodprintTv.setTextColor(getResources().getColor(R.color.white));
                                 footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                             }else{
@@ -544,7 +550,7 @@ public class ListDetailActivity extends AppCompatActivity implements
 
                             new LogManager().LogManager(thisAttraction.getName(),thisAttraction.isVisited()+" | checkAttraction.isVisited() "+thisAttraction.getIdx());
                             if(thisAttraction.isVisited()){
-                                visitImg.setImageResource(R.drawable.icon_footprint_empty);
+                                visitImg.setImageResource(R.drawable.icon_visit_on);
                                 foodprintTv.setTextColor(getResources().getColor(R.color.white));
                                 footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                             }else{
@@ -818,7 +824,17 @@ public class ListDetailActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         new LogManager().LogManager("ListDatail onClick",v.getId()+" clicked");
+        ImageView ivLike = v.findViewById(R.id.iv_review_like);
+        ImageView ivSoso = v.findViewById(R.id.iv_review_soso);
+        ImageView ivHate = v.findViewById(R.id.iv_review_hate);
+        TextView tvLike = v.findViewById(R.id.tv_review_like);
+        TextView tvSoso = v.findViewById(R.id.tv_review_soso);
+        TextView tvHate = v.findViewById(R.id.tv_review_hate);
+        Button btnLeaveReview = v.findViewById(R.id.btn_leave_review);
+
         switch (v.getId()) {
+
+
             case R.id.item_like_layout:
                 if(thisAttraction.isLiked()){
                     ApiClient.getInstance().getApiService()
@@ -898,6 +914,7 @@ public class ListDetailActivity extends AppCompatActivity implements
                                     if (response.body() != null) {
                                         Alert.makeText("방문한 것 취소!");
                                         visitImg.setImageResource(R.drawable.icon_footprint_s);
+                                        foodprintTv.setText(R.string.detail_visit);
                                         foodprintTv.setTextColor(getResources().getColor(R.color.pointedGrayColor));
                                         footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tabmenu));
                                         thisAttraction.setVisited(false);
@@ -918,6 +935,8 @@ public class ListDetailActivity extends AppCompatActivity implements
                                 }
                             });
                 }else{
+                    showupReviewDialog();
+
                     ApiClient.getInstance().getApiService()
                             .visit(MyApplication.APP_VERSION, new VisitDTO(attractionIdx))
                             .enqueue(new Callback<ApiMessage>(){
@@ -926,10 +945,11 @@ public class ListDetailActivity extends AppCompatActivity implements
                                     if (response.body() != null) {
                                         Alert.makeText("방문!");
 
-                                        visitImg.setImageResource(R.drawable.z_footprint_s);
+                                        visitImg.setImageResource(R.drawable.icon_visit_on);
                                         foodprintTv.setTextColor(getResources().getColor(R.color.white));
                                         footprintLayout.setBackground(getDrawable(R.drawable.round_background_main_tab_selected));
                                         thisAttraction.setVisited(true);
+
                                     } else {
                                         Alert.makeText("방문 에러 발생" + response.errorBody().toString());
                                         try {
@@ -967,7 +987,88 @@ public class ListDetailActivity extends AppCompatActivity implements
             case R.id.rating_low_layout:
                 Alert.makeText(getResources().getString(R.string.image_select_toast));
                 break;
+
+
+            case R.id.btn_leave_review:
+                new LogManager().LogManager("ListDetailActivity","R.id.btn_leave_review");
+                if(isLiked || isSoso || isHate) {
+                    reviewDialog.cancel();
+                    if(isLiked){
+                        visitImg.setImageResource(R.drawable.icon_good_white);
+                        foodprintTv.setText("Like it!");
+                    }else if(isSoso){
+                        visitImg.setImageResource(R.drawable.icon_fine_white);
+                        foodprintTv.setText("Not bad.");
+                    }else{
+                        visitImg.setImageResource(R.drawable.icon_bad_white);
+                        foodprintTv.setText("Terrible....");
+                    }
+                }else{
+                    Alert.makeText("Please choose one emoticon as a review.");
+                }
+                break;
+            case R.id.btn_review_like:
+                new LogManager().LogManager("Review Dialog",v.getId()+" clicked 클릭드");
+                if(isLiked && !isSoso && !isHate){
+                    isLiked = false;
+                    ivLike.setImageResource(R.drawable.icon_good_off);
+                    tvLike.setTextColor(getResources().getColor( R.color.gnbSelectedColor) );
+                }else if( isSoso || isHate ){
+                    Alert.makeText("Please clear with other button and check it again.");
+                }else{
+                    isLiked = true;
+                    Alert.makeText("You've clicked Like.");
+                    ivLike.setImageResource(R.drawable.icon_good_on);
+                    tvLike.setTextColor(getResources().getColor( R.color.pointTextColor) );
+                }
+
+                break;
+            case R.id.btn_review_soso:
+                new LogManager().LogManager("Review Dialog",v.getId()+" clicked 클릭드");
+                if(!isLiked && isSoso && !isHate){
+                    isSoso = false;
+                    ivSoso.setImageResource(R.drawable.icon_fine_off);
+                    tvSoso.setTextColor(getResources().getColor( R.color.gnbSelectedColor) );
+                }else if( isLiked || isHate ){
+                    Alert.makeText("Please clear with other button and check it again.");
+                }else{
+                    isSoso = true;
+                    Alert.makeText("You've clicked Soso.");
+                    ivSoso.setImageResource(R.drawable.icon_fine_on);
+                    tvSoso.setTextColor(getResources().getColor( R.color.pointTextColor) );
+                }
+                break;
+            case R.id.btn_review_hate:
+                new LogManager().LogManager("Review Dialog",v.getId()+" clicked 클릭드");
+                if(!isLiked && !isSoso && isHate){
+                    isHate = false;
+                    ivHate.setImageResource(R.drawable.icon_bad_off);
+                    tvHate.setTextColor(getResources().getColor( R.color.gnbSelectedColor) );
+                }else if( isLiked || isSoso ){
+                    Alert.makeText("Please clear with other button and check it again.");
+                }else{
+                    isHate = true;
+                    Alert.makeText("You've clicked Hate.");
+                    ivHate.setImageResource(R.drawable.icon_bad_on);
+                    tvHate.setTextColor(getResources().getColor( R.color.pointTextColor) );
+                }
+                break;
         }
+
+
+
+    }
+
+    ReviewDialog reviewDialog;
+
+    private void showupReviewDialog(){
+        reviewDialog = new ReviewDialog(this);
+        reviewDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        reviewDialog.setCancelable(false);
+        reviewDialog.create();
+        reviewDialog.show();
+
+
     }
 
     private void updateList(String whichList, int idx, boolean likeCheck){
