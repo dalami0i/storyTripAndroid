@@ -19,6 +19,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -81,14 +82,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    private GoogleSignInClient mGoogleSignInClient;
-    private CallbackManager callbackManager;
+    private GoogleSignInClient mGoogleSignInClient; //google
+    private CallbackManager callbackManager; //facebook
+    private AccessToken token; //facebook
 
 
-    public static OAuthLogin mOAuthLoginModule;
-    OAuthLoginButton mOAuthLoginButton;
+    public static OAuthLogin mOAuthLoginModule; //naver
+    private OAuthLoginButton mOAuthLoginButton; //naver
 
-    private SessionCallBack mKakaoCallback;
+    private SessionCallBack mKakaoCallback; //kakao
 
     CheckBox chk_auto;
 
@@ -222,7 +224,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginFacebook();
+        token = AccessToken.getCurrentAccessToken();
+        if (token == null) {
+            //Means user is not logged in
+            loginFacebook();
+        }else{
+            LoginManager.getInstance().logOut();
+            loginFacebook();
+        }
+
 
         setNaver();
         mKakaoCallback = new SessionCallBack();
@@ -364,7 +374,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
     private void loginFacebook(){
+
         callbackManager = CallbackManager.Factory.create();
 
         LoginButton facebookLoginBtn = findViewById(R.id.facebook_login_button);
