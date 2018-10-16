@@ -235,8 +235,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
         setNaver();
-        mKakaoCallback = new SessionCallBack();
-        Session.getCurrentSession().addCallback(mKakaoCallback);
+
+        if(Session.getCurrentSession().checkAndImplicitOpen()) {
+            new LogManager().LogManager("LoginActivity","onCreate if(Session.getCurrentSession().checkAndImplicitOpen())");
+            mKakaoCallback = new SessionCallBack();
+            Session.getCurrentSession().addCallback(mKakaoCallback);
+        }else{
+            new LogManager().LogManager("LoginActivity","onCreate else");
+            mKakaoCallback = new SessionCallBack();
+            Session.getCurrentSession().addCallback(mKakaoCallback);
+        }
 
 
 
@@ -300,12 +308,13 @@ public class LoginActivity extends AppCompatActivity {
                             result = new JSONObject(data);
                             new LogManager().LogManager("네이버 로그인 회신 데이터",result.toString());
                             naverUser = new User();
-                            naverUser.setId(result.getJSONObject("response").getString("id"));
-                            naverUser.setName(result.getJSONObject("response").getString("nickname"));
                             naverUser.setProfileImgAddr(result.getJSONObject("response").getString("profile_image"));
                             //profile_image, email
 //                                    naverUser.setProfileAddr(user.getProfile_image());
                             naverUser.setSnsIdx(3);
+                            naverUser.setId(result.getJSONObject("response").getString("email"));
+                            naverUser.setName(result.getJSONObject("response").getString("nickname"));
+
                             oAuthLogin(naverUser);
 
                         }catch (JSONException e){
@@ -553,52 +562,113 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void oAuthLogin(@NonNull  User user){
-        if(!loginProgress.isShowing() && !dialogShowing){
-            dialogShowing = true;
-            loginProgress = ProgressDialog.show(LoginActivity.this, "", "Stoury Login...", true);
-        }
-        new LogManager().LogManager("로그인엑티비티","oAuthLogin  user.getId(): "+user.getId()
-                +" | user.getName(): "+user.getName()
-                +" | user.getProfileImgAddr(): "+user.getProfileImgAddr());
-        String serviceCode ="";
-        switch(user.getSnsIdx()){
-            case 2:
-                serviceCode = "Facebook";
-                break;
-            case 4:
-                serviceCode = "Google";
-                break;
-            case 3:
-                serviceCode = "Naver";
-                break;
+        new LogManager().LogManager("로그인엑티비티","oAuthLogin(@NonNull  User user) 진입 - user.getSnsIdx(): "+user.getSnsIdx());
+        switch (user.getSnsIdx()){
             case 5:
-                serviceCode = "Kakao";
-                break;
-        }
-        new LogManager().LogManager(serviceCode+ " 로그인 메서드","shared preference saved");
+                new LogManager().LogManager("로그인엑티비티","switch (user.getSnsIdx()): "+user.getSnsIdx());
+                if(!loginProgress.isShowing() && !dialogShowing && !isFinishing()){
+                    new LogManager().LogManager("로그인엑티비티","if(!loginProgress.isShowing() && !dialogShowing && !isFinishing())");
+                    dialogShowing = true;
+                    loginProgress = ProgressDialog.show(LoginActivity.this, "", "Stoury Login...", true);
+                    new LogManager().LogManager("로그인엑티비티","oAuthLogin  user.getId(): "+user.getId()
+                            +" | user.getName(): "+user.getName()
+                            +" | user.getProfileImgAddr(): "+user.getProfileImgAddr());
+                    String serviceCode ="";
+                    switch(user.getSnsIdx()){
+                        case 2:
+                            serviceCode = "Facebook";
+                            break;
+                        case 4:
+                            serviceCode = "Google";
+                            break;
+                        case 3:
+                            serviceCode = "Naver";
+                            break;
+                        case 5:
+                            serviceCode = "Kakao";
+                            break;
+                    }
+                    new LogManager().LogManager(serviceCode+ " 로그인 메서드","shared preference saved");
 //        new LogManager().LogManager("oAuthLogin id: ",user.getId());
 //        new LogManager().LogManager("oAuthLogin name: ",user.getName());
 //        new LogManager().LogManager("oAuthLogin photo: ",user.getProfileAddr());
-        if(chk_auto.isChecked()){
-            new LogManager().LogManager(user.getSnsIdx()+ " 로그인 메서드","shared oAuthLogin checked");
-            if(user.getName() != null) {
-                editor.putString("Nickname", user.getName());
-            }
-            if(user.getProfileImgAddr() != null){
-                editor.putString("ProfileImgAddr", user.getProfileImgAddr());
-            }
-            editor.putString("Service",serviceCode);
-            editor.putString("ID",user.getId());
+                    if(chk_auto.isChecked()){
+                        new LogManager().LogManager(user.getSnsIdx()+ " 로그인 메서드","shared oAuthLogin checked");
+                        if(user.getName() != null) {
+                            editor.putString("Nickname", user.getName());
+                        }
+                        if(user.getProfileImgAddr() != null){
+                            editor.putString("ProfileImgAddr", user.getProfileImgAddr());
+                        }
+                        editor.putString("Service",serviceCode);
+                        editor.putString("ID",user.getId());
 //            editor.putString("Photo", user.getProfileAddr());
-            editor.putBoolean("autoLogin",true);
-            editor.commit();
-        }
+                        editor.putBoolean("autoLogin",true);
+                        editor.commit();
+                    }
 //        sendLogin(user);
-        if(isFirst) {
-            sendSignup(user);
-        }else{
-            sendLogin(user);
+                    if(isFirst) {
+                        sendSignup(user);
+                    }else{
+                        sendLogin(user);
+                    }
+                }
+                break;
+            default:
+                new LogManager().LogManager("로그인엑티비티","switch (user.getSnsIdx()): "+user.getSnsIdx());
+                if(!loginProgress.isShowing() && !dialogShowing ){
+                    new LogManager().LogManager("로그인엑티비티","if(!loginProgress.isShowing() && !dialogShowing && !isFinishing())");
+                    dialogShowing = true;
+                    loginProgress = ProgressDialog.show(LoginActivity.this, "", "Stoury Login...", true);
+
+                }
+
+                new LogManager().LogManager("로그인엑티비티","oAuthLogin  user.getId(): "+user.getId()
+                        +" | user.getName(): "+user.getName()
+                        +" | user.getProfileImgAddr(): "+user.getProfileImgAddr());
+                String serviceCode ="";
+                switch(user.getSnsIdx()){
+                    case 2:
+                        serviceCode = "Facebook";
+                        break;
+                    case 4:
+                        serviceCode = "Google";
+                        break;
+                    case 3:
+                        serviceCode = "Naver";
+                        break;
+                    case 5:
+                        serviceCode = "Kakao";
+                        break;
+                }
+                new LogManager().LogManager(serviceCode+ " 로그인 메서드","shared preference saved");
+//        new LogManager().LogManager("oAuthLogin id: ",user.getId());
+//        new LogManager().LogManager("oAuthLogin name: ",user.getName());
+//        new LogManager().LogManager("oAuthLogin photo: ",user.getProfileAddr());
+                if(chk_auto.isChecked()){
+                    new LogManager().LogManager(user.getSnsIdx()+ " 로그인 메서드","shared oAuthLogin checked");
+                    if(user.getName() != null) {
+                        editor.putString("Nickname", user.getName());
+                    }
+                    if(user.getProfileImgAddr() != null){
+                        editor.putString("ProfileImgAddr", user.getProfileImgAddr());
+                    }
+                    editor.putString("Service",serviceCode);
+                    editor.putString("ID",user.getId());
+//            editor.putString("Photo", user.getProfileAddr());
+                    editor.putBoolean("autoLogin",true);
+                    editor.commit();
+                }
+//        sendLogin(user);
+                if(isFirst) {
+                    sendSignup(user);
+                }else{
+                    sendLogin(user);
+                }
+                break;
         }
+
+
 
     }
 
@@ -725,7 +795,7 @@ public class LoginActivity extends AppCompatActivity {
         // 로그인에 성공한 상태
         @Override
         public void onSessionOpened() {
-            new LogManager().LogManager("카록 로그인","onSessionOpened()");
+            new LogManager().LogManager("카톡 로그인","onSessionOpened()");
             if(!dialogShowing && loginProgress == null) {
                 loginProgress = ProgressDialog.show(LoginActivity.this, "", "Kakao Login...", true);
                 dialogShowing = true;
