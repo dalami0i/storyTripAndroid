@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.gms:google-services:4.0.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.gms/google-services/4.0.0/625ec4a9865e9e74fa5a12d7b0aea3652e904c6c/google-services-4.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.gms/google-services/4.0.0/6f79e6f6b856aa499eb2a35104a65efb500144c7/google-services-4.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

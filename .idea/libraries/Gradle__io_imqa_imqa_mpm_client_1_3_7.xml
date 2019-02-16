@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: io.imqa:imqa-mpm-client-1.3.7">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/imqa-mpm-client-1.3.7.aar/64e7625f26d56de34e770e413dce77fb/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/imqa-mpm-client-1.3.7.aar/64e7625f26d56de34e770e413dce77fb/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.imqa/imqa-mpm-client/1.3.7/4760e719e823c7db20445c0ff58ebe4ad9788c3a/imqa-mpm-client-1.3.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
